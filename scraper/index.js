@@ -17,11 +17,11 @@ async function start() {
         let pensumCode = $('.cabPensum p:contains("Código Pensum")')
             .text()
             .trim();
+
         pensumCode = pensumCode
             .slice(0, pensumCode.indexOf(","))
             .replace(/\r?\n|\r/g, "")
-            .replace(/\s+/g, " ");
-        pensumCode = pensumCode.split(" ")[2];
+            .replace(/\s+/g, " ").split(" ")[2];
 
         const pensum = {
             carreerName: $(".cabPensum > h1 > span").text().trim(),
@@ -76,13 +76,16 @@ async function start() {
                                 row.credits = parseInt(tdValue);
                                 break;
                             case 3:
+                                // Get the element's text, trim it, replace all new lines/line breaks with a comma
+                                // replace multiple spaces (more than one consecutive space) with a single,
+                                // split by commas, filter elements that are empty, and trim each element
                                 row.prerequisites =
                                     $(td)
                                         .text()
                                         .trim()
                                         .replace(/\r?\n|\r/g, ",")
                                         .replace(/\s+/g, " ")
-                                        .replace(', ,', ",") || null;
+                                        .split(",").filter(pr => pr.trim().length >= 6).map(pr => pr.trim()) || null
                                 break;
                             default:
                                 break;
