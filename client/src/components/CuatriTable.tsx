@@ -37,7 +37,9 @@ export const CuatriTable = (props: any) => {
               row.prerequisites
                   .split(",")
                   .some((p: any) =>
-                      selected.map((s: any) => s.code).includes(p)
+                      selected[props.pensumCode]
+                          .map((s: any) => s.code)
+                          .includes(p)
                   );
 
         return isMet;
@@ -82,35 +84,40 @@ export const CuatriTable = (props: any) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {props.cuatri.subjects.map((row: any) => (
-                        <TableRow
-                            hover
-                            key={row.code}
-                            onClick={() => selectSubject(row)}
-                            className={!prereqMet(row) ? "disabled-row" : ""}
-                            selected={selected.some(
-                                (s: any) => s.code === row.code
-                            )}
-                        >
-                            <TableCell padding="checkbox">
-                                <Checkbox
-                                    checked={selected.some(
-                                        (s: any) => s.code === row.code
-                                    )}
-                                    onChange={(e) => selectSubject(row)}
-                                    disabled={!prereqMet(row)}
-                                />
-                            </TableCell>
-                            <TableCell component="th" scope="row">
-                                {row.code}
-                            </TableCell>
-                            <TableCell align="right">{row.name}</TableCell>
-                            <TableCell align="right">{row.credits}</TableCell>
-                            <TableCell align="right">
-                                {row.prerequisites}
-                            </TableCell>
-                        </TableRow>
-                    ))}
+                    {selected[props.pensumCode] &&
+                        props.cuatri.subjects.map((row: any) => (
+                            <TableRow
+                                hover
+                                key={row.code}
+                                onClick={() => selectSubject(row)}
+                                className={
+                                    !prereqMet(row) ? "disabled-row" : ""
+                                }
+                                selected={selected[props.pensumCode].some(
+                                    (s: any) => s.code === row.code
+                                )}
+                            >
+                                <TableCell padding="checkbox">
+                                    <Checkbox
+                                        checked={selected[
+                                            props.pensumCode
+                                        ].some((s: any) => s.code === row.code)}
+                                        onChange={(e) => selectSubject(row)}
+                                        disabled={!prereqMet(row)}
+                                    />
+                                </TableCell>
+                                <TableCell component="th" scope="row">
+                                    {row.code}
+                                </TableCell>
+                                <TableCell align="right">{row.name}</TableCell>
+                                <TableCell align="right">
+                                    {row.credits}
+                                </TableCell>
+                                <TableCell align="right">
+                                    {row.prerequisites}
+                                </TableCell>
+                            </TableRow>
+                        ))}
                 </TableBody>
             </Table>
         </TableContainer>

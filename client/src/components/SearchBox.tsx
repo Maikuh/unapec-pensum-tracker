@@ -4,7 +4,7 @@ import { Autocomplete } from "@material-ui/lab";
 
 export const SearchBox = (props: any) => {
     useEffect(() => {
-        console.log("Aye bruh!", props.pensums);
+        // console.log("Aye bruh!", props.pensums);
     }, [props]);
 
     return (
@@ -16,9 +16,9 @@ export const SearchBox = (props: any) => {
             alignItems="center"
         >
             <Grid item>
-                {props.selectedValue &&
-                props.selectedValue.pensumCode &&
-                props.selectedValue.pensumCode.length > 0 ? (
+                {props.selectedCarreer &&
+                props.selectedCarreer.pensumCode &&
+                props.selectedCarreer.pensumCode.length > 0 ? (
                     <Autocomplete
                         id="carreer-search-box"
                         autoComplete
@@ -27,7 +27,7 @@ export const SearchBox = (props: any) => {
                         getOptionLabel={(c: any) =>
                             `${c.pensumCode} - ${c.carreerName}`
                         }
-                        value={props.selectedValue}
+                        value={props.selectedCarreer}
                         style={{ width: 600 }}
                         onChange={(e: any, value: any) =>
                             props.selectCarreer(value)

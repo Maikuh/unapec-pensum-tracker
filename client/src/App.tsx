@@ -16,10 +16,27 @@ import "./App.css";
 import { SearchBox } from "./components/SearchBox";
 import pensums from "./pensums.json";
 import { CuatriTable } from "./components/CuatriTable";
+import { InfoCard } from "./components/InfoCard";
+
+const savedSelectedSubjects = localStorage.getItem("selectedSubjects");
+const defaultSelectedSubjects: any = savedSelectedSubjects
+    ? JSON.parse(savedSelectedSubjects)
+    : {};
+
+console.log("defaultSelectedSubjects", defaultSelectedSubjects);
+
+if (Object.keys(defaultSelectedSubjects).length === 0) {
+    for (const pensum of pensums) {
+        defaultSelectedSubjects[pensum.pensumCode] = [];
+    }
+}
 
 function App() {
     const [selectedCarreer, setSelectedCarreer]: any[] = useState({});
-    const [selectedSubjects, setSelectedSubjects]: [any[], any] = useState([]);
+    // const [selectedSubjects, setSelectedSubjects]: any = useState({});
+    const [selectedSubjects, setSelectedSubjects]: any = useState(
+        defaultSelectedSubjects
+    );
 
     const darkTheme = createMuiTheme({
         palette: {
@@ -53,18 +70,22 @@ function App() {
     }
 
     function onSubjectSelected(subject: any) {
-        setSelectedSubjects(
-            selectedSubjects.some((ss) => ss.code === subject.code)
-                ? selectedSubjects.filter((s) => s.code !== subject.code)
-                : selectedSubjects.concat(subject)
-        );
+        const temp = selectedSubjects[selectedCarreer.pensumCode].some(
+            (ss: any) => ss.code === subject.code
+        )
+            ? selectedSubjects[selectedCarreer.pensumCode].filter(
+                  (s: any) => s.code !== subject.code
+              )
+            : selectedSubjects[selectedCarreer.pensumCode].concat(subject);
+
+        setSelectedSubjects({
+            ...selectedSubjects,
+            [selectedCarreer.pensumCode]: temp,
+        });
     }
 
     function HideOnScroll(props: any) {
         const { children, window } = props;
-        // Note that you normally won't need to set the window ref as useScrollTrigger
-        // will default to window.
-        // This is only being set here because the demo is in an iframe.
         const trigger = useScrollTrigger({
             target: window ? window() : undefined,
         });
@@ -77,7 +98,13 @@ function App() {
     }
 
     useEffect(() => {
-        console.log(`SELECTED CARREER`, selectedCarreer);
+        // if (Object.keys(selectedSubjects).length === 0)
+        //     setSelectedSubjects(defaultSelectedSubjects);
+        localStorage.setItem(
+            "selectedSubjects",
+            JSON.stringify(selectedSubjects)
+        );
+        console.log("selectedSubjects", selectedSubjects);
     }, [selectedCarreer, selectedSubjects]);
 
     return (
@@ -93,7 +120,7 @@ function App() {
 
                             <SearchBox
                                 pensums={pensums}
-                                selectedValue={selectedCarreer}
+                                selectedCarreer={selectedCarreer}
                                 selectCarreer={onCarreerSelect}
                             />
                         </Toolbar>
@@ -101,10 +128,38 @@ function App() {
                 </HideOnScroll>
                 <Toolbar />
                 <Container fixed className="App">
-                    {/* <SearchBox
-                        pensums={pensums}
-                        selectCarreer={onCarreerSelect}
-                    /> */}
+                    {selectedCarreer &&
+                        selectedCarreer.cuatris &&
+                        selectedCarreer.cuatris.length > 0 && (
+                            <InfoCard
+                                subjectsCount={
+                                    selectedSubjects[selectedCarreer.pensumCode]
+                                        .length
+                                }
+                                totalSubjects={selectedCarreer.cuatris.reduce(
+                                    (acc: number, item: any) =>
+                                        acc + item.subjects.length,
+                                    0
+                                )}
+                                creditsCount={selectedSubjects[
+                                    selectedCarreer.pensumCode
+                                ].reduce(
+                                    (acc: number, item: any) =>
+                                        acc + item.credits,
+                                    0
+                                )}
+                                totalCredits={selectedCarreer.cuatris.reduce(
+                                    (acc: number, cuatri: any) =>
+                                        acc +
+                                        cuatri.subjects.reduce(
+                                            (acc2: any, sub: any) =>
+                                                acc2 + sub.credits,
+                                            0
+                                        ),
+                                    0
+                                )}
+                            />
+                        )}
 
                     <Grid container spacing={2} style={{ flexGrow: 1 }}>
                         {selectedCarreer &&
@@ -114,6 +169,7 @@ function App() {
                                 <Grid item xs={6} key={c.period}>
                                     <CuatriTable
                                         cuatri={c}
+                                        pensumCode={selectedCarreer.pensumCode}
                                         selectedSubjects={selectedSubjects}
                                         subjectSelected={onSubjectSelected}
                                     />
