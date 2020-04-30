@@ -4,8 +4,20 @@ import { Autocomplete } from "@material-ui/lab";
 
 export const SearchBox = (props: any) => {
     useEffect(() => {
-        // console.log("Aye bruh!", props.pensums);
+        if (!props.selectedCarreer.pensumCode) {
+            const lastSelectedCarreer = localStorage.getItem(
+                "lastSelectedCarreer"
+            );
+
+            if (lastSelectedCarreer)
+                onCarreerSelect(JSON.parse(lastSelectedCarreer));
+        }
     }, [props]);
+
+    function onCarreerSelect(carreer: any) {
+        localStorage.setItem("lastSelectedCarreer", JSON.stringify(carreer));
+        props.selectCarreer(carreer.pensumCode);
+    }
 
     return (
         <Grid
@@ -27,10 +39,14 @@ export const SearchBox = (props: any) => {
                         getOptionLabel={(c: any) =>
                             `${c.pensumCode} - ${c.carreerName}`
                         }
-                        value={props.selectedCarreer}
+                        value={props.pensums.find(
+                            (p: any) =>
+                                p.pensumCode ===
+                                props.selectedCarreer.pensumCode
+                        )}
                         style={{ width: 600 }}
                         onChange={(e: any, value: any) =>
-                            props.selectCarreer(value)
+                            onCarreerSelect(value)
                         }
                         renderInput={(params) => (
                             <TextField
@@ -51,7 +67,7 @@ export const SearchBox = (props: any) => {
                         }
                         style={{ width: 600 }}
                         onChange={(e: any, value: any) =>
-                            props.selectCarreer(value)
+                            onCarreerSelect(value)
                         }
                         renderInput={(params) => (
                             <TextField

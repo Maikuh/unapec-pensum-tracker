@@ -5,12 +5,15 @@ import {
     ListItemAvatar,
     Avatar,
     ListItemText,
-    Icon,
     Grid,
     Typography,
     Card,
     CardContent,
 } from "@material-ui/core";
+import {
+    FileDocumentOutline as FileDocumentIcon,
+    CreditCardOutline as CreditIcon,
+} from "mdi-material-ui";
 
 export const InfoCard = (props: any) => {
     return (
@@ -32,7 +35,7 @@ export const InfoCard = (props: any) => {
                             <ListItem>
                                 <ListItemAvatar>
                                     <Avatar>
-                                        <Icon>work</Icon>
+                                        <FileDocumentIcon />
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
@@ -43,7 +46,7 @@ export const InfoCard = (props: any) => {
                             <ListItem>
                                 <ListItemAvatar>
                                     <Avatar>
-                                        <Icon>credit_card</Icon>
+                                        <CreditIcon />
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
@@ -51,7 +54,8 @@ export const InfoCard = (props: any) => {
                                     secondary={`${props.creditsCount} / ${props.totalCredits}`}
                                 />
                             </ListItem>
-                            <ListItem>
+
+                            {/* <ListItem>
                                 <ListItemAvatar>
                                     <Avatar>
                                         <Icon>beach_access</Icon>
@@ -61,7 +65,7 @@ export const InfoCard = (props: any) => {
                                     primary="Vacation"
                                     secondary="July 20, 2014"
                                 />
-                            </ListItem>
+                            </ListItem> */}
                         </List>
                     </CardContent>
                 </Card>

@@ -14,6 +14,7 @@ body {
 .search-box {
     /* margin-bottom: 1em; */
     margin: auto;
+    max-width: 58%;
 }
 
 .info-card {
@@ -22,4 +23,16 @@ body {
 
 .prerequisite-tooltip-content {
     text-align: center;
+}
+
+.footer-container {
+    margin-top: 10em;
+    padding: 2em 0;
+    text-align: center;
+}
+
+.main-title {
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 2em !important;
 }
