@@ -10,6 +10,9 @@ import {
     Typography,
     Toolbar,
     Checkbox,
+    Tooltip,
+    withStyles,
+    Theme,
 } from "@material-ui/core";
 
 export const CuatriTable = (props: any) => {
@@ -31,12 +34,10 @@ export const CuatriTable = (props: any) => {
     }
 
     function prereqMet(row: any) {
-        let isMet: boolean = !row.prerequisites
-            ? true
-            : row.prerequisites.length > 0 &&
-              row.prerequisites
-                  .split(",")
-                  .some((p: any) =>
+        let isMet: boolean =
+            row.prerequisites.length === 0
+                ? true
+                : row.prerequisites.some((p: any) =>
                       selected[props.pensumCode]
                           .map((s: any) => s.code)
                           .includes(p)
@@ -44,6 +45,23 @@ export const CuatriTable = (props: any) => {
 
         return isMet;
     }
+
+    function getSubjectNameFromPrereq(prereq: string) {
+        const subject = props.cuatris
+            .map((cuatri: any) => cuatri.subjects)
+            .flat()
+            .find((subject: any) => subject.code === prereq);
+
+        return subject ? subject.name : "";
+    }
+
+    const HtmlTooltip = withStyles((theme: Theme) => ({
+        tooltip: {
+            backgroundColor: "rgba(245, 0, 87, 0.76)",
+            color: "#fafafa",
+            border: "1px solid rgba(245, 0, 87, 0.76)",
+        },
+    }))(Tooltip);
 
     return (
         <TableContainer component={Paper}>
@@ -114,7 +132,28 @@ export const CuatriTable = (props: any) => {
                                     {row.credits}
                                 </TableCell>
                                 <TableCell align="right">
-                                    {row.prerequisites}
+                                    {row.prerequisites.map((pr: any) =>
+                                        pr.includes("%") ? (
+                                            <p key={row.code + pr}>{pr}</p>
+                                        ) : (
+                                            <HtmlTooltip
+                                                className="prerequisite-tooltip"
+                                                key={row.code + pr}
+                                                title={
+                                                    <Typography
+                                                        variant="h6"
+                                                        className="prerequisite-tooltip-content"
+                                                    >
+                                                        {getSubjectNameFromPrereq(
+                                                            pr
+                                                        )}
+                                                    </Typography>
+                                                }
+                                            >
+                                                <p>{pr}</p>
+                                            </HtmlTooltip>
+                                        )
+                                    )}
                                 </TableCell>
                             </TableRow>
                         ))}

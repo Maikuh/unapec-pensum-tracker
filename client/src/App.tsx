@@ -169,6 +169,7 @@ function App() {
                                 <Grid item xs={6} key={c.period}>
                                     <CuatriTable
                                         cuatri={c}
+                                        cuatris={selectedCarreer.cuatris}
                                         pensumCode={selectedCarreer.pensumCode}
                                         selectedSubjects={selectedSubjects}
                                         subjectSelected={onSubjectSelected}

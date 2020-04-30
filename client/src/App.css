@@ -19,3 +19,7 @@ body {
 .info-card {
     margin-bottom: 1em;
 }
+
+.prerequisite-tooltip-content {
+    text-align: center;
+}
