@@ -204,6 +204,23 @@ function App() {
                                         pensumCode={selectedCarreer.pensumCode}
                                         selectedSubjects={selectedSubjects}
                                         subjectSelected={onSubjectSelected}
+                                        creditsCount={selectedSubjects[
+                                            selectedCarreer.pensumCode
+                                        ].reduce(
+                                            (acc: number, item: any) =>
+                                                acc + item.credits,
+                                            0
+                                        )}
+                                        totalCredits={selectedCarreer.cuatris.reduce(
+                                            (acc: number, cuatri: any) =>
+                                                acc +
+                                                cuatri.subjects.reduce(
+                                                    (acc2: any, sub: any) =>
+                                                        acc2 + sub.credits,
+                                                    0
+                                                ),
+                                            0
+                                        )}
                                     />
                                 </Grid>
                             ))}

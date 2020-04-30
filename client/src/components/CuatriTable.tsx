@@ -37,10 +37,13 @@ export const CuatriTable = (props: any) => {
         let isMet: boolean =
             row.prerequisites.length === 0
                 ? true
-                : row.prerequisites.some((p: any) =>
-                      selected[props.pensumCode]
-                          .map((s: any) => s.code)
-                          .includes(p)
+                : row.prerequisites.every((p: string) =>
+                      p.includes("%")
+                          ? (props.creditsCount / props.totalCredits) * 100 >=
+                            Number(p.slice(0, 2))
+                          : selected[props.pensumCode]
+                                .map((s: any) => s.code)
+                                .includes(p)
                   );
 
         return isMet;
