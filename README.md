@@ -4,6 +4,8 @@
 
 Web app meant to allow the user (an UNAPEC student) to keep track of which subjects they have taken. Subjects are divided by period (12 in total), just like the official pensum provided by the university.
 
+The project can be accessed in [https://maikuh.gitlab.io/unapec-pensum-tracker/](https://maikuh.gitlab.io/unapec-pensum-tracker/)
+
 ## Features
 
 -   Select the carreer/pensum
