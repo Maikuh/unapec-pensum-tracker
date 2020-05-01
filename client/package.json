@@ -2,6 +2,7 @@
     "name": "unapec-pensum-tracker",
     "version": "0.1.0",
     "private": true,
+    "homepage": "unapec-pensum-tracker",
     "dependencies": {
         "@material-ui/core": "^4.9.11",
         "@material-ui/lab": "^4.0.0-alpha.50",
