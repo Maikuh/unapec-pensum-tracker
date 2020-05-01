@@ -1,0 +1,20 @@
+image: node:lts
+
+cache:
+    paths:
+        - client/node_modules/
+        - scraper/node_modules/
+
+pages:
+    stage: deploy
+    script:
+        - cd client
+        - npm ci
+        - npm run build
+        - mv ../public ../public-react
+        - mv build ../public
+    artifacts:
+        paths:
+            - public
+    only:
+        - master
