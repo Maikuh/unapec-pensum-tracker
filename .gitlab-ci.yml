@@ -8,6 +8,7 @@ cache:
 pages:
     stage: deploy
     script:
+        - mkdir -p public
         - cd client
         - npm ci
         - npm run build
