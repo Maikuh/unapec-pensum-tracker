@@ -25,7 +25,6 @@ export const CuatriTable = (props: any) => {
     }, [props.cuatri, props.selectedSubjects, period, selected]);
 
     function selectSubject(row: any) {
-        console.log("Is Prereq met?", prereqMet(row));
         if (prereqMet(row)) props.subjectSelected(row);
         else
             alert(

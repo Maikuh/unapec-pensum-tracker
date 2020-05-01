@@ -12,7 +12,7 @@ export const SearchBox = (props: any) => {
             if (lastSelectedCarreer)
                 onCarreerSelect(JSON.parse(lastSelectedCarreer));
         }
-    }, [props]);
+    });
 
     function onCarreerSelect(carreer: any) {
         localStorage.setItem("lastSelectedCarreer", JSON.stringify(carreer));

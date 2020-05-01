@@ -135,7 +135,7 @@ function App() {
         }
     }
 
-    function importFromJsonFile(e: any) {
+    function importFromJsonFile(e: ChangeEvent<HTMLInputElement>) {
         const uploadedFile =
             e.target &&
             e.target.files &&
