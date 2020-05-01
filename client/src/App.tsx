@@ -33,8 +33,6 @@ const defaultSelectedSubjects: any = savedSelectedSubjects
     ? JSON.parse(savedSelectedSubjects)
     : {};
 
-console.log("defaultSelectedSubjects", defaultSelectedSubjects);
-
 if (Object.keys(defaultSelectedSubjects).length === 0) {
     for (const pensum of pensums) {
         defaultSelectedSubjects[pensum.pensumCode] = [];
@@ -125,7 +123,6 @@ function App() {
 
         setTimeout(() => {
             linkElement.remove();
-            console.log("anchor removed");
         }, 5000);
     }
 
@@ -162,8 +159,6 @@ function App() {
             "selectedSubjects",
             JSON.stringify(selectedSubjects)
         );
-        console.log("selectedSubjects", selectedSubjects);
-        console.log("selectedCarreer", selectedCarreer);
     }, [selectedCarreer, selectedSubjects]);
 
     return (
