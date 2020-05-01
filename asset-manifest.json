@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/unapec-pensum-tracker/static/css/main.be8ae811.chunk.css",
-    "main.js": "/unapec-pensum-tracker/static/js/main.8b44e269.chunk.js",
-    "main.js.map": "/unapec-pensum-tracker/static/js/main.8b44e269.chunk.js.map",
+    "main.js": "/unapec-pensum-tracker/static/js/main.7ed5f10e.chunk.js",
+    "main.js.map": "/unapec-pensum-tracker/static/js/main.7ed5f10e.chunk.js.map",
     "runtime-main.js": "/unapec-pensum-tracker/static/js/runtime-main.e3a183aa.js",
     "runtime-main.js.map": "/unapec-pensum-tracker/static/js/runtime-main.e3a183aa.js.map",
-    "static/js/2.135a4c5c.chunk.js": "/unapec-pensum-tracker/static/js/2.135a4c5c.chunk.js",
-    "static/js/2.135a4c5c.chunk.js.map": "/unapec-pensum-tracker/static/js/2.135a4c5c.chunk.js.map",
+    "static/js/2.b5931558.chunk.js": "/unapec-pensum-tracker/static/js/2.b5931558.chunk.js",
+    "static/js/2.b5931558.chunk.js.map": "/unapec-pensum-tracker/static/js/2.b5931558.chunk.js.map",
     "index.html": "/unapec-pensum-tracker/index.html",
-    "precache-manifest.373fe2d2c237b7e650d241e3fa949634.js": "/unapec-pensum-tracker/precache-manifest.373fe2d2c237b7e650d241e3fa949634.js",
+    "precache-manifest.08e9513bfef93fe03dada475f4e6cc29.js": "/unapec-pensum-tracker/precache-manifest.08e9513bfef93fe03dada475f4e6cc29.js",
     "service-worker.js": "/unapec-pensum-tracker/service-worker.js",
     "static/css/main.be8ae811.chunk.css.map": "/unapec-pensum-tracker/static/css/main.be8ae811.chunk.css.map",
-    "static/js/2.135a4c5c.chunk.js.LICENSE.txt": "/unapec-pensum-tracker/static/js/2.135a4c5c.chunk.js.LICENSE.txt"
+    "static/js/2.b5931558.chunk.js.LICENSE.txt": "/unapec-pensum-tracker/static/js/2.b5931558.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.e3a183aa.js",
-    "static/js/2.135a4c5c.chunk.js",
+    "static/js/2.b5931558.chunk.js",
     "static/css/main.be8ae811.chunk.css",
-    "static/js/main.8b44e269.chunk.js"
+    "static/js/main.7ed5f10e.chunk.js"
   ]
 }
