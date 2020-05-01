@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createRef, ChangeEvent } from "react";
 import {
     Container,
     Grid,
@@ -14,13 +14,19 @@ import {
     IconButton,
     Divider,
     Link,
+    Tooltip,
 } from "@material-ui/core";
 import "./App.css";
 import { SearchBox } from "./components/SearchBox";
 import pensums from "./pensums.json";
 import { CuatriTable } from "./components/CuatriTable";
 import { InfoCard } from "./components/InfoCard";
-import { Github, Gitlab } from "mdi-material-ui";
+import {
+    Github as GithubIcon,
+    Gitlab as GitlabIcon,
+    Download as DownloadIcon,
+    Upload as UploadIcon,
+} from "mdi-material-ui";
 
 const savedSelectedSubjects = localStorage.getItem("selectedSubjects");
 const defaultSelectedSubjects: any = savedSelectedSubjects
@@ -40,6 +46,7 @@ function App() {
     const [selectedSubjects, setSelectedSubjects]: any = useState(
         defaultSelectedSubjects
     );
+    const fileInputRef = createRef<HTMLInputElement>();
 
     const darkTheme = createMuiTheme({
         palette: {
@@ -103,9 +110,54 @@ function App() {
         );
     }
 
+    function exportToJsonFile() {
+        let dataStr = JSON.stringify(selectedSubjects);
+        let dataUri =
+            "data:application/json;charset=utf-8," +
+            encodeURIComponent(dataStr);
+
+        let exportFileDefaultName = "uptracker.json";
+
+        let linkElement = document.createElement("a");
+        linkElement.setAttribute("href", dataUri);
+        linkElement.setAttribute("download", exportFileDefaultName);
+        linkElement.click();
+
+        setTimeout(() => {
+            linkElement.remove();
+            console.log("anchor removed");
+        }, 5000);
+    }
+
+    function clickImportFromJsonInput() {
+        if (fileInputRef && fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    }
+
+    function importFromJsonFile(e: any) {
+        const uploadedFile =
+            e.target &&
+            e.target.files &&
+            e.target.files.length > 0 &&
+            e.target.files[0];
+
+        if (uploadedFile && uploadedFile.type === "application/json") {
+            const reader = new FileReader();
+
+            reader.onload = (event: any) => {
+                const fileContents = event.target.result;
+                localStorage.setItem("selectedSubjects", fileContents);
+                setSelectedSubjects(JSON.parse(fileContents));
+            };
+
+            reader.readAsText(uploadedFile);
+        } else {
+            alert("Por favor seleccione un archivo valido");
+        }
+    }
+
     useEffect(() => {
-        // if (Object.keys(selectedSubjects).length === 0)
-        //     setSelectedSubjects(defaultSelectedSubjects);
         localStorage.setItem(
             "selectedSubjects",
             JSON.stringify(selectedSubjects)
@@ -141,15 +193,40 @@ function App() {
                                     href="https://github.com/maikuh/unapec-pensum-tracker"
                                     target="_blank"
                                 >
-                                    <Github style={{ fontSize: 32 }} />
+                                    <GithubIcon style={{ fontSize: 32 }} />
                                 </IconButton>
 
                                 <IconButton
                                     href="https://gitlab.com/maikuh/unapec-pensum-tracker"
                                     target="_blank"
                                 >
-                                    <Gitlab style={{ fontSize: 32 }} />
+                                    <GitlabIcon style={{ fontSize: 32 }} />
                                 </IconButton>
+
+                                <Tooltip title="Exportar datos a archivo">
+                                    <IconButton
+                                        onClick={() => exportToJsonFile()}
+                                    >
+                                        <DownloadIcon />
+                                    </IconButton>
+                                </Tooltip>
+
+                                <Tooltip title="Importar datos de archivo">
+                                    <IconButton
+                                        onClick={() =>
+                                            clickImportFromJsonInput()
+                                        }
+                                    >
+                                        <UploadIcon />
+                                    </IconButton>
+                                </Tooltip>
+
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    style={{ display: "none" }}
+                                    onChange={(e) => importFromJsonFile(e)}
+                                />
                             </div>
                         </Toolbar>
                     </AppBar>
