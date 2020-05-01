@@ -80,19 +80,46 @@ function App() {
         setSelectedCarreer(pensums.find((p) => p.pensumCode === pensumCode));
     }
 
-    function onSubjectSelected(subject: any) {
-        const temp = selectedSubjects[selectedCarreer.pensumCode].some(
-            (ss: any) => ss.code === subject.code
-        )
-            ? selectedSubjects[selectedCarreer.pensumCode].filter(
-                  (s: any) => s.code !== subject.code
-              )
-            : selectedSubjects[selectedCarreer.pensumCode].concat(subject);
+    function onSubjectSelected(subject: any, subjectsToRemove: any[] = []) {
+        // Temporary variable to hold changes
+        let temp = {};
 
-        setSelectedSubjects({
-            ...selectedSubjects,
-            [selectedCarreer.pensumCode]: temp,
-        });
+        // If subject has already been selected, remove it
+        if (
+            selectedSubjects[selectedCarreer.pensumCode].some(
+                (ss: any) => ss.code === subject.code
+            )
+        ) {
+            // Add the subject to the removal list
+            subjectsToRemove.push(subject.code);
+
+            // Check if any of the other subjects has this subject as prerequisite
+            const subjectWithPrereq = selectedSubjects[
+                selectedCarreer.pensumCode
+            ].find((ss: any) => ss.prerequisites.includes(subject.code));
+
+            if (subjectWithPrereq) {
+                // if true, then recursively execute function to find other subjects in the chain
+                onSubjectSelected(subjectWithPrereq, subjectsToRemove);
+            } else {
+                // if false, then no more subjects in the chain left, start removing
+                temp = selectedSubjects[selectedCarreer.pensumCode].filter(
+                    (ss: any) => !subjectsToRemove.includes(ss.code)
+                );
+
+                setSelectedSubjects({
+                    ...selectedSubjects,
+                    [selectedCarreer.pensumCode]: temp,
+                });
+            }
+        } // Select it
+        else {
+            temp = selectedSubjects[selectedCarreer.pensumCode].concat(subject);
+            setSelectedSubjects({
+                ...selectedSubjects,
+                [selectedCarreer.pensumCode]: temp,
+            });
+        }
     }
 
     function HideOnScroll(props: any) {
