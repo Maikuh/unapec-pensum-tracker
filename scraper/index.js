@@ -4,6 +4,7 @@ const fs = require("fs-extra");
 const pensumPages = require("./pensum-pages");
 
 const pensums = [];
+const outputFile = "../client/src/pensums.json"
 
 async function start() {
     for (const page of pensumPages) {
@@ -106,7 +107,7 @@ async function start() {
 
 async function writeJson() {
     try {
-        await fs.writeJSON("./pensums.json", pensums, { spaces: 2 });
+        await fs.writeJSON(outputFile, pensums);
         console.log("Done!");
     } catch (error) {
         console.error(error);
