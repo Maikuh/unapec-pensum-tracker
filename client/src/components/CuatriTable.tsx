@@ -14,18 +14,25 @@ import {
     withStyles,
     Theme,
 } from "@material-ui/core";
+import { CuatriTableProps } from "../interfaces/props.interface";
 
-export const CuatriTable = (props: any) => {
+export const CuatriTable = ({
+    cuatri,
+    selectedSubjects,
+    subjectSelected,
+    cuatris,
+    pensumCode,
+    totalCredits,
+    creditsCount,
+}: CuatriTableProps) => {
     const [period, setPeriod] = useState(0);
-    const [selected, setSelected]: any = useState([]);
 
     useEffect(() => {
-        setPeriod(props.cuatri.period);
-        setSelected(props.selectedSubjects);
-    }, [props.cuatri, props.selectedSubjects, period, selected]);
+        setPeriod(cuatri.period);
+    }, [cuatri, selectedSubjects, period]);
 
     function selectSubject(row: any) {
-        if (prereqMet(row)) props.subjectSelected(row);
+        if (prereqMet(row)) subjectSelected(row);
         else
             alert(
                 "No tienes los prerequisitos completados para seleccionar esta materia."
@@ -38,9 +45,9 @@ export const CuatriTable = (props: any) => {
                 ? true
                 : row.prerequisites.every((p: string) =>
                       p.includes("%")
-                          ? (props.creditsCount / props.totalCredits) * 100 >=
+                          ? (creditsCount / totalCredits) * 100 >=
                             Number(p.slice(0, 2))
-                          : selected[props.pensumCode]
+                          : selectedSubjects[pensumCode]
                                 .map((s: any) => s.code)
                                 .includes(p)
                   );
@@ -49,7 +56,7 @@ export const CuatriTable = (props: any) => {
     }
 
     function getSubjectNameFromPrereq(prereq: string) {
-        const subject = props.cuatris
+        const subject = cuatris
             .map((cuatri: any) => cuatri.subjects)
             .flat()
             .find((subject: any) => subject.code === prereq);
@@ -84,11 +91,11 @@ export const CuatriTable = (props: any) => {
                             <Checkbox
                                 indeterminate={
                                     selected.length > 0 &&
-                                    selected.length < props.cuatri.subjects
+                                    selected.length < cuatri.subjects
                                 }
                                 checked={
-                                    props.cuatri.subjects > 0 &&
-                                    selected.length === props.cuatri.subjects
+                                    cuatri.subjects > 0 &&
+                                    selected.length === cuatri.subjects
                                 }
                                 // onChange={onSelectAllClick}
                                 inputProps={{
@@ -104,8 +111,8 @@ export const CuatriTable = (props: any) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {selected[props.pensumCode] &&
-                        props.cuatri.subjects.map((row: any) => (
+                    {selectedSubjects[pensumCode] &&
+                        cuatri.subjects.map((row: any) => (
                             <TableRow
                                 hover
                                 key={row.code}
@@ -113,14 +120,14 @@ export const CuatriTable = (props: any) => {
                                 className={
                                     !prereqMet(row) ? "disabled-row" : ""
                                 }
-                                selected={selected[props.pensumCode].some(
+                                selected={selectedSubjects[pensumCode].some(
                                     (s: any) => s.code === row.code
                                 )}
                             >
                                 <TableCell padding="checkbox">
                                     <Checkbox
-                                        checked={selected[
-                                            props.pensumCode
+                                        checked={selectedSubjects[
+                                            pensumCode
                                         ].some((s: any) => s.code === row.code)}
                                         onChange={(e) => selectSubject(row)}
                                         disabled={!prereqMet(row)}

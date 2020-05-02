@@ -17,12 +17,19 @@ import {
     Upload as UploadIcon,
 } from "mdi-material-ui";
 import { SearchBox } from "./SearchBox";
+import { NavbarProps } from "../interfaces/props.interface";
 
-export const Navbar = (props: any) => {
+export const Navbar = ({
+    pensums,
+    selectedCarreer,
+    selectedSubjects,
+    setSelectedSubjects,
+    onCarreerSelect,
+}: NavbarProps) => {
     const fileInputRef = createRef<HTMLInputElement>();
 
     function exportToJsonFile() {
-        let dataStr = JSON.stringify(props.selectedSubjects);
+        let dataStr = JSON.stringify(selectedSubjects);
         let dataUri =
             "data:application/json;charset=utf-8," +
             encodeURIComponent(dataStr);
@@ -58,7 +65,7 @@ export const Navbar = (props: any) => {
             reader.onload = (event: any) => {
                 const fileContents = event.target.result;
                 localStorage.setItem("selectedSubjects", fileContents);
-                props.setSelectedSubjects(JSON.parse(fileContents));
+                setSelectedSubjects(JSON.parse(fileContents));
             };
 
             reader.readAsText(uploadedFile);
@@ -116,30 +123,34 @@ export const Navbar = (props: any) => {
                         </Typography>
 
                         <SearchBox
-                            pensums={props.pensums.map((p: any) => {
-                                const { subjects, ...rest } = p;
+                            pensums={pensums.map((p) => {
+                                const { cuatris, totalCredits, ...rest } = p;
                                 return rest;
                             })}
-                            selectedCarreer={props.selectedCarreer}
-                            selectCarreer={props.onCarreerSelect}
+                            selectedCarreer={selectedCarreer}
+                            selectCarreer={onCarreerSelect}
                         />
 
                         <div className={classes.root}></div>
 
                         <div className={classes.sectionRight}>
-                            <IconButton
-                                href="https://github.com/maikuh/unapec-pensum-tracker"
-                                target="_blank"
-                            >
-                                <GithubIcon style={{ fontSize: 32 }} />
-                            </IconButton>
+                            <Tooltip title="GitHub Repo">
+                                <IconButton
+                                    href="https://github.com/maikuh/unapec-pensum-tracker"
+                                    target="_blank"
+                                >
+                                    <GithubIcon style={{ fontSize: 32 }} />
+                                </IconButton>
+                            </Tooltip>
 
-                            <IconButton
-                                href="https://gitlab.com/maikuh/unapec-pensum-tracker"
-                                target="_blank"
-                            >
-                                <GitlabIcon style={{ fontSize: 32 }} />
-                            </IconButton>
+                            <Tooltip title="GitLab Repo">
+                                <IconButton
+                                    href="https://gitlab.com/maikuh/unapec-pensum-tracker"
+                                    target="_blank"
+                                >
+                                    <GitlabIcon style={{ fontSize: 32 }} />
+                                </IconButton>
+                            </Tooltip>
 
                             <Tooltip title="Exportar datos a archivo">
                                 <IconButton onClick={() => exportToJsonFile()}>

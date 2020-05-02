@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
 import { Grid, TextField } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
+import { SearchBoxProps } from "../interfaces/props.interface";
 
-export const SearchBox = (props: any) => {
+export const SearchBox = ({
+    pensums,
+    selectedCarreer,
+    selectCarreer,
+}: SearchBoxProps) => {
     useEffect(() => {
-        if (!props.selectedCarreer.pensumCode) {
+        if (!selectedCarreer) {
             const lastSelectedCarreer = localStorage.getItem(
                 "lastSelectedCarreer"
             );
@@ -16,7 +21,7 @@ export const SearchBox = (props: any) => {
 
     function onCarreerSelect(carreer: any) {
         localStorage.setItem("lastSelectedCarreer", JSON.stringify(carreer));
-        props.selectCarreer(carreer.pensumCode);
+        selectCarreer(carreer ? carreer.pensumCode : null);
     }
 
     return (
@@ -28,21 +33,20 @@ export const SearchBox = (props: any) => {
             alignItems="center"
         >
             <Grid item>
-                {props.selectedCarreer &&
-                props.selectedCarreer.pensumCode &&
-                props.selectedCarreer.pensumCode.length > 0 ? (
+                {selectedCarreer &&
+                selectedCarreer.pensumCode &&
+                selectedCarreer.pensumCode.length > 0 ? (
                     <Autocomplete
                         id="carreer-search-box"
                         autoComplete
                         autoHighlight
-                        options={props.pensums}
+                        options={pensums}
                         getOptionLabel={(c: any) =>
                             `${c.pensumCode} - ${c.carreerName}`
                         }
-                        value={props.pensums.find(
+                        value={pensums.find(
                             (p: any) =>
-                                p.pensumCode ===
-                                props.selectedCarreer.pensumCode
+                                p.pensumCode === selectedCarreer.pensumCode
                         )}
                         style={{ width: 600 }}
                         onChange={(e: any, value: any) =>
@@ -61,7 +65,7 @@ export const SearchBox = (props: any) => {
                         id="carreer-search-box"
                         autoComplete
                         autoHighlight
-                        options={props.pensums}
+                        options={pensums}
                         getOptionLabel={(c: any) =>
                             `${c.pensumCode} - ${c.carreerName}`
                         }

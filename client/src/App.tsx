@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { Container, createMuiTheme, ThemeProvider } from "@material-ui/core";
 import "./App.css";
-import pensums from "./pensums.json";
+import pensumsJson from "./pensums.json";
 import { Footer } from "./components/Footer";
 import { Navbar } from "./components/Navbar";
 import { MainContent } from "./components/MainContent";
+import { SelectedSubjects } from "./interfaces/selectedSubjects.interface";
+import { Pensum, Subject } from "./interfaces/pensums.interface";
 
 const savedSelectedSubjects = localStorage.getItem("selectedSubjects");
-const defaultSelectedSubjects: any = savedSelectedSubjects
+const defaultSelectedSubjects: SelectedSubjects = savedSelectedSubjects
     ? JSON.parse(savedSelectedSubjects)
     : {};
 
 if (Object.keys(defaultSelectedSubjects).length === 0) {
-    for (const pensum of pensums) {
+    for (const pensum of pensumsJson) {
         defaultSelectedSubjects[pensum.pensumCode] = [];
     }
 }
 
 function App() {
-    const [selectedCarreer, setSelectedCarreer]: any[] = useState({});
-    const [selectedSubjects, setSelectedSubjects]: any = useState(
+    const pensums: Pensum[] = pensumsJson;
+    const [selectedCarreer, setSelectedCarreer] = useState<Pensum | null>(null);
+    const [selectedSubjects, setSelectedSubjects] = useState<SelectedSubjects>(
         defaultSelectedSubjects
     );
 
@@ -30,34 +33,37 @@ function App() {
     });
 
     function onCarreerSelect(pensumCode: string) {
-        setSelectedCarreer(pensums.find((p) => p.pensumCode === pensumCode));
+        const carreer = pensums.find((p) => p.pensumCode === pensumCode);
+        setSelectedCarreer(carreer!);
     }
 
-    function onSubjectSelected(subject: any, subjectsToRemove: any[] = []) {
+    function onSubjectSelected(
+        subject: Subject,
+        subjectsToRemove: string[] = []
+    ) {
+        if (!selectedCarreer) return;
+
         // Temporary variable to hold changes
-        let temp = {};
+        let temp: Subject[];
+        const subjects = selectedSubjects[selectedCarreer.pensumCode];
 
         // If subject has already been selected, remove it
-        if (
-            selectedSubjects[selectedCarreer.pensumCode].some(
-                (ss: any) => ss.code === subject.code
-            )
-        ) {
+        if (subjects.some((ss) => ss.code === subject.code)) {
             // Add the subject to the removal list
             subjectsToRemove.push(subject.code);
 
             // Check if any of the other subjects has this subject as prerequisite
-            const subjectWithPrereq = selectedSubjects[
-                selectedCarreer.pensumCode
-            ].find((ss: any) => ss.prerequisites.includes(subject.code));
+            const subjectWithPrereq = subjects.find((ss) =>
+                ss.prerequisites.includes(subject.code)
+            );
 
             if (subjectWithPrereq) {
                 // if true, then recursively execute function to find other subjects in the chain
                 onSubjectSelected(subjectWithPrereq, subjectsToRemove);
             } else {
                 // if false, then no more subjects in the chain left, start removing
-                temp = selectedSubjects[selectedCarreer.pensumCode].filter(
-                    (ss: any) => !subjectsToRemove.includes(ss.code)
+                temp = subjects.filter(
+                    (ss) => !subjectsToRemove.includes(ss.code)
                 );
 
                 setSelectedSubjects({
@@ -67,7 +73,8 @@ function App() {
             }
         } // Select it
         else {
-            temp = selectedSubjects[selectedCarreer.pensumCode].concat(subject);
+            temp = subjects.concat(subject);
+
             setSelectedSubjects({
                 ...selectedSubjects,
                 [selectedCarreer.pensumCode]: temp,
