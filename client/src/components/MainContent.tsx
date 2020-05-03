@@ -8,6 +8,7 @@ export const MainContent = ({
     selectedCarreer,
     selectedSubjects,
     onSubjectSelected,
+    onSubjectSelectedBulk,
 }: MainContentProps) => {
     return (
         <React.Fragment>
@@ -53,6 +54,7 @@ export const MainContent = ({
                                 pensumCode={selectedCarreer.pensumCode}
                                 selectedSubjects={selectedSubjects}
                                 subjectSelected={onSubjectSelected}
+                                onSubjectSelectedBulk={onSubjectSelectedBulk}
                                 creditsCount={selectedSubjects[
                                     selectedCarreer.pensumCode
                                 ].reduce((acc, item) => acc + item.credits, 0)}

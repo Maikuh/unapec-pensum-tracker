@@ -7,6 +7,7 @@ import { Navbar } from "./components/Navbar";
 import { MainContent } from "./components/MainContent";
 import { SelectedSubjects } from "./interfaces/selectedSubjects.interface";
 import { Pensum, Subject } from "./interfaces/pensums.interface";
+import { SelectAllCheckboxStatus } from "./interfaces/checkbox.types";
 
 const savedSelectedSubjects = localStorage.getItem("selectedSubjects");
 const defaultSelectedSubjects: SelectedSubjects = savedSelectedSubjects
@@ -37,6 +38,96 @@ function App() {
         setSelectedCarreer(carreer!);
     }
 
+    function handleBulkSelect(
+        newSelectedSubjects: Subject[],
+        checkboxStatus: SelectAllCheckboxStatus,
+        cuatriSubjectsCount: number
+    ) {
+        if (!selectedCarreer) return;
+
+        const notInSelectedSubjects: Subject[] = [];
+        const subjects = selectedSubjects[selectedCarreer.pensumCode];
+        let temp: Subject[] = [];
+
+        function getAllPrerequisiteSubjects(
+            lastFoundSubject: string,
+            lastSubjectsToRemove: string[]
+        ): string[] {
+            const subjectsWithPrereq = subjects
+                .filter((subject) =>
+                    subject.prerequisites.includes(lastFoundSubject)
+                )
+                .map((subject) => subject.code);
+
+            if (subjectsWithPrereq.length > 0) {
+                lastSubjectsToRemove.push(...subjectsWithPrereq);
+
+                for (const subjectWithPrereq of subjectsWithPrereq) {
+                    lastSubjectsToRemove = getAllPrerequisiteSubjects(
+                        subjectWithPrereq,
+                        lastSubjectsToRemove
+                    );
+                }
+            }
+
+            return lastSubjectsToRemove;
+        }
+
+        if (checkboxStatus === "unchecked") {
+            temp = subjects.concat(...newSelectedSubjects);
+        } else if (checkboxStatus === "indeterminate") {
+            if (newSelectedSubjects.length < cuatriSubjectsCount) {
+                let subjectsToRemove = newSelectedSubjects.map(
+                    (nss) => nss.code
+                );
+
+                for (const subjectToRemove of subjectsToRemove) {
+                    subjectsToRemove = getAllPrerequisiteSubjects(
+                        subjectToRemove,
+                        subjectsToRemove
+                    );
+                }
+
+                subjectsToRemove = [...new Set(subjectsToRemove)];
+
+                temp = subjects.filter(
+                    (subject) => !subjectsToRemove.includes(subject.code)
+                );
+            } else {
+                newSelectedSubjects.forEach((newSelectedSubject) => {
+                    const isInSelectedSubjects = subjects.some(
+                        (subject) => subject.code === newSelectedSubject.code
+                    );
+
+                    if (!isInSelectedSubjects)
+                        notInSelectedSubjects.push(newSelectedSubject);
+                });
+
+                temp = subjects.concat(...notInSelectedSubjects);
+            }
+        } else if (checkboxStatus === "checked") {
+            let subjectsToRemove = newSelectedSubjects.map((nss) => nss.code);
+
+            for (const subjectToRemove of subjectsToRemove) {
+                subjectsToRemove = getAllPrerequisiteSubjects(
+                    subjectToRemove,
+                    subjectsToRemove
+                );
+            }
+
+            subjectsToRemove = [...new Set(subjectsToRemove)];
+
+            temp = subjects.filter(
+                (subject) => !subjectsToRemove.includes(subject.code)
+            );
+        }
+
+        setSelectedSubjects({
+            ...selectedSubjects,
+            [selectedCarreer.pensumCode]: temp,
+        });
+    }
+
     function onSubjectSelected(
         subject: Subject,
         subjectsToRemove: string[] = []
@@ -48,7 +139,11 @@ function App() {
         const subjects = selectedSubjects[selectedCarreer.pensumCode];
 
         // If subject has already been selected, remove it
-        if (subjects.some((ss) => ss.code === subject.code)) {
+        if (
+            subjects.some(
+                (selectedSubject) => selectedSubject.code === subject.code
+            )
+        ) {
             // Add the subject to the removal list
             subjectsToRemove.push(subject.code);
 
@@ -105,6 +200,7 @@ function App() {
                         selectedCarreer={selectedCarreer}
                         selectedSubjects={selectedSubjects}
                         onSubjectSelected={onSubjectSelected}
+                        onSubjectSelectedBulk={handleBulkSelect}
                     />
 
                     <Footer />

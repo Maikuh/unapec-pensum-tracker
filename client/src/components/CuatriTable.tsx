@@ -15,6 +15,10 @@ import {
     Theme,
 } from "@material-ui/core";
 import { CuatriTableProps } from "../interfaces/props.interface";
+import { SelectAllCheckboxStatus } from "../interfaces/checkbox.types";
+import getSubjectsThatCanBeSelected from "../helpers/getSubjectsThatCanBeSelected";
+import prerequisitesMet from "../helpers/prerequisitesMet";
+import { Subject } from "../interfaces/pensums.interface";
 
 export const CuatriTable = ({
     cuatri,
@@ -24,35 +28,66 @@ export const CuatriTable = ({
     pensumCode,
     totalCredits,
     creditsCount,
+    onSubjectSelectedBulk,
 }: CuatriTableProps) => {
     const [period, setPeriod] = useState(0);
+    const [checkboxStatus, setCheckboxStatus] = useState<
+        SelectAllCheckboxStatus
+    >("unchecked");
 
     useEffect(() => {
         setPeriod(cuatri.period);
-    }, [cuatri, selectedSubjects, period]);
 
-    function selectSubject(row: any) {
-        if (prereqMet(row)) subjectSelected(row);
+        let selectedSubjectsChecked = 0;
+
+        cuatri.subjects.forEach((subject) => {
+            const subjectChecked = selectedSubjects[pensumCode].some(
+                (selectedSubject) => selectedSubject.code === subject.code
+            );
+
+            if (subjectChecked) selectedSubjectsChecked++;
+        });
+
+        if (
+            selectedSubjectsChecked > 0 &&
+            selectedSubjectsChecked < cuatri.subjects.length
+        )
+            setCheckboxStatus("indeterminate");
+        else if (selectedSubjectsChecked === cuatri.subjects.length)
+            setCheckboxStatus("checked");
+        else if (
+            getSubjectsThatCanBeSelected(
+                cuatri.subjects,
+                creditsCount,
+                totalCredits
+            ).length === 0
+        )
+            setCheckboxStatus("disabled");
+        else setCheckboxStatus("unchecked");
+    }, [
+        cuatri.period,
+        checkboxStatus,
+        cuatri.subjects,
+        pensumCode,
+        selectedSubjects,
+        creditsCount,
+        totalCredits,
+    ]);
+
+    function selectSubject(subject: Subject) {
+        if (
+            prerequisitesMet(
+                subject,
+                selectedSubjects[pensumCode],
+                creditsCount,
+                totalCredits
+            )
+        )
+            subjectSelected(subject);
         else
             alert(
                 "No tienes los prerequisitos completados para seleccionar esta materia."
             );
-    }
-
-    function prereqMet(row: any) {
-        let isMet: boolean =
-            row.prerequisites.length === 0
-                ? true
-                : row.prerequisites.every((p: string) =>
-                      p.includes("%")
-                          ? (creditsCount / totalCredits) * 100 >=
-                            Number(p.slice(0, 2))
-                          : selectedSubjects[pensumCode]
-                                .map((s: any) => s.code)
-                                .includes(p)
-                  );
-
-        return isMet;
     }
 
     function getSubjectNameFromPrereq(prereq: string) {
@@ -62,6 +97,20 @@ export const CuatriTable = ({
             .find((subject: any) => subject.code === prereq);
 
         return subject ? subject.name : "";
+    }
+
+    function onSelectAllCheckboxClick() {
+        const subjectsThatCanBeSelected = getSubjectsThatCanBeSelected(
+            cuatri.subjects,
+            creditsCount,
+            totalCredits
+        );
+
+        onSubjectSelectedBulk(
+            subjectsThatCanBeSelected,
+            checkboxStatus,
+            cuatri.subjects.length
+        );
     }
 
     const HtmlTooltip = withStyles((theme: Theme) => ({
@@ -87,23 +136,19 @@ export const CuatriTable = ({
             <Table aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        {/* <TableCell padding="checkbox">
+                        <TableCell padding="checkbox">
                             <Checkbox
                                 indeterminate={
-                                    selected.length > 0 &&
-                                    selected.length < cuatri.subjects
+                                    checkboxStatus === "indeterminate"
                                 }
-                                checked={
-                                    cuatri.subjects > 0 &&
-                                    selected.length === cuatri.subjects
-                                }
-                                // onChange={onSelectAllClick}
+                                checked={checkboxStatus === "checked"}
+                                disabled={checkboxStatus === "disabled"}
+                                onChange={onSelectAllCheckboxClick}
                                 inputProps={{
                                     "aria-label": "select all subjects",
                                 }}
                             />
-                        </TableCell> */}
-                        <TableCell></TableCell>
+                        </TableCell>
                         <TableCell>Código</TableCell>
                         <TableCell align="right">Nombre</TableCell>
                         <TableCell align="right">Créditos</TableCell>
@@ -112,13 +157,20 @@ export const CuatriTable = ({
                 </TableHead>
                 <TableBody>
                     {selectedSubjects[pensumCode] &&
-                        cuatri.subjects.map((row: any) => (
+                        cuatri.subjects.map((row) => (
                             <TableRow
                                 hover
                                 key={row.code}
                                 onClick={() => selectSubject(row)}
                                 className={
-                                    !prereqMet(row) ? "disabled-row" : ""
+                                    !prerequisitesMet(
+                                        row,
+                                        selectedSubjects[pensumCode],
+                                        creditsCount,
+                                        totalCredits
+                                    )
+                                        ? "disabled-row"
+                                        : ""
                                 }
                                 selected={selectedSubjects[pensumCode].some(
                                     (s: any) => s.code === row.code
@@ -128,9 +180,16 @@ export const CuatriTable = ({
                                     <Checkbox
                                         checked={selectedSubjects[
                                             pensumCode
-                                        ].some((s: any) => s.code === row.code)}
+                                        ].some((s) => s.code === row.code)}
                                         onChange={(e) => selectSubject(row)}
-                                        disabled={!prereqMet(row)}
+                                        disabled={
+                                            !prerequisitesMet(
+                                                row,
+                                                selectedSubjects[pensumCode],
+                                                creditsCount,
+                                                totalCredits
+                                            )
+                                        }
                                     />
                                 </TableCell>
                                 <TableCell component="th" scope="row">
