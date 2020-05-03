@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
     List,
     ListItem,
@@ -9,21 +9,37 @@ import {
     Typography,
     Card,
     CardContent,
+    Link,
 } from "@material-ui/core";
 import {
     FileDocumentOutline as FileDocumentIcon,
     CreditCardOutline as CreditIcon,
     Calendar as CalendarIcon,
+    OpenInNew as OpenInNewIcon,
 } from "mdi-material-ui";
 import { InfoCardProps } from "../interfaces/props.interface";
+import pensumPages from "../pensum-pages";
 
 export const InfoCard = ({
     date,
+    pensumCode,
     creditsCount,
     totalCredits,
     subjectsCount,
     totalSubjects,
 }: InfoCardProps) => {
+    const [originalPensumLink, setOriginalPensumLink] = useState<String>("");
+
+    useEffect(() => {
+        setOriginalPensumLink(
+            pensumPages.find((p) =>
+                pensumCode
+                    .toUpperCase()
+                    .includes(p.split("/").pop()!.toUpperCase())
+            )!
+        );
+    }, [pensumCode, originalPensumLink]);
+
     return (
         <Grid
             container
@@ -79,6 +95,25 @@ export const InfoCard = ({
                                 <ListItemText
                                     primary="Creditos"
                                     secondary={`${creditsCount} / ${totalCredits}`}
+                                />
+                            </ListItem>
+
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar>
+                                        <OpenInNewIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary="Pensum Original"
+                                    secondary={
+                                        <Link
+                                            href={`${originalPensumLink}`}
+                                            target="_blank"
+                                        >
+                                            Link al Pensum
+                                        </Link>
+                                    }
                                 />
                             </ListItem>
                         </List>

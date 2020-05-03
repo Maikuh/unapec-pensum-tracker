@@ -43,6 +43,7 @@ export interface CuatriTableProps {
 }
 
 export interface InfoCardProps {
+    pensumCode: string;
     subjectsCount: number;
     totalSubjects: number;
     creditsCount: number;

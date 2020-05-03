@@ -9,12 +9,15 @@ The project can be accessed in [https://maikuh.gitlab.io/unapec-pensum-tracker/]
 ## Features
 
 -   Select the carreer/pensum
+-   Show the pensum date, taken from the official page
 -   Show how many subjects the user has taken (example: _12 out of 78_)
 -   Show how many credits the user has taken (example: _43 out of 268_)
+-   Show a link to the original pensum, from which data is scraped
 -   Show subjects by period, with their respective code, credits and prerequisites
 -   User can't select a subject if the prerequisites haven't been taken
 -   Hover over a prerequisite to show full name
 -   Deselecting a subject also deselects all the subjects which had the first one as a prerequisite. This means, subjects chains (like ENG001, ENG002 and so on) will all be deselected
+-   User can select/deselect a whole period (cuatrimestre). If in said period there are subjects which the user cannot select, they will be ignored, and the same rules from the previous point also apply
 -   Last chosen carreer and selected subjects persist across refreshes and closing tabs
 -   User can import and export a file with the data
 
