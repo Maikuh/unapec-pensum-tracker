@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/unapec-pensum-tracker/precache-manifest.08e9513bfef93fe03dada475f4e6cc29.js"
+  "/unapec-pensum-tracker/precache-manifest.faccfc60fc16785f8242a3aa8c37de7e.js"
 );
 
 self.addEventListener('message', (event) => {

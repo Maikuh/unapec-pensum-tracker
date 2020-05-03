@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d559c64c42a5b8ff451404405d1587ec",
+    "revision": "10c04611bed17c2bfa753062e665982d",
     "url": "/unapec-pensum-tracker/index.html"
   },
   {
-    "revision": "2d72eea0ce5738444356",
+    "revision": "757d042c139c973e1165",
     "url": "/unapec-pensum-tracker/static/css/main.be8ae811.chunk.css"
   },
   {
-    "revision": "eb7a5a83d3048ae19226",
-    "url": "/unapec-pensum-tracker/static/js/2.b5931558.chunk.js"
+    "revision": "f55f75f8d3dcc3e4106c",
+    "url": "/unapec-pensum-tracker/static/js/2.24973a93.chunk.js"
   },
   {
     "revision": "eac4cf64bf573541fd6dba29c78393a0",
-    "url": "/unapec-pensum-tracker/static/js/2.b5931558.chunk.js.LICENSE.txt"
+    "url": "/unapec-pensum-tracker/static/js/2.24973a93.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "2d72eea0ce5738444356",
-    "url": "/unapec-pensum-tracker/static/js/main.7ed5f10e.chunk.js"
+    "revision": "757d042c139c973e1165",
+    "url": "/unapec-pensum-tracker/static/js/main.773ed160.chunk.js"
   },
   {
     "revision": "f4aba210f1a4d638b51c",
