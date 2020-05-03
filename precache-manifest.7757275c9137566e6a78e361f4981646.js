@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "10c04611bed17c2bfa753062e665982d",
+    "revision": "9c61ed4fefe3e012742df77ea37cc483",
     "url": "/unapec-pensum-tracker/index.html"
   },
   {
-    "revision": "757d042c139c973e1165",
+    "revision": "76477b3154139885d93a",
     "url": "/unapec-pensum-tracker/static/css/main.be8ae811.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/unapec-pensum-tracker/static/js/2.24973a93.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "757d042c139c973e1165",
-    "url": "/unapec-pensum-tracker/static/js/main.773ed160.chunk.js"
+    "revision": "76477b3154139885d93a",
+    "url": "/unapec-pensum-tracker/static/js/main.050cbe80.chunk.js"
   },
   {
     "revision": "f4aba210f1a4d638b51c",
