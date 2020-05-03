@@ -13,9 +13,17 @@ import {
 import {
     FileDocumentOutline as FileDocumentIcon,
     CreditCardOutline as CreditIcon,
+    Calendar as CalendarIcon,
 } from "mdi-material-ui";
+import { InfoCardProps } from "../interfaces/props.interface";
 
-export const InfoCard = (props: any) => {
+export const InfoCard = ({
+    date,
+    creditsCount,
+    totalCredits,
+    subjectsCount,
+    totalSubjects,
+}: InfoCardProps) => {
     return (
         <Grid
             container
@@ -35,12 +43,31 @@ export const InfoCard = (props: any) => {
                             <ListItem>
                                 <ListItemAvatar>
                                     <Avatar>
+                                        <CalendarIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary="Fecha del Pensum"
+                                    secondary={new Date(
+                                        date
+                                    ).toLocaleDateString("es-MX", {
+                                        hour12: true,
+                                        weekday: "long",
+                                        year: "numeric",
+                                        day: "2-digit",
+                                        month: "long",
+                                    })}
+                                />
+                            </ListItem>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar>
                                         <FileDocumentIcon />
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary="Materias"
-                                    secondary={`${props.subjectsCount} / ${props.totalSubjects}`}
+                                    secondary={`${subjectsCount} / ${totalSubjects}`}
                                 />
                             </ListItem>
                             <ListItem>
@@ -51,21 +78,9 @@ export const InfoCard = (props: any) => {
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary="Creditos"
-                                    secondary={`${props.creditsCount} / ${props.totalCredits}`}
+                                    secondary={`${creditsCount} / ${totalCredits}`}
                                 />
                             </ListItem>
-
-                            {/* <ListItem>
-                                <ListItemAvatar>
-                                    <Avatar>
-                                        <Icon>beach_access</Icon>
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary="Vacation"
-                                    secondary="July 20, 2014"
-                                />
-                            </ListItem> */}
                         </List>
                     </CardContent>
                 </Card>

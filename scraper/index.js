@@ -15,14 +15,17 @@ async function start() {
         // Items
         const cuatrimestres = $("h2.nivel");
 
-        let pensumCode = $('.cabPensum p:contains("Código Pensum")')
+        let codeAndDateString = $('.cabPensum p:contains("Código Pensum")')
             .text()
             .trim();
 
-        pensumCode = pensumCode
-            .slice(0, pensumCode.indexOf(","))
+        let pensumCode = codeAndDateString
+            .split(',')[0].trim()
             .replace(/\r?\n|\r/g, "")
             .replace(/\s+/g, " ").split(" ")[2];
+
+        const dateSplitted = codeAndDateString.split(',')[1].trim().split(' ').pop().split('/')
+        const fixedISODate = new Date(dateSplitted[2], dateSplitted[1] - 1, dateSplitted[0]).toISOString();
 
         const pensum = {
             carreerName: $(".cabPensum > h1 > span").text().trim(),
@@ -35,6 +38,7 @@ async function start() {
                     .trim()
             ),
             pensumCode,
+            date: fixedISODate,
             cuatris: [],
         };
 

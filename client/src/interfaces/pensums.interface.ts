@@ -15,4 +15,5 @@ export interface Pensum {
     totalCredits: number;
     pensumCode: string;
     cuatris: Cuatri[];
+    date: string;
 }

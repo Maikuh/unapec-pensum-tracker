@@ -16,6 +16,7 @@ export const MainContent = ({
             selectedCarreer.cuatris &&
             selectedCarreer.cuatris.length > 0 ? (
                 <InfoCard
+                    date={selectedCarreer.date}
                     subjectsCount={
                         selectedSubjects[selectedCarreer.pensumCode].length
                     }

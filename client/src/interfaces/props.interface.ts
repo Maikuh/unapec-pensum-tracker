@@ -47,4 +47,5 @@ export interface InfoCardProps {
     totalSubjects: number;
     creditsCount: number;
     totalCredits: number;
+    date: string;
 }
