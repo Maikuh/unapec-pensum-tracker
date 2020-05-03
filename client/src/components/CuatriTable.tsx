@@ -58,6 +58,7 @@ export const CuatriTable = ({
         else if (
             getSubjectsThatCanBeSelected(
                 cuatri.subjects,
+                selectedSubjects[pensumCode],
                 creditsCount,
                 totalCredits
             ).length === 0
@@ -102,6 +103,7 @@ export const CuatriTable = ({
     function onSelectAllCheckboxClick() {
         const subjectsThatCanBeSelected = getSubjectsThatCanBeSelected(
             cuatri.subjects,
+            selectedSubjects[pensumCode],
             creditsCount,
             totalCredits
         );

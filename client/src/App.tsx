@@ -78,7 +78,7 @@ function App() {
         } else if (checkboxStatus === "indeterminate") {
             if (newSelectedSubjects.length < cuatriSubjectsCount) {
                 let subjectsToRemove = newSelectedSubjects.map(
-                    (nss) => nss.code
+                    (newSelectedSubject) => newSelectedSubject.code
                 );
 
                 for (const subjectToRemove of subjectsToRemove) {
