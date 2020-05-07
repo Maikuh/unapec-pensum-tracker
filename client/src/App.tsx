@@ -8,6 +8,7 @@ import { MainContent } from "./components/MainContent";
 import { SelectedSubjects } from "./interfaces/selectedSubjects.interface";
 import { Pensum, Subject } from "./interfaces/pensums.interface";
 import { SelectAllCheckboxStatus } from "./interfaces/checkbox.types";
+import { getAllPrerequisiteSubjects } from "./helpers/getAllPrerequisiteSubjects";
 
 const savedSelectedSubjects = localStorage.getItem("selectedSubjects");
 const defaultSelectedSubjects: SelectedSubjects = savedSelectedSubjects
@@ -49,30 +50,6 @@ function App() {
         const subjects = selectedSubjects[selectedCarreer.pensumCode];
         let temp: Subject[] = [];
 
-        function getAllPrerequisiteSubjects(
-            lastFoundSubject: string,
-            lastSubjectsToRemove: string[]
-        ): string[] {
-            const subjectsWithPrereq = subjects
-                .filter((subject) =>
-                    subject.prerequisites.includes(lastFoundSubject)
-                )
-                .map((subject) => subject.code);
-
-            if (subjectsWithPrereq.length > 0) {
-                lastSubjectsToRemove.push(...subjectsWithPrereq);
-
-                for (const subjectWithPrereq of subjectsWithPrereq) {
-                    lastSubjectsToRemove = getAllPrerequisiteSubjects(
-                        subjectWithPrereq,
-                        lastSubjectsToRemove
-                    );
-                }
-            }
-
-            return lastSubjectsToRemove;
-        }
-
         if (checkboxStatus === "unchecked") {
             temp = subjects.concat(...newSelectedSubjects);
         } else if (checkboxStatus === "indeterminate") {
@@ -83,6 +60,7 @@ function App() {
 
                 for (const subjectToRemove of subjectsToRemove) {
                     subjectsToRemove = getAllPrerequisiteSubjects(
+                        subjects,
                         subjectToRemove,
                         subjectsToRemove
                     );
@@ -91,12 +69,12 @@ function App() {
                 subjectsToRemove = [...new Set(subjectsToRemove)];
 
                 temp = subjects.filter(
-                    (subject) => !subjectsToRemove.includes(subject.code)
+                    (subject: Subject) => !subjectsToRemove.includes(subject.code)
                 );
             } else {
                 newSelectedSubjects.forEach((newSelectedSubject) => {
                     const isInSelectedSubjects = subjects.some(
-                        (subject) => subject.code === newSelectedSubject.code
+                        (subject: Subject) => subject.code === newSelectedSubject.code
                     );
 
                     if (!isInSelectedSubjects)
@@ -110,6 +88,7 @@ function App() {
 
             for (const subjectToRemove of subjectsToRemove) {
                 subjectsToRemove = getAllPrerequisiteSubjects(
+                    subjects,
                     subjectToRemove,
                     subjectsToRemove
                 );
@@ -118,7 +97,7 @@ function App() {
             subjectsToRemove = [...new Set(subjectsToRemove)];
 
             temp = subjects.filter(
-                (subject) => !subjectsToRemove.includes(subject.code)
+                (subject: Subject) => !subjectsToRemove.includes(subject.code)
             );
         }
 
@@ -141,31 +120,26 @@ function App() {
         // If subject has already been selected, remove it
         if (
             subjects.some(
-                (selectedSubject) => selectedSubject.code === subject.code
+                (selectedSubject: Subject) => selectedSubject.code === subject.code
             )
         ) {
             // Add the subject to the removal list
             subjectsToRemove.push(subject.code);
 
-            // Check if any of the other subjects has this subject as prerequisite
-            const subjectWithPrereq = subjects.find((ss) =>
-                ss.prerequisites.includes(subject.code)
+            for (const subjectToRemove of subjectsToRemove) {
+                subjectsToRemove = getAllPrerequisiteSubjects(subjects, subjectToRemove, subjectsToRemove)
+            }
+
+            subjectsToRemove = [...new Set(subjectsToRemove)]
+
+            temp = subjects.filter(
+                (ss: Subject) => !subjectsToRemove.includes(ss.code)
             );
 
-            if (subjectWithPrereq) {
-                // if true, then recursively execute function to find other subjects in the chain
-                onSubjectSelected(subjectWithPrereq, subjectsToRemove);
-            } else {
-                // if false, then no more subjects in the chain left, start removing
-                temp = subjects.filter(
-                    (ss) => !subjectsToRemove.includes(ss.code)
-                );
-
-                setSelectedSubjects({
-                    ...selectedSubjects,
-                    [selectedCarreer.pensumCode]: temp,
-                });
-            }
+            setSelectedSubjects({
+                ...selectedSubjects,
+                [selectedCarreer.pensumCode]: temp,
+            });
         } // Select it
         else {
             temp = subjects.concat(subject);
