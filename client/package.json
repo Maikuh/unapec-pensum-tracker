@@ -1,7 +1,8 @@
 {
     "name": "unapec-pensum-tracker",
     "version": "0.1.0",
-    "private": true,
+    "author": "Miguel Araujo <miguelant.araujo@gmail.com>",
+    "license": "GPL-3.0-only",
     "homepage": "https://maikuh.gitlab.io/unapec-pensum-tracker/",
     "dependencies": {
         "@material-ui/core": "^4.9.11",
