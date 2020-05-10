@@ -21,8 +21,22 @@ body {
     margin-bottom: 1em;
 }
 
+.subject-credits-percentage {
+    color: #f50057;
+    font-weight: bold;
+}
+
 .prerequisite-tooltip-content {
     text-align: center;
+}
+
+.prerequisite-tooltip {
+    transition: all ease-in-out 0.17s;
+}
+
+.prerequisite-tooltip:hover {
+    transform: scale(1.3);
+    color: #00f59f;
 }
 
 .footer-container {

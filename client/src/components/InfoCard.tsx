@@ -83,7 +83,23 @@ export const InfoCard = ({
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary="Materias"
-                                    secondary={`${subjectsCount} / ${totalSubjects}`}
+                                    secondary={
+                                        <Typography
+                                            variant="body2"
+                                            color="textSecondary"
+                                        >
+                                            {subjectsCount} (
+                                            <span className="subject-credits-percentage">
+                                                {Math.round(
+                                                    (subjectsCount /
+                                                        totalSubjects) *
+                                                        100
+                                                )}
+                                                %
+                                            </span>
+                                            ) de {totalSubjects}
+                                        </Typography>
+                                    }
                                 />
                             </ListItem>
                             <ListItem>
@@ -94,7 +110,23 @@ export const InfoCard = ({
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary="Creditos"
-                                    secondary={`${creditsCount} / ${totalCredits}`}
+                                    secondary={
+                                        <Typography
+                                            variant="body2"
+                                            color="textSecondary"
+                                        >
+                                            {creditsCount} (
+                                            <span className="subject-credits-percentage">
+                                                {Math.round(
+                                                    (creditsCount /
+                                                        totalCredits) *
+                                                        100
+                                                )}
+                                                %
+                                            </span>
+                                            ) de {totalCredits}
+                                        </Typography>
+                                    }
                                 />
                             </ListItem>
 
