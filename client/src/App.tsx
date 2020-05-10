@@ -9,6 +9,7 @@ import { SelectedSubjects } from "./interfaces/selectedSubjects.interface";
 import { Pensum, Subject } from "./interfaces/pensums.interface";
 import { SelectAllCheckboxStatus } from "./interfaces/checkbox.types";
 import { getAllPrerequisiteSubjects } from "./helpers/getAllPrerequisiteSubjects";
+import BackToTop from "./components/BackToTop";
 
 const savedSelectedSubjects = localStorage.getItem("selectedSubjects");
 const defaultSelectedSubjects: SelectedSubjects = savedSelectedSubjects
@@ -179,6 +180,8 @@ function App() {
 
                     <Footer />
                 </Container>
+
+                <BackToTop />
             </ThemeProvider>
         </React.Fragment>
     );

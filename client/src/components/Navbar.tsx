@@ -177,7 +177,7 @@ export const Navbar = ({
                 </AppBar>
             </HideOnScroll>
 
-            <Toolbar />
+            <Toolbar id="back-to-top-anchor" />
         </React.Fragment>
     );
 };
