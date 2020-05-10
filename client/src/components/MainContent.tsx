@@ -39,9 +39,16 @@ export const MainContent = ({
                     )}
                 />
             ) : (
-                <Typography variant="h1" className="main-title">
-                    Selecciona una carrera del dropdown arriba
-                </Typography>
+                <>
+                    <Typography variant="h1" className="main-title">
+                        <span role="img" aria-label="arriba">
+                            👆
+                        </span>
+                    </Typography>
+                    <Typography variant="h1" className="main-title">
+                        Selecciona una carrera del dropdown arriba{" "}
+                    </Typography>
+                </>
             )}
 
             <Grid container spacing={2} style={{ flexGrow: 1 }}>
