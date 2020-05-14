@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Grid, TextField } from "@material-ui/core";
+import { Grid, TextField, makeStyles } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { SearchBoxProps } from "../interfaces/props.interface";
 
@@ -24,15 +24,36 @@ export const SearchBox = ({
         selectCarreer(carreer ? carreer.pensumCode : null);
     }
 
+    const useStyles = makeStyles((theme) => ({
+        searchBoxContainer: {
+            justifyContent: "center",
+            marginTop: "auto",
+            marginBottom: "auto",
+            maxWidth: "50%",
+            minWidth: "600px",
+            [theme.breakpoints.down("sm")]: {
+                justifyContent: "end",
+                marginLeft: "auto",
+                minWidth: "512px",
+            },
+            [theme.breakpoints.down("xs")]: {
+                minWidth: "320px",
+            },
+        },
+        searchBox: {},
+    }));
+
+    const classes = useStyles();
+
     return (
         <Grid
-            className="search-box"
+            className={classes.searchBoxContainer}
             container
             direction="row"
             justify="center"
             alignItems="center"
         >
-            <Grid item>
+            <Grid item style={{ width: "100%" }}>
                 {selectedCarreer &&
                 selectedCarreer.pensumCode &&
                 selectedCarreer.pensumCode.length > 0 ? (
@@ -49,7 +70,7 @@ export const SearchBox = ({
                             (p: any) =>
                                 p.pensumCode === selectedCarreer.pensumCode
                         )}
-                        style={{ width: 600 }}
+                        className={classes.searchBox}
                         onChange={(e: any, value: any) =>
                             onCarreerSelect(value)
                         }
@@ -72,7 +93,7 @@ export const SearchBox = ({
                         getOptionLabel={(c: any) =>
                             `${c.pensumCode} - ${c.carreerName}`
                         }
-                        style={{ width: 600 }}
+                        className={classes.searchBox}
                         onChange={(e: any, value: any) =>
                             onCarreerSelect(value)
                         }

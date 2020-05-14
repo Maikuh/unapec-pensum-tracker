@@ -56,7 +56,7 @@ export const MainContent = ({
                     selectedCarreer.cuatris &&
                     selectedCarreer.cuatris.length > 0 &&
                     selectedCarreer.cuatris.map((cuatri) => (
-                        <Grid item xs={6} key={cuatri.period}>
+                        <Grid item xs={12} md={6} key={cuatri.period}>
                             <CuatriTable
                                 cuatri={cuatri}
                                 cuatris={selectedCarreer.cuatris}

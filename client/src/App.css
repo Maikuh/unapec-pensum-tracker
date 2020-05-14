@@ -11,12 +11,6 @@ body {
     background-color: dimgray;
 }
 
-.search-box {
-    /* margin-bottom: 1em; */
-    margin: auto;
-    max-width: 58%;
-}
-
 .info-card {
     margin-bottom: 1em;
 }
@@ -32,6 +26,7 @@ body {
 
 .prerequisite-tooltip {
     transition: all ease-in-out 0.17s;
+    margin: 0;
 }
 
 .prerequisite-tooltip:hover {

@@ -1,4 +1,4 @@
-import React, { createRef, ChangeEvent } from "react";
+import React, { createRef, ChangeEvent, useState } from "react";
 import {
     CssBaseline,
     Toolbar,
@@ -9,12 +9,22 @@ import {
     useScrollTrigger,
     Slide,
     makeStyles,
+    Hidden,
+    Drawer,
+    Divider,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    useTheme,
+    Link,
 } from "@material-ui/core";
 import {
     Github as GithubIcon,
     Gitlab as GitlabIcon,
     Download as DownloadIcon,
     Upload as UploadIcon,
+    Menu as MenuIcon,
 } from "mdi-material-ui";
 import { SearchBox } from "./SearchBox";
 import { NavbarProps } from "../interfaces/props.interface";
@@ -27,6 +37,8 @@ export const Navbar = ({
     onCarreerSelect,
 }: NavbarProps) => {
     const fileInputRef = createRef<HTMLInputElement>();
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const theme = useTheme();
 
     function exportToJsonFile() {
         let dataStr = JSON.stringify(selectedSubjects);
@@ -87,29 +99,144 @@ export const Navbar = ({
         );
     }
 
+    const drawerWidth = 240;
+
     const useStyles = makeStyles((theme) => ({
         root: {
             flexGrow: 1,
         },
+        drawer: {
+            [theme.breakpoints.up("sm")]: {
+                width: drawerWidth,
+                flexShrink: 0,
+            },
+        },
+        drawerPaper: {
+            width: drawerWidth,
+        },
         menuButton: {
             marginRight: theme.spacing(2),
+            // [theme.breakpoints.up("md")]: {
+            //     display: "none",
+            // },
         },
         toolbar: {
             minHeight: 128,
-            alignItems: "flex-start",
+            alignItems: "center",
             paddingTop: theme.spacing(1),
             paddingBottom: theme.spacing(1),
         },
         title: {
             flexGrow: 1,
             alignSelf: "center",
+            [theme.breakpoints.down("sm")]: {
+                display: "none",
+            },
+        },
+        drawerContainer: {
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+        },
+        drawerList: {
+            flexGrow: 1,
+        },
+        drawerFooter: {
+            alignSelf: "center",
+            padding: "1em",
+            textAlign: "center",
+        },
+        mobileTitle: {
+            alignSelf: "center",
+            padding: "1em",
         },
         sectionRight: {
+            flexGrow: 1,
             alignSelf: "center",
+            textAlign: "right",
+            [theme.breakpoints.down("sm")]: {
+                display: "none",
+            },
         },
     }));
 
     const classes = useStyles();
+
+    const drawer = (
+        <div className={classes.drawerContainer}>
+            <Typography className={classes.mobileTitle} variant="h5">
+                UNAPEC Pensum Tracker
+            </Typography>
+            <Divider />
+            <List className={classes.drawerList}>
+                {[
+                    "GitHub Repo",
+                    "GitLab Repo",
+                    "Exportar datos",
+                    "Importar datos",
+                ].map((text, index) => {
+                    let link, icon;
+
+                    switch (index) {
+                        case 0:
+                            link =
+                                "https://github.com/maikuh/unapec-pensum-tracker";
+                            icon = <GithubIcon />;
+                            break;
+                        case 1:
+                            link =
+                                "https://gitlab.com/maikuh/unapec-pensum-tracker";
+                            icon = <GitlabIcon />;
+                            break;
+                        case 2:
+                            icon = <DownloadIcon />;
+                            break;
+                        case 3:
+                            icon = <UploadIcon />;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    return (
+                        <ListItem
+                            button
+                            component="a"
+                            key={text}
+                            onClick={() =>
+                                index === 2
+                                    ? exportToJsonFile()
+                                    : index === 3
+                                    ? clickImportFromJsonInput()
+                                    : null
+                            }
+                            href={link}
+                            target="_blank"
+                        >
+                            <ListItemIcon>{icon}</ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItem>
+                    );
+                })}
+            </List>
+
+            <div className={classes.drawerFooter}>
+                <Typography variant="body1">by Miguel Araujo</Typography>
+                <Typography variant="body2">
+                    <Link href="https://github.com/maikuh" target="_blank">
+                        GitHub
+                    </Link>{" "}
+                    /{" "}
+                    <Link href="https://gitlab.com/maikuh" target="_blank">
+                        GitLab
+                    </Link>
+                </Typography>
+            </div>
+        </div>
+    );
+
+    const container =
+        window !== undefined ? () => window.document.body : undefined;
 
     return (
         <React.Fragment>
@@ -118,6 +245,16 @@ export const Navbar = ({
             <HideOnScroll>
                 <AppBar color="default">
                     <Toolbar className={classes.toolbar}>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            edge="start"
+                            onClick={() => setDrawerOpen(!drawerOpen)}
+                            className={classes.menuButton}
+                        >
+                            <MenuIcon fontSize="large" />
+                        </IconButton>
+
                         <Typography className={classes.title} variant="h5">
                             UNAPEC Pensum Tracker
                         </Typography>
@@ -176,6 +313,39 @@ export const Navbar = ({
                     </Toolbar>
                 </AppBar>
             </HideOnScroll>
+
+            <nav className={classes.drawer} aria-label="mailbox folders">
+                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+                <Hidden smUp implementation="css">
+                    <Drawer
+                        container={container}
+                        variant="temporary"
+                        anchor={theme.direction === "rtl" ? "right" : "left"}
+                        open={drawerOpen}
+                        onClose={() => setDrawerOpen(!drawerOpen)}
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        ModalProps={{
+                            keepMounted: true, // Better open performance on mobile.
+                        }}
+                    >
+                        {drawer}
+                    </Drawer>
+                </Hidden>
+                <Hidden xsDown implementation="css">
+                    <Drawer
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        variant="temporary"
+                        open={drawerOpen}
+                        onClose={() => setDrawerOpen(!drawerOpen)}
+                    >
+                        {drawer}
+                    </Drawer>
+                </Hidden>
+            </nav>
 
             <Toolbar id="back-to-top-anchor" />
         </React.Fragment>

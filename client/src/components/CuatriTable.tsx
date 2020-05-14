@@ -13,6 +13,8 @@ import {
     Tooltip,
     withStyles,
     Theme,
+    useTheme,
+    useMediaQuery,
 } from "@material-ui/core";
 import { CuatriTableProps } from "../interfaces/props.interface";
 import { SelectAllCheckboxStatus } from "../interfaces/checkbox.types";
@@ -34,6 +36,8 @@ export const CuatriTable = ({
     const [checkboxStatus, setCheckboxStatus] = useState<
         SelectAllCheckboxStatus
     >("unchecked");
+    const theme = useTheme();
+    const isMobileBreakpoint = useMediaQuery(theme.breakpoints.down("sm"));
 
     useEffect(() => {
         setPeriod(cuatri.period);
@@ -135,7 +139,10 @@ export const CuatriTable = ({
                     Cuatrimestre {period}
                 </Typography>
             </Toolbar>
-            <Table aria-label="simple table">
+            <Table
+                aria-label="simple table"
+                size={isMobileBreakpoint ? "small" : "medium"}
+            >
                 <TableHead>
                     <TableRow>
                         <TableCell padding="checkbox">
