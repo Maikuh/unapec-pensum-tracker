@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, useTheme, useMediaQuery } from "@material-ui/core";
 import { InfoCard } from "./InfoCard";
 import { CuatriTable } from "./CuatriTable";
 import { MainContentProps } from "../interfaces/props.interface";
@@ -10,6 +10,9 @@ export const MainContent = ({
     onSubjectSelected,
     onSubjectSelectedBulk,
 }: MainContentProps) => {
+    const theme = useTheme();
+    const isMobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
     return (
         <React.Fragment>
             {selectedCarreer &&
@@ -45,7 +48,10 @@ export const MainContent = ({
                             👆
                         </span>
                     </Typography>
-                    <Typography variant="h1" className="main-title">
+                    <Typography
+                        variant={isMobileScreen ? "h2" : "h1"}
+                        className="main-title"
+                    >
                         Selecciona una carrera del dropdown arriba{" "}
                     </Typography>
                 </>
