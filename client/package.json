@@ -24,6 +24,7 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
+        "cypress:open": "cypress open",
         "eject": "react-scripts eject",
         "predeploy:gh": "npm run build",
         "deploy:gh": "gh-pages -d build -o github"
@@ -44,6 +45,7 @@
         ]
     },
     "devDependencies": {
+        "cypress": "^4.5.0",
         "gh-pages": "^2.2.0"
     }
 }

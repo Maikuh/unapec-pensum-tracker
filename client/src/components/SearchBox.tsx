@@ -40,6 +40,7 @@ export const SearchBox = ({
                         id="carreer-search-box"
                         autoComplete
                         autoHighlight
+                        selectOnFocus
                         options={pensums}
                         getOptionLabel={(c: any) =>
                             `${c.pensumCode} - ${c.carreerName}`
@@ -57,6 +58,7 @@ export const SearchBox = ({
                                 {...params}
                                 label="Elegir Carrera"
                                 variant="outlined"
+                                autoFocus
                             />
                         )}
                     />
@@ -65,6 +67,7 @@ export const SearchBox = ({
                         id="carreer-search-box"
                         autoComplete
                         autoHighlight
+                        selectOnFocus
                         options={pensums}
                         getOptionLabel={(c: any) =>
                             `${c.pensumCode} - ${c.carreerName}`
@@ -78,6 +81,7 @@ export const SearchBox = ({
                                 {...params}
                                 label="Elegir Carrera"
                                 variant="outlined"
+                                autoFocus
                             />
                         )}
                     />
