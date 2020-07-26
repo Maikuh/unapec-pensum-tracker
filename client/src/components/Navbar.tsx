@@ -1,4 +1,4 @@
-import React, { createRef, ChangeEvent, useState } from "react";
+import React, { createRef, ChangeEvent, useState, useEffect } from "react";
 import {
     CssBaseline,
     Toolbar,
@@ -28,12 +28,10 @@ import {
 } from "mdi-material-ui";
 import { SearchBox } from "./SearchBox";
 import { NavbarProps } from "../interfaces/props.interface";
+import { useSelectedSubjects } from "../contexts/selectedSubjects.context";
 
-export const Navbar = ({
-    pensums,
-    selectedSubjects,
-    setSelectedSubjects,
-}: NavbarProps) => {
+export const Navbar = ({ pensums }: NavbarProps) => {
+    const [selectedSubjects, selectedSubjectsDispatch] = useSelectedSubjects();
     const fileInputRef = createRef<HTMLInputElement>();
     const [drawerOpen, setDrawerOpen] = useState(false);
     const theme = useTheme();
@@ -75,7 +73,12 @@ export const Navbar = ({
             reader.onload = (event: any) => {
                 const fileContents = event.target.result;
                 localStorage.setItem("selectedSubjects", fileContents);
-                setSelectedSubjects(JSON.parse(fileContents));
+                selectedSubjectsDispatch({
+                    type: "import-from-file",
+                    payload: {
+                        importedSelectedSubjects: JSON.parse(fileContents),
+                    },
+                });
             };
 
             reader.readAsText(uploadedFile);
@@ -257,9 +260,7 @@ export const Navbar = ({
                             UNAPEC Pensum Tracker
                         </Typography>
 
-                        <SearchBox
-                            pensums={pensums}
-                        />
+                        <SearchBox pensums={pensums} />
 
                         <div className={classes.root}></div>
 

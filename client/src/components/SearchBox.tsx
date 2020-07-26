@@ -29,7 +29,13 @@ export const SearchBox = ({ pensums }: SearchBoxProps) => {
     });
 
     function onCareerSelect(career: any) {
-        localStorage.setItem("lastSelectedCareer", JSON.stringify(career));
+        if (career) {
+            localStorage.setItem("lastSelectedCareer", JSON.stringify(career));
+        }
+        else {
+            localStorage.removeItem("lastSelectedCareer")
+        }
+
         const pensum = career
             ? pensums.find((p) => p.pensumCode === career.pensumCode)
             : null;

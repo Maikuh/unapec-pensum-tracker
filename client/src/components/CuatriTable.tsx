@@ -21,17 +21,16 @@ import { SelectAllCheckboxStatus } from "../interfaces/checkbox.types";
 import getSubjectsThatCanBeSelected from "../helpers/getSubjectsThatCanBeSelected";
 import prerequisitesMet from "../helpers/prerequisitesMet";
 import { Subject } from "../interfaces/pensums.interface";
+import { useSelectedSubjects } from "../contexts/selectedSubjects.context";
 
 export const CuatriTable = ({
     cuatri,
-    selectedSubjects,
-    subjectSelected,
     cuatris,
     pensumCode,
     totalCredits,
     creditsCount,
-    onSubjectSelectedBulk,
 }: CuatriTableProps) => {
+    const [selectedSubjects, selectedSubjectsDispatch] = useSelectedSubjects();
     const [period, setPeriod] = useState(0);
     const [checkboxStatus, setCheckboxStatus] = useState<
         SelectAllCheckboxStatus
@@ -46,7 +45,7 @@ export const CuatriTable = ({
 
         cuatri.subjects.forEach((subject) => {
             const subjectChecked = selectedSubjects[pensumCode].some(
-                (selectedSubject) => selectedSubject.code === subject.code
+                (selectedSubject: Subject) => selectedSubject.code === subject.code
             );
 
             if (subjectChecked) selectedSubjectsChecked++;
@@ -74,7 +73,6 @@ export const CuatriTable = ({
         checkboxStatus,
         cuatri.subjects,
         pensumCode,
-        selectedSubjects,
         creditsCount,
         totalCredits,
     ]);
@@ -88,7 +86,10 @@ export const CuatriTable = ({
                 totalCredits
             )
         )
-            subjectSelected(subject);
+            selectedSubjectsDispatch({ type: "select-subject", payload: {
+                subject,
+                pensumCode
+            }})
         else
             alert(
                 "No tienes los prerequisitos completados para seleccionar esta materia."
@@ -112,11 +113,11 @@ export const CuatriTable = ({
             totalCredits
         );
 
-        onSubjectSelectedBulk(
-            subjectsThatCanBeSelected,
-            checkboxStatus,
-            cuatri.subjects.length
-        );
+        selectedSubjectsDispatch({ type: "bulk-select", payload: {
+            newSelectedSubjects: subjectsThatCanBeSelected,
+            pensumCode,
+            periodSubjectsCount: cuatri.subjects.length
+        }})
     }
 
     const HtmlTooltip = withStyles((theme: Theme) => ({

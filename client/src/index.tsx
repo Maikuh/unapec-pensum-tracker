@@ -3,13 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { SelectedCareerProvider } from "./contexts/selectedCareer.context";
+import { SelectedSubjectsProvider } from "./contexts/selectedSubjects.context";
 
 ReactDOM.render(
     <React.StrictMode>
-        <SelectedCareerProvider>
+        <SelectedSubjectsProvider>
             <App />
-        </SelectedCareerProvider>
+        </SelectedSubjectsProvider>
     </React.StrictMode>,
     document.getElementById("root")
 );

@@ -1,15 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Typography, useTheme, useMediaQuery } from "@material-ui/core";
 import { InfoCard } from "./InfoCard";
 import { CuatriTable } from "./CuatriTable";
-import { MainContentProps } from "../interfaces/props.interface";
 import { useSelectedCareer } from "../contexts/selectedCareer.context";
+import { useSelectedSubjects } from "../contexts/selectedSubjects.context";
 
-export const MainContent = ({
-    selectedSubjects,
-    onSubjectSelected,
-    onSubjectSelectedBulk,
-}: MainContentProps) => {
+export const MainContent = (props: any) => {
+    const [selectedSubjects] = useSelectedSubjects();
     const theme = useTheme();
     const isMobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
     const [selectedCareer] = useSelectedCareer();
@@ -68,9 +65,6 @@ export const MainContent = ({
                                 cuatri={cuatri}
                                 cuatris={selectedCareer.cuatris}
                                 pensumCode={selectedCareer.pensumCode}
-                                selectedSubjects={selectedSubjects}
-                                subjectSelected={onSubjectSelected}
-                                onSubjectSelectedBulk={onSubjectSelectedBulk}
                                 creditsCount={selectedSubjects[
                                     selectedCareer.pensumCode
                                 ].reduce((acc, item) => acc + item.credits, 0)}

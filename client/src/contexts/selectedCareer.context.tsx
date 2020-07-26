@@ -19,7 +19,7 @@ const SelectedCareerDispatchContext = React.createContext<
 function selectedCareerReducer(state: Pensum, action: SelectedCareerAction) {
     switch (action.type) {
         case "select-career": {
-            return action.payload;
+            return { ...action.payload };
         }
         default: {
             throw new Error(`Unhandled action type: ${action.type}`);

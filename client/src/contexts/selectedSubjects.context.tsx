@@ -5,13 +5,14 @@ import pensumsJson from "../pensums.json";
 import { Subject } from "../interfaces/pensums.interface";
 
 type SelectedSubjectsAction = {
-    type: "select-subject" | "bulk-select";
+    type: "select-subject" | "bulk-select" | "import-from-file";
     payload: {
-        pensumCode: string;
-        subject: Subject;
-        newSelectedSubjects: Subject[];
-        periodSubjectsCount: number;
-        checkboxStatus: "unchecked" | "indeterminate" | "checked";
+        pensumCode?: string;
+        subject?: Subject;
+        newSelectedSubjects?: Subject[];
+        importedSelectedSubjects?: SelectedSubjects;
+        periodSubjectsCount?: number;
+        checkboxStatus?: "unchecked" | "indeterminate" | "checked";
     };
 };
 
@@ -28,17 +29,26 @@ const SelectedSubjectsDispatchContext = React.createContext<
 function selectedSubjectsReducer(
     state: SelectedSubjects,
     action: SelectedSubjectsAction
-) {
+): SelectedSubjects {
     const {
         pensumCode,
         subject,
         newSelectedSubjects,
+        importedSelectedSubjects,
         periodSubjectsCount,
         checkboxStatus,
     } = action.payload;
 
     switch (action.type) {
+        case "import-from-file": {
+            return importedSelectedSubjects!;
+        }
         case "select-subject": {
+            if (!pensumCode || !subject) {
+                console.error("Missing variables");
+                return state;
+            }
+
             // Temporary variable to hold changes
             let temp: Subject[];
             const subjects = state[pensumCode];
@@ -78,6 +88,11 @@ function selectedSubjectsReducer(
             };
         }
         case "bulk-select": {
+            if (!pensumCode || !newSelectedSubjects || !periodSubjectsCount) {
+                console.error("Missing variables");
+                return state;
+            }
+
             const notInSelectedSubjects: Subject[] = [];
             const subjects = state[pensumCode];
             let temp: Subject[] = [];
@@ -137,7 +152,7 @@ function selectedSubjectsReducer(
                         !subjectsToRemove.includes(subject.code)
                 );
             }
-            
+
             return {
                 ...state,
                 [pensumCode]: temp,
