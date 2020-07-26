@@ -5,7 +5,11 @@ import pensumsJson from "../pensums.json";
 import { Subject } from "../interfaces/pensums.interface";
 
 type SelectedSubjectsAction = {
-    type: "select-subject" | "bulk-select" | "import-from-file";
+    type:
+        | "select-subject"
+        | "bulk-select"
+        | "import-from-file"
+        | "export-file";
     payload: {
         pensumCode?: string;
         subject?: Subject;
@@ -36,7 +40,7 @@ function selectedSubjectsReducer(
         newSelectedSubjects,
         importedSelectedSubjects,
         periodSubjectsCount,
-        checkboxStatus,
+        checkboxStatus
     } = action.payload;
 
     switch (action.type) {
@@ -102,7 +106,7 @@ function selectedSubjectsReducer(
             } else if (checkboxStatus === "indeterminate") {
                 if (newSelectedSubjects.length < periodSubjectsCount) {
                     let subjectsToRemove = newSelectedSubjects.map(
-                        (newSelectedSubject) => newSelectedSubject.code
+                        (newSelectedSubject: Subject) => newSelectedSubject.code
                     );
 
                     for (const subjectToRemove of subjectsToRemove) {
@@ -120,21 +124,23 @@ function selectedSubjectsReducer(
                             !subjectsToRemove.includes(subject.code)
                     );
                 } else {
-                    newSelectedSubjects.forEach((newSelectedSubject) => {
-                        const isInSelectedSubjects = subjects.some(
-                            (subject: Subject) =>
-                                subject.code === newSelectedSubject.code
-                        );
+                    newSelectedSubjects.forEach(
+                        (newSelectedSubject: Subject) => {
+                            const isInSelectedSubjects = subjects.some(
+                                (subject: Subject) =>
+                                    subject.code === newSelectedSubject.code
+                            );
 
-                        if (!isInSelectedSubjects)
-                            notInSelectedSubjects.push(newSelectedSubject);
-                    });
+                            if (!isInSelectedSubjects)
+                                notInSelectedSubjects.push(newSelectedSubject);
+                        }
+                    );
 
                     temp = subjects.concat(...notInSelectedSubjects);
                 }
             } else if (checkboxStatus === "checked") {
                 let subjectsToRemove = newSelectedSubjects.map(
-                    (nss) => nss.code
+                    (nss: Subject) => nss.code
                 );
 
                 for (const subjectToRemove of subjectsToRemove) {
@@ -157,6 +163,25 @@ function selectedSubjectsReducer(
                 ...state,
                 [pensumCode]: temp,
             };
+        }
+        case "export-file": {
+            let dataStr = JSON.stringify(state);
+            let dataUri =
+                "data:application/json;charset=utf-8," +
+                encodeURIComponent(dataStr);
+
+            let exportFileDefaultName = "uptracker.json";
+
+            let linkElement = document.createElement("a");
+            linkElement.setAttribute("href", dataUri);
+            linkElement.setAttribute("download", exportFileDefaultName);
+            linkElement.click();
+
+            setTimeout(() => {
+                linkElement.remove();
+            }, 5000);
+
+            return state;
         }
         default: {
             throw new Error(`Unhandled action type: ${action.type}`);
@@ -181,11 +206,8 @@ function SelectedSubjectsProvider({ children }: { children: React.ReactNode }) {
         defaultSelectedSubjects
     );
 
-    localStorage.setItem(
-        "selectedSubjects",
-        JSON.stringify(state)
-    );
-    
+    localStorage.setItem("selectedSubjects", JSON.stringify(state));
+
     return (
         <SelectedSubjectsStateContext.Provider value={state}>
             <SelectedSubjectsDispatchContext.Provider value={dispatch}>

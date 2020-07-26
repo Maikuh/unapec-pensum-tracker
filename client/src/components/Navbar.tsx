@@ -31,27 +31,13 @@ import { NavbarProps } from "../interfaces/props.interface";
 import { useSelectedSubjects } from "../contexts/selectedSubjects.context";
 
 export const Navbar = ({ pensums }: NavbarProps) => {
-    const [selectedSubjects, selectedSubjectsDispatch] = useSelectedSubjects();
+    const [, selectedSubjectsDispatch] = useSelectedSubjects();
     const fileInputRef = createRef<HTMLInputElement>();
     const [drawerOpen, setDrawerOpen] = useState(false);
     const theme = useTheme();
 
     function exportToJsonFile() {
-        let dataStr = JSON.stringify(selectedSubjects);
-        let dataUri =
-            "data:application/json;charset=utf-8," +
-            encodeURIComponent(dataStr);
-
-        let exportFileDefaultName = "uptracker.json";
-
-        let linkElement = document.createElement("a");
-        linkElement.setAttribute("href", dataUri);
-        linkElement.setAttribute("download", exportFileDefaultName);
-        linkElement.click();
-
-        setTimeout(() => {
-            linkElement.remove();
-        }, 5000);
+        selectedSubjectsDispatch({ type:"export-file", payload: {} })
     }
 
     function clickImportFromJsonInput() {

@@ -72,6 +72,7 @@ export const CuatriTable = ({
         cuatri.period,
         checkboxStatus,
         cuatri.subjects,
+        selectedSubjects,
         pensumCode,
         creditsCount,
         totalCredits,

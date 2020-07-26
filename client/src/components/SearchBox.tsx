@@ -31,9 +31,8 @@ export const SearchBox = ({ pensums }: SearchBoxProps) => {
     function onCareerSelect(career: any) {
         if (career) {
             localStorage.setItem("lastSelectedCareer", JSON.stringify(career));
-        }
-        else {
-            localStorage.removeItem("lastSelectedCareer")
+        } else {
+            localStorage.removeItem("lastSelectedCareer");
         }
 
         const pensum = career
