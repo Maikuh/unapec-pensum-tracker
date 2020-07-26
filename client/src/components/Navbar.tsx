@@ -28,7 +28,6 @@ import {
 } from "mdi-material-ui";
 import { SearchBox } from "./SearchBox";
 import { NavbarProps } from "../interfaces/props.interface";
-import { useSelectedCareer } from "../contexts/selectedCareer.context";
 
 export const Navbar = ({
     pensums,

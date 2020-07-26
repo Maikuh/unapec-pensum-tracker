@@ -7,14 +7,18 @@ import { useSelectedCareer } from "../contexts/selectedCareer.context";
 export const SearchBox = ({ pensums }: SearchBoxProps) => {
     const [selectedCareer, selectedCareerDispatch] = useSelectedCareer();
     const [searchBoxOptions] = useState(
-        pensums.map((p) => {
-            const { cuatris, totalCredits, ...rest } = p;
+        pensums.map((pensum) => {
+            const { cuatris, totalCredits, date, ...rest } = pensum;
             return rest;
         })
     );
+    const [searchBoxValue, setSearchBoxValue] = useState<{
+        pensumCode: string;
+        carreerName: string;
+    } | null>(null);
 
     useEffect(() => {
-        if (!selectedCareer) {
+        if (!selectedCareer || !selectedCareer.pensumCode) {
             const lastSelectedCareer = localStorage.getItem(
                 "lastSelectedCareer"
             );
@@ -24,12 +28,17 @@ export const SearchBox = ({ pensums }: SearchBoxProps) => {
         }
     });
 
-    function onCareerSelect(carreer: any) {
-        localStorage.setItem("lastSelectedCareer", JSON.stringify(carreer));
-        const pensum = carreer
-            ? pensums.find((p) => p.pensumCode === carreer.pensumCode)
+    function onCareerSelect(career: any) {
+        localStorage.setItem("lastSelectedCareer", JSON.stringify(career));
+        const pensum = career
+            ? pensums.find((p) => p.pensumCode === career.pensumCode)
             : null;
         selectedCareerDispatch({ type: "select-career", payload: pensum! });
+
+        if (pensum) {
+            const { cuatris, totalCredits, date, ...rest } = pensum;
+            setSearchBoxValue(rest);
+        } else setSearchBoxValue(null);
     }
 
     const useStyles = makeStyles((theme) => ({
@@ -62,56 +71,35 @@ export const SearchBox = ({ pensums }: SearchBoxProps) => {
             alignItems="center"
         >
             <Grid item style={{ width: "100%" }}>
-                {selectedCareer &&
-                selectedCareer.pensumCode &&
-                selectedCareer.pensumCode.length > 0 ? (
-                    <Autocomplete
-                        id="carreer-search-box"
-                        autoComplete
-                        autoHighlight
-                        selectOnFocus
-                        options={searchBoxOptions}
-                        getOptionLabel={(c: any) =>
-                            `${c.pensumCode} - ${c.carreerName}`
-                        }
-                        value={selectedCareer}
-                        className={classes.searchBox}
-                        onChange={(e: any, value: any) =>
-                            onCareerSelect(value)
-                        }
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                label="Elegir Carrera"
-                                variant="outlined"
-                                autoFocus
-                            />
-                        )}
-                    />
-                ) : (
-                    <Autocomplete
-                        id="carreer-search-box"
-                        autoComplete
-                        autoHighlight
-                        selectOnFocus
-                        options={searchBoxOptions}
-                        getOptionLabel={(c: any) =>
-                            `${c.pensumCode} - ${c.carreerName}`
-                        }
-                        className={classes.searchBox}
-                        onChange={(e: any, value: any) =>
-                            onCareerSelect(value)
-                        }
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                label="Elegir Carrera"
-                                variant="outlined"
-                                autoFocus
-                            />
-                        )}
-                    />
-                )}
+                <Autocomplete
+                    id="carreer-search-box"
+                    autoComplete
+                    autoHighlight
+                    selectOnFocus
+                    options={searchBoxOptions}
+                    getOptionLabel={(c: any) =>
+                        `${c.pensumCode} - ${c.carreerName}`
+                    }
+                    value={searchBoxValue}
+                    className={classes.searchBox}
+                    onChange={(e: any, value: any) => onCareerSelect(value)}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="Elegir Carrera"
+                            variant="outlined"
+                            autoFocus
+                        />
+                    )}
+                    getOptionSelected={(option, value) => {
+                        if (
+                            option.pensumCode === value.pensumCode &&
+                            option.carreerName === value.carreerName
+                        )
+                            return true;
+                        else return false;
+                    }}
+                />
             </Grid>
         </Grid>
     );

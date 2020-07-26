@@ -25,8 +25,7 @@ if (Object.keys(defaultSelectedSubjects).length === 0) {
 
 function App() {
     const pensums: Pensum[] = pensumsJson;
-    // const [selectedCarreer, setSelectedCarreer] = useState<Pensum | null>(null);
-    const [selectedCarreer, selectedCarreerDispatch] = useSelectedCareer();
+    const [selectedCarreer] = useSelectedCareer();
     const [selectedSubjects, setSelectedSubjects] = useState<SelectedSubjects>(
         defaultSelectedSubjects
     );
@@ -161,7 +160,7 @@ function App() {
             "selectedSubjects",
             JSON.stringify(selectedSubjects)
         );
-    }, [selectedCarreer, selectedSubjects]);
+    }, [selectedSubjects]);
 
     return (
         <React.Fragment>
@@ -176,7 +175,6 @@ function App() {
 
                 <Container fixed className="App">
                     <MainContent
-                        selectedCarreer={selectedCarreer}
                         selectedSubjects={selectedSubjects}
                         onSubjectSelected={onSubjectSelected}
                         onSubjectSelectedBulk={handleBulkSelect}

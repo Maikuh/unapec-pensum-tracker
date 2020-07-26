@@ -3,7 +3,6 @@ import { SelectedSubjects } from "./selectedSubjects.interface";
 import { SelectAllCheckboxStatus } from "./checkbox.types";
 
 export interface MainContentProps {
-    selectedCarreer: Pensum | null;
     selectedSubjects: SelectedSubjects;
     onSubjectSelected: (subject: Subject, subjectsToRemove?: string[]) => void;
     onSubjectSelectedBulk: (
