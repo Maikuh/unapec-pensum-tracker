@@ -181,6 +181,11 @@ function SelectedSubjectsProvider({ children }: { children: React.ReactNode }) {
         defaultSelectedSubjects
     );
 
+    localStorage.setItem(
+        "selectedSubjects",
+        JSON.stringify(state)
+    );
+    
     return (
         <SelectedSubjectsStateContext.Provider value={state}>
             <SelectedSubjectsDispatchContext.Provider value={dispatch}>

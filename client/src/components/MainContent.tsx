@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Grid, Typography, useTheme, useMediaQuery } from "@material-ui/core";
 import { InfoCard } from "./InfoCard";
 import { CuatriTable } from "./CuatriTable";
