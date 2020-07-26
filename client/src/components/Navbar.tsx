@@ -28,13 +28,12 @@ import {
 } from "mdi-material-ui";
 import { SearchBox } from "./SearchBox";
 import { NavbarProps } from "../interfaces/props.interface";
+import { useSelectedCareer } from "../contexts/selectedCareer.context";
 
 export const Navbar = ({
     pensums,
-    selectedCarreer,
     selectedSubjects,
     setSelectedSubjects,
-    onCarreerSelect,
 }: NavbarProps) => {
     const fileInputRef = createRef<HTMLInputElement>();
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -260,12 +259,7 @@ export const Navbar = ({
                         </Typography>
 
                         <SearchBox
-                            pensums={pensums.map((p) => {
-                                const { cuatris, totalCredits, ...rest } = p;
-                                return rest;
-                            })}
-                            selectedCarreer={selectedCarreer}
-                            selectCarreer={onCarreerSelect}
+                            pensums={pensums}
                         />
 
                         <div className={classes.root}></div>

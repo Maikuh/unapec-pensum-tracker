@@ -1,27 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, TextField, makeStyles } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { SearchBoxProps } from "../interfaces/props.interface";
+import { useSelectedCareer } from "../contexts/selectedCareer.context";
 
-export const SearchBox = ({
-    pensums,
-    selectedCarreer,
-    selectCarreer,
-}: SearchBoxProps) => {
+export const SearchBox = ({ pensums }: SearchBoxProps) => {
+    const [selectedCareer, selectedCareerDispatch] = useSelectedCareer();
+    const [searchBoxOptions] = useState(
+        pensums.map((p) => {
+            const { cuatris, totalCredits, ...rest } = p;
+            return rest;
+        })
+    );
+
     useEffect(() => {
-        if (!selectedCarreer) {
-            const lastSelectedCarreer = localStorage.getItem(
-                "lastSelectedCarreer"
+        if (!selectedCareer) {
+            const lastSelectedCareer = localStorage.getItem(
+                "lastSelectedCareer"
             );
 
-            if (lastSelectedCarreer)
-                onCarreerSelect(JSON.parse(lastSelectedCarreer));
+            if (lastSelectedCareer)
+                onCareerSelect(JSON.parse(lastSelectedCareer));
         }
     });
 
-    function onCarreerSelect(carreer: any) {
-        localStorage.setItem("lastSelectedCarreer", JSON.stringify(carreer));
-        selectCarreer(carreer ? carreer.pensumCode : null);
+    function onCareerSelect(carreer: any) {
+        localStorage.setItem("lastSelectedCareer", JSON.stringify(carreer));
+        const pensum = carreer
+            ? pensums.find((p) => p.pensumCode === carreer.pensumCode)
+            : null;
+        selectedCareerDispatch({ type: "select-career", payload: pensum! });
     }
 
     const useStyles = makeStyles((theme) => ({
@@ -54,25 +62,22 @@ export const SearchBox = ({
             alignItems="center"
         >
             <Grid item style={{ width: "100%" }}>
-                {selectedCarreer &&
-                selectedCarreer.pensumCode &&
-                selectedCarreer.pensumCode.length > 0 ? (
+                {selectedCareer &&
+                selectedCareer.pensumCode &&
+                selectedCareer.pensumCode.length > 0 ? (
                     <Autocomplete
                         id="carreer-search-box"
                         autoComplete
                         autoHighlight
                         selectOnFocus
-                        options={pensums}
+                        options={searchBoxOptions}
                         getOptionLabel={(c: any) =>
                             `${c.pensumCode} - ${c.carreerName}`
                         }
-                        value={pensums.find(
-                            (p: any) =>
-                                p.pensumCode === selectedCarreer.pensumCode
-                        )}
+                        value={selectedCareer}
                         className={classes.searchBox}
                         onChange={(e: any, value: any) =>
-                            onCarreerSelect(value)
+                            onCareerSelect(value)
                         }
                         renderInput={(params) => (
                             <TextField
@@ -89,13 +94,13 @@ export const SearchBox = ({
                         autoComplete
                         autoHighlight
                         selectOnFocus
-                        options={pensums}
+                        options={searchBoxOptions}
                         getOptionLabel={(c: any) =>
                             `${c.pensumCode} - ${c.carreerName}`
                         }
                         className={classes.searchBox}
                         onChange={(e: any, value: any) =>
-                            onCarreerSelect(value)
+                            onCareerSelect(value)
                         }
                         renderInput={(params) => (
                             <TextField

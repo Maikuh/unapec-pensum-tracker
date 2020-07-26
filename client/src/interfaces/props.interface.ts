@@ -14,17 +14,13 @@ export interface MainContentProps {
 }
 
 export interface NavbarProps {
-    selectedCarreer: Pensum | null;
     selectedSubjects: SelectedSubjects;
     pensums: Pensum[];
     setSelectedSubjects: (selectedSubjects: SelectedSubjects) => void;
-    onCarreerSelect: (pensumCode: string) => void;
 }
 
 export interface SearchBoxProps {
-    pensums: Partial<Pensum>[];
-    selectedCarreer: Pensum | null;
-    selectCarreer: (pensumCode: string) => void;
+    pensums: Pensum[];
 }
 
 export interface CuatriTableProps {
