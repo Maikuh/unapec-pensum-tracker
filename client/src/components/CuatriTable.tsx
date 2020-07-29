@@ -45,7 +45,8 @@ export const CuatriTable = ({
 
         cuatri.subjects.forEach((subject) => {
             const subjectChecked = selectedSubjects[pensumCode].some(
-                (selectedSubject: Subject) => selectedSubject.code === subject.code
+                (selectedSubject: Subject) =>
+                    selectedSubject.code === subject.code
             );
 
             if (subjectChecked) selectedSubjectsChecked++;
@@ -86,12 +87,15 @@ export const CuatriTable = ({
                 creditsCount,
                 totalCredits
             )
-        )
-            selectedSubjectsDispatch({ type: "select-subject", payload: {
-                subject,
-                pensumCode
-            }})
-        else
+        ) {
+            selectedSubjectsDispatch({
+                type: "select-subject",
+                payload: {
+                    subject,
+                    pensumCode,
+                },
+            });
+        } else
             alert(
                 "No tienes los prerequisitos completados para seleccionar esta materia."
             );
@@ -114,11 +118,14 @@ export const CuatriTable = ({
             totalCredits
         );
 
-        selectedSubjectsDispatch({ type: "bulk-select", payload: {
-            newSelectedSubjects: subjectsThatCanBeSelected,
-            pensumCode,
-            periodSubjectsCount: cuatri.subjects.length
-        }})
+        selectedSubjectsDispatch({
+            type: "bulk-select",
+            payload: {
+                newSelectedSubjects: subjectsThatCanBeSelected,
+                pensumCode,
+                periodSubjectsCount: cuatri.subjects.length,
+            },
+        });
     }
 
     const HtmlTooltip = withStyles((theme: Theme) => ({
@@ -192,7 +199,7 @@ export const CuatriTable = ({
                                         checked={selectedSubjects[
                                             pensumCode
                                         ].some((s) => s.code === row.code)}
-                                        onChange={(e) => selectSubject(row)}
+                                        // onChange={(e) => selectSubject(row)}
                                         disabled={
                                             !prerequisitesMet(
                                                 row,

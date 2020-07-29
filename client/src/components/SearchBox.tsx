@@ -25,8 +25,11 @@ export const SearchBox = ({ pensums }: SearchBoxProps) => {
 
             if (lastSelectedCareer)
                 onCareerSelect(JSON.parse(lastSelectedCareer));
+        } else {
+            const { cuatris, totalCredits, date, ...rest } = selectedCareer;
+            setSearchBoxValue(rest);
         }
-    });
+    }, []);
 
     function onCareerSelect(career: any) {
         if (career) {

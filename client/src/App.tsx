@@ -7,12 +7,8 @@ import { Navbar } from "./components/Navbar";
 import { MainContent } from "./components/MainContent";
 import { Pensum } from "./interfaces/pensums.interface";
 import BackToTop from "./components/BackToTop";
-import {
-    SelectedCareerProvider,
-} from "./contexts/selectedCareer.context";
-import {
-    SelectedSubjectsProvider,
-} from "./contexts/selectedSubjects.context";
+import { SelectedCareerProvider } from "./contexts/selectedCareer.context";
+import { SelectedSubjectsProvider } from "./contexts/selectedSubjects.context";
 
 function App() {
     const pensums: Pensum[] = pensumsJson;
@@ -21,7 +17,7 @@ function App() {
         palette: {
             type: "dark",
         },
-    })
+    });
 
     return (
         <React.Fragment>
