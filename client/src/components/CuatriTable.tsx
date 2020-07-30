@@ -21,6 +21,7 @@ import { SelectAllCheckboxStatus } from "../interfaces/checkbox.types";
 import getSubjectsThatCanBeSelected from "../helpers/getSubjectsThatCanBeSelected";
 import prerequisitesMet from "../helpers/prerequisitesMet";
 import { Subject } from "../interfaces/pensums.interface";
+import AlertDialog from "./AlertDialog";
 
 export const CuatriTable = ({
     cuatri,
@@ -38,6 +39,11 @@ export const CuatriTable = ({
     >("unchecked");
     const theme = useTheme();
     const isMobileBreakpoint = useMediaQuery(theme.breakpoints.down("sm"));
+    const [alertDialog, setAlertDialog] = useState({
+        enabled: false,
+        title: "",
+        message: "",
+    });
 
     useEffect(() => {
         setPeriod(cuatri.period);
@@ -89,10 +95,14 @@ export const CuatriTable = ({
             )
         )
             subjectSelected(subject);
-        else
-            alert(
-                "No tienes los prerequisitos completados para seleccionar esta materia."
-            );
+        else {
+            setAlertDialog({
+                enabled: true,
+                title: "No puede seleccionar esta materia",
+                message:
+                    "No tienes los prerequisitos completados para seleccionar esta materia.",
+            });
+        }
     }
 
     function getSubjectNameFromPrereq(prereq: string) {
@@ -128,114 +138,133 @@ export const CuatriTable = ({
     }))(Tooltip);
 
     return (
-        <TableContainer component={Paper}>
-            <Toolbar>
-                <Typography
-                    style={{ flex: "1 1 100%" }}
-                    variant="h6"
-                    id="tableTitle"
-                    component="div"
+        <>
+            {alertDialog.enabled && (
+                <AlertDialog
+                    title={alertDialog.title}
+                    message={alertDialog.message}
+                    close={() =>
+                        setAlertDialog({
+                            enabled: false,
+                            title: "",
+                            message: "",
+                        })
+                    }
+                />
+            )}
+            <TableContainer component={Paper}>
+                <Toolbar>
+                    <Typography
+                        style={{ flex: "1 1 100%" }}
+                        variant="h6"
+                        id="tableTitle"
+                        component="div"
+                    >
+                        Cuatrimestre {period}
+                    </Typography>
+                </Toolbar>
+                <Table
+                    aria-label="simple table"
+                    size={isMobileBreakpoint ? "small" : "medium"}
                 >
-                    Cuatrimestre {period}
-                </Typography>
-            </Toolbar>
-            <Table
-                aria-label="simple table"
-                size={isMobileBreakpoint ? "small" : "medium"}
-            >
-                <TableHead>
-                    <TableRow>
-                        <TableCell padding="checkbox">
-                            <Checkbox
-                                indeterminate={
-                                    checkboxStatus === "indeterminate"
-                                }
-                                checked={checkboxStatus === "checked"}
-                                disabled={checkboxStatus === "disabled"}
-                                onChange={onSelectAllCheckboxClick}
-                                inputProps={{
-                                    "aria-label": "select all subjects",
-                                }}
-                            />
-                        </TableCell>
-                        <TableCell>Código</TableCell>
-                        <TableCell align="right">Nombre</TableCell>
-                        <TableCell align="right">Créditos</TableCell>
-                        <TableCell align="right">Pre-requisitos</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {selectedSubjects[pensumCode] &&
-                        cuatri.subjects.map((row) => (
-                            <TableRow
-                                hover
-                                key={row.code}
-                                onClick={() => selectSubject(row)}
-                                className={
-                                    !prerequisitesMet(
-                                        row,
-                                        selectedSubjects[pensumCode],
-                                        creditsCount,
-                                        totalCredits
-                                    )
-                                        ? "disabled-row"
-                                        : ""
-                                }
-                                selected={selectedSubjects[pensumCode].some(
-                                    (s: any) => s.code === row.code
-                                )}
-                            >
-                                <TableCell padding="checkbox">
-                                    <Checkbox
-                                        checked={selectedSubjects[
-                                            pensumCode
-                                        ].some((s) => s.code === row.code)}
-                                        onChange={(e) => selectSubject(row)}
-                                        disabled={
-                                            !prerequisitesMet(
-                                                row,
-                                                selectedSubjects[pensumCode],
-                                                creditsCount,
-                                                totalCredits
-                                            )
-                                        }
-                                    />
-                                </TableCell>
-                                <TableCell component="th" scope="row">
-                                    {row.code}
-                                </TableCell>
-                                <TableCell align="right">{row.name}</TableCell>
-                                <TableCell align="right">
-                                    {row.credits}
-                                </TableCell>
-                                <TableCell align="right">
-                                    {row.prerequisites.map((pr: any) =>
-                                        pr.includes("%") ? (
-                                            <p key={row.code + pr}>{pr}</p>
-                                        ) : (
-                                            <HtmlTooltip
-                                                className="prerequisite-tooltip"
-                                                key={row.code + pr}
-                                                title={
-                                                    <Typography
-                                                        variant="h6"
-                                                        className="prerequisite-tooltip-content"
-                                                    >
-                                                        {getSubjectNameFromPrereq(
-                                                            pr
-                                                        )}
-                                                    </Typography>
-                                                }
-                                            >
-                                                <p>{pr}</p>
-                                            </HtmlTooltip>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell padding="checkbox">
+                                <Checkbox
+                                    indeterminate={
+                                        checkboxStatus === "indeterminate"
+                                    }
+                                    checked={checkboxStatus === "checked"}
+                                    disabled={checkboxStatus === "disabled"}
+                                    onChange={onSelectAllCheckboxClick}
+                                    inputProps={{
+                                        "aria-label": "select all subjects",
+                                    }}
+                                />
+                            </TableCell>
+                            <TableCell>Código</TableCell>
+                            <TableCell align="right">Nombre</TableCell>
+                            <TableCell align="right">Créditos</TableCell>
+                            <TableCell align="right">Pre-requisitos</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {selectedSubjects[pensumCode] &&
+                            cuatri.subjects.map((row) => (
+                                <TableRow
+                                    hover
+                                    key={row.code}
+                                    onClick={() => selectSubject(row)}
+                                    className={
+                                        !prerequisitesMet(
+                                            row,
+                                            selectedSubjects[pensumCode],
+                                            creditsCount,
+                                            totalCredits
                                         )
+                                            ? "disabled-row"
+                                            : ""
+                                    }
+                                    selected={selectedSubjects[pensumCode].some(
+                                        (s: any) => s.code === row.code
                                     )}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                                >
+                                    <TableCell padding="checkbox">
+                                        <Checkbox
+                                            checked={selectedSubjects[
+                                                pensumCode
+                                            ].some((s) => s.code === row.code)}
+                                            onChange={(e) => selectSubject(row)}
+                                            disabled={
+                                                !prerequisitesMet(
+                                                    row,
+                                                    selectedSubjects[
+                                                        pensumCode
+                                                    ],
+                                                    creditsCount,
+                                                    totalCredits
+                                                )
+                                            }
+                                        />
+                                    </TableCell>
+                                    <TableCell scope="row">
+                                        {row.code}
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        {row.name}
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        {row.credits}
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        {row.prerequisites.map((pr: any) =>
+                                            pr.includes("%") ? (
+                                                <p key={row.code + pr}>{pr}</p>
+                                            ) : (
+                                                <HtmlTooltip
+                                                    className="prerequisite-tooltip"
+                                                    key={row.code + pr}
+                                                    title={
+                                                        <Typography
+                                                            variant="h6"
+                                                            className="prerequisite-tooltip-content"
+                                                        >
+                                                            {getSubjectNameFromPrereq(
+                                                                pr
+                                                            )}
+                                                        </Typography>
+                                                    }
+                                                >
+                                                    <p>{pr}</p>
+                                                </HtmlTooltip>
+                                            )
+                                        )}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>
     );
 };

@@ -88,7 +88,10 @@ export const InfoCard = ({
                                             variant="body2"
                                             color="textSecondary"
                                         >
-                                            {subjectsCount} (
+                                            <span className="subjects-count">
+                                                {subjectsCount}
+                                            </span>
+                                            > (
                                             <span className="subject-credits-percentage">
                                                 {Math.round(
                                                     (subjectsCount /
@@ -97,7 +100,10 @@ export const InfoCard = ({
                                                 )}
                                                 %
                                             </span>
-                                            ) de {totalSubjects}
+                                            ) de{" "}
+                                            <span className="total-subjects">
+                                                {totalSubjects}
+                                            </span>
                                         </Typography>
                                     }
                                 />
@@ -115,7 +121,10 @@ export const InfoCard = ({
                                             variant="body2"
                                             color="textSecondary"
                                         >
-                                            {creditsCount} (
+                                            <span className="credits-count">
+                                                {creditsCount}
+                                            </span>{" "}
+                                            (
                                             <span className="subject-credits-percentage">
                                                 {Math.round(
                                                     (creditsCount /
@@ -124,7 +133,10 @@ export const InfoCard = ({
                                                 )}
                                                 %
                                             </span>
-                                            ) de {totalCredits}
+                                            ) de{" "}
+                                            <span className="total-credits">
+                                                {totalCredits}
+                                            </span>
                                         </Typography>
                                     }
                                 />
