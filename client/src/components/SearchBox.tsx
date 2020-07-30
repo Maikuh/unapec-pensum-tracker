@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Grid, TextField, makeStyles } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { SearchBoxProps } from "../interfaces/props.interface";
@@ -17,6 +17,30 @@ export const SearchBox = ({ pensums }: SearchBoxProps) => {
         carreerName: string;
     } | null>(null);
 
+    const onCareerSelect = useCallback(
+        (career: any) => {
+            if (career) {
+                localStorage.setItem(
+                    "lastSelectedCareer",
+                    JSON.stringify(career)
+                );
+            } else {
+                localStorage.removeItem("lastSelectedCareer");
+            }
+
+            const pensum = career
+                ? pensums.find((p) => p.pensumCode === career.pensumCode)
+                : null;
+            selectedCareerDispatch({ type: "select-career", payload: pensum! });
+
+            if (pensum) {
+                const { cuatris, totalCredits, date, ...rest } = pensum;
+                setSearchBoxValue(rest);
+            } else setSearchBoxValue(null);
+        },
+        [pensums, selectedCareerDispatch]
+    );
+
     useEffect(() => {
         if (!selectedCareer || !selectedCareer.pensumCode) {
             const lastSelectedCareer = localStorage.getItem(
@@ -29,25 +53,7 @@ export const SearchBox = ({ pensums }: SearchBoxProps) => {
             const { cuatris, totalCredits, date, ...rest } = selectedCareer;
             setSearchBoxValue(rest);
         }
-    }, []);
-
-    function onCareerSelect(career: any) {
-        if (career) {
-            localStorage.setItem("lastSelectedCareer", JSON.stringify(career));
-        } else {
-            localStorage.removeItem("lastSelectedCareer");
-        }
-
-        const pensum = career
-            ? pensums.find((p) => p.pensumCode === career.pensumCode)
-            : null;
-        selectedCareerDispatch({ type: "select-career", payload: pensum! });
-
-        if (pensum) {
-            const { cuatris, totalCredits, date, ...rest } = pensum;
-            setSearchBoxValue(rest);
-        } else setSearchBoxValue(null);
-    }
+    }, [selectedCareer, onCareerSelect]);
 
     const useStyles = makeStyles((theme) => ({
         searchBoxContainer: {
