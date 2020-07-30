@@ -28,16 +28,16 @@ import {
 } from "mdi-material-ui";
 import { SearchBox } from "./SearchBox";
 import { NavbarProps } from "../interfaces/props.interface";
-import { useSelectedSubjects } from "../contexts/selectedSubjects.context";
+import { useImportExport } from "../contexts/importExportContext";
 
 export const Navbar = ({ pensums }: NavbarProps) => {
-    const [, selectedSubjectsDispatch] = useSelectedSubjects();
+    const [, importExportDispatch] = useImportExport();
     const fileInputRef = createRef<HTMLInputElement>();
     const [drawerOpen, setDrawerOpen] = useState(false);
     const theme = useTheme();
 
     function exportToJsonFile() {
-        selectedSubjectsDispatch({ type:"export-file", payload: {} })
+        importExportDispatch({ type: "export" })
     }
 
     function clickImportFromJsonInput() {
@@ -59,12 +59,7 @@ export const Navbar = ({ pensums }: NavbarProps) => {
             reader.onload = (event: any) => {
                 const fileContents = event.target.result;
                 localStorage.setItem("selectedSubjects", fileContents);
-                selectedSubjectsDispatch({
-                    type: "import-from-file",
-                    payload: {
-                        importedSelectedSubjects: JSON.parse(fileContents),
-                    },
-                });
+                importExportDispatch({ type: "import" })
             };
 
             reader.readAsText(uploadedFile);

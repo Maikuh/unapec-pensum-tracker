@@ -31,7 +31,6 @@ export const CuatriTable = ({
     creditsCount,
 }: CuatriTableProps) => {
     const [selectedSubjects, selectedSubjectsDispatch] = useSelectedSubjects();
-    const [period, setPeriod] = useState(0);
     const [checkboxStatus, setCheckboxStatus] = useState<
         SelectAllCheckboxStatus
     >("unchecked");
@@ -39,8 +38,6 @@ export const CuatriTable = ({
     const isMobileBreakpoint = useMediaQuery(theme.breakpoints.down("sm"));
 
     useEffect(() => {
-        setPeriod(cuatri.period);
-
         let selectedSubjectsChecked = 0;
 
         cuatri.subjects.forEach((subject) => {
@@ -70,7 +67,6 @@ export const CuatriTable = ({
             setCheckboxStatus("disabled");
         else setCheckboxStatus("unchecked");
     }, [
-        cuatri.period,
         checkboxStatus,
         cuatri.subjects,
         selectedSubjects,
@@ -145,7 +141,7 @@ export const CuatriTable = ({
                     id="tableTitle"
                     component="div"
                 >
-                    Cuatrimestre {period}
+                    Cuatrimestre {cuatri.period}
                 </Typography>
             </Toolbar>
             <Table

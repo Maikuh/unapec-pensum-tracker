@@ -1,22 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SelectedSubjects } from "../interfaces/selectedSubjects.interface";
 import { getAllPrerequisiteSubjects } from "../helpers/getAllPrerequisiteSubjects";
 import pensumsJson from "../pensums.json";
 import { Subject } from "../interfaces/pensums.interface";
+import { useImportExport } from "./importExportContext";
+import getSelectedSubjectsInLocalStorage from "../helpers/getSelectedSubjectsInLocalStorage";
 
 type SelectedSubjectsAction = {
-    type:
-        | "select-subject"
-        | "bulk-select"
-        | "import-from-file"
-        | "export-file";
+    type: "select-subject" | "bulk-select" | "import-from-file";
     payload: {
         pensumCode?: string;
         subject?: Subject;
         newSelectedSubjects?: Subject[];
         importedSelectedSubjects?: SelectedSubjects;
         periodSubjectsCount?: number;
-        checkboxStatus?: "unchecked" | "indeterminate" | "checked";
+        checkboxStatus?: "unchecked" | "indeterminate" | "checked" | "disabled";
     };
 };
 
@@ -40,11 +38,15 @@ function selectedSubjectsReducer(
         newSelectedSubjects,
         importedSelectedSubjects,
         periodSubjectsCount,
-        checkboxStatus
+        checkboxStatus,
     } = action.payload;
 
     switch (action.type) {
         case "import-from-file": {
+            // Remove the item in localStorage, else there will be a loop since ImportExport's
+            // initial state is 0 and for some reason, parsing "null" as a number === 0
+            // Could also be fixed by also making the initial state a random number
+            localStorage.removeItem("importRandomNumber")
             return importedSelectedSubjects!;
         }
         case "select-subject": {
@@ -164,56 +166,48 @@ function selectedSubjectsReducer(
                 [pensumCode]: temp,
             };
         }
-        case "export-file": {
-            let dataStr = JSON.stringify(state);
-            let dataUri =
-                "data:application/json;charset=utf-8," +
-                encodeURIComponent(dataStr);
-
-            let exportFileDefaultName = "uptracker.json";
-
-            let linkElement = document.createElement("a");
-            linkElement.setAttribute("href", dataUri);
-            linkElement.setAttribute("download", exportFileDefaultName);
-            linkElement.click();
-
-            setTimeout(() => {
-                linkElement.remove();
-            }, 5000);
-
-            return state;
-        }
         default: {
             throw new Error(`Unhandled action type: ${action.type}`);
         }
     }
 }
 
-const savedSelectedSubjects = localStorage.getItem("selectedSubjects");
-const defaultSelectedSubjects: SelectedSubjects = savedSelectedSubjects
-    ? JSON.parse(savedSelectedSubjects)
-    : {};
-
-if (Object.keys(defaultSelectedSubjects).length === 0) {
-    for (const pensum of pensumsJson) {
-        defaultSelectedSubjects[pensum.pensumCode] = [];
-    }
-}
-
 function SelectedSubjectsProvider({ children }: { children: React.ReactNode }) {
-    const [state, dispatch] = React.useReducer(
+    const defaultSelectedSubjects = getSelectedSubjectsInLocalStorage(
+        pensumsJson
+    );
+
+    let [state, dispatch] = React.useReducer(
         selectedSubjectsReducer,
         defaultSelectedSubjects
     );
 
-    localStorage.setItem("selectedSubjects", JSON.stringify(state));
+    const [importExportState] = useImportExport();
+
+    useEffect(() => {
+        const strImportRandomNumber = localStorage.getItem("importRandomNumber")
+
+        // This will run everytime the component is re-rendered, specifically as an effect
+        // of the ImportExport Context
+        if (strImportRandomNumber && importExportState === Number(strImportRandomNumber)) {
+            dispatch({
+                type: "import-from-file",
+                payload: { importedSelectedSubjects: defaultSelectedSubjects },
+            });
+        }
+        
+        // This will save the state to localStorage each time there's a change in it
+        localStorage.setItem("selectedSubjects", JSON.stringify(state));
+    });
 
     return (
-        <SelectedSubjectsStateContext.Provider value={state}>
-            <SelectedSubjectsDispatchContext.Provider value={dispatch}>
-                {children}
-            </SelectedSubjectsDispatchContext.Provider>
-        </SelectedSubjectsStateContext.Provider>
+        <>
+            <SelectedSubjectsStateContext.Provider value={state}>
+                <SelectedSubjectsDispatchContext.Provider value={dispatch}>
+                    {children}
+                </SelectedSubjectsDispatchContext.Provider>
+            </SelectedSubjectsStateContext.Provider>
+        </>
     );
 }
 

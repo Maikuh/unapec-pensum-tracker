@@ -9,6 +9,7 @@ import { Pensum } from "./interfaces/pensums.interface";
 import BackToTop from "./components/BackToTop";
 import { SelectedCareerProvider } from "./contexts/selectedCareer.context";
 import { SelectedSubjectsProvider } from "./contexts/selectedSubjects.context";
+import { ImportExportProvider } from "./contexts/importExportContext";
 
 function App() {
     const pensums: Pensum[] = pensumsJson;
@@ -23,15 +24,17 @@ function App() {
         <React.Fragment>
             <ThemeProvider theme={darkTheme}>
                 <SelectedCareerProvider>
-                    <SelectedSubjectsProvider>
+                    <ImportExportProvider>
                         <Navbar pensums={pensums} />
 
                         <Container fixed className="App">
-                            <MainContent />
+                            <SelectedSubjectsProvider>
+                                <MainContent />
+                            </SelectedSubjectsProvider>
 
                             <Footer />
                         </Container>
-                    </SelectedSubjectsProvider>
+                    </ImportExportProvider>
                 </SelectedCareerProvider>
 
                 <BackToTop />
