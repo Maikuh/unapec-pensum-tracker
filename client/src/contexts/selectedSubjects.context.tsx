@@ -6,17 +6,36 @@ import { Subject } from "../interfaces/pensums.interface";
 import { useImportExport } from "./importExportContext";
 import getSelectedSubjectsInLocalStorage from "../helpers/getSelectedSubjectsInLocalStorage";
 
-type SelectedSubjectsAction = {
-    type: "select-subject" | "bulk-select" | "import-from-file";
-    payload: {
-        pensumCode?: string;
-        subject?: Subject;
-        newSelectedSubjects?: Subject[];
-        importedSelectedSubjects?: SelectedSubjects;
-        periodSubjectsCount?: number;
-        checkboxStatus?: "unchecked" | "indeterminate" | "checked" | "disabled";
+type ActionMap<M extends { [index: string]: any }> = {
+    [Key in keyof M]: M[Key] extends undefined
+        ? {
+              type: Key;
+          }
+        : {
+              type: Key;
+              payload: M[Key];
+          };
+};
+
+type SelectedSubjectsPayload = {
+    "select-subject": {
+        pensumCode: string;
+        subject: Subject;
+    };
+    "bulk-select": {
+        pensumCode: string;
+        newSelectedSubjects: Subject[];
+        periodSubjectsCount: number;
+        checkboxStatus: "unchecked" | "indeterminate" | "checked" | "disabled";
+    };
+    "import-from-file": {
+        importedSelectedSubjects: SelectedSubjects;
     };
 };
+
+type SelectedSubjectsAction = ActionMap<
+    SelectedSubjectsPayload
+>[keyof ActionMap<SelectedSubjectsPayload>];
 
 type SelectedSubjectsDispatch = (action: SelectedSubjectsAction) => void;
 
@@ -32,24 +51,19 @@ function selectedSubjectsReducer(
     state: SelectedSubjects,
     action: SelectedSubjectsAction
 ): SelectedSubjects {
-    const {
-        pensumCode,
-        subject,
-        newSelectedSubjects,
-        importedSelectedSubjects,
-        periodSubjectsCount,
-        checkboxStatus,
-    } = action.payload;
-
     switch (action.type) {
         case "import-from-file": {
+            const { importedSelectedSubjects } = action.payload;
+            
             // Remove the item in localStorage, else there will be a loop since ImportExport's
             // initial state is 0 and for some reason, parsing "null" as a number === 0
             // Could also be fixed by also making the initial state a random number
-            localStorage.removeItem("importRandomNumber")
+            localStorage.removeItem("importRandomNumber");
             return importedSelectedSubjects!;
         }
         case "select-subject": {
+            const { pensumCode, subject } = action.payload;
+
             if (!pensumCode || !subject) {
                 console.error("Missing variables");
                 return state;
@@ -94,6 +108,13 @@ function selectedSubjectsReducer(
             };
         }
         case "bulk-select": {
+            const {
+                pensumCode,
+                newSelectedSubjects,
+                periodSubjectsCount,
+                checkboxStatus
+            } = action.payload;
+
             if (!pensumCode || !newSelectedSubjects || !periodSubjectsCount) {
                 console.error("Missing variables");
                 return state;
@@ -167,7 +188,7 @@ function selectedSubjectsReducer(
             };
         }
         default: {
-            throw new Error(`Unhandled action type: ${action.type}`);
+            throw new Error(`Unhandled action type: ${action!.type}`);
         }
     }
 }
@@ -185,17 +206,22 @@ function SelectedSubjectsProvider({ children }: { children: React.ReactNode }) {
     const [importExportState] = useImportExport();
 
     useEffect(() => {
-        const strImportRandomNumber = localStorage.getItem("importRandomNumber")
+        const strImportRandomNumber = localStorage.getItem(
+            "importRandomNumber"
+        );
 
         // This will run everytime the component is re-rendered, specifically as an effect
         // of the ImportExport Context
-        if (strImportRandomNumber && importExportState === Number(strImportRandomNumber)) {
+        if (
+            strImportRandomNumber &&
+            importExportState === Number(strImportRandomNumber)
+        ) {
             dispatch({
                 type: "import-from-file",
                 payload: { importedSelectedSubjects: defaultSelectedSubjects },
             });
         }
-        
+
         // This will save the state to localStorage each time there's a change in it
         localStorage.setItem("selectedSubjects", JSON.stringify(state));
     });

@@ -120,6 +120,7 @@ export const CuatriTable = ({
                 newSelectedSubjects: subjectsThatCanBeSelected,
                 pensumCode,
                 periodSubjectsCount: cuatri.subjects.length,
+                checkboxStatus: checkboxStatus
             },
         });
     }
