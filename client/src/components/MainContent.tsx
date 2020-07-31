@@ -2,36 +2,34 @@ import React from "react";
 import { Grid, Typography, useTheme, useMediaQuery } from "@material-ui/core";
 import { InfoCard } from "./InfoCard";
 import { CuatriTable } from "./CuatriTable";
-import { MainContentProps } from "../interfaces/props.interface";
+import { useSelectedCareer } from "../contexts/selectedCareer.context";
+import { useSelectedSubjects } from "../contexts/selectedSubjects.context";
 
-export const MainContent = ({
-    selectedCarreer,
-    selectedSubjects,
-    onSubjectSelected,
-    onSubjectSelectedBulk,
-}: MainContentProps) => {
+export const MainContent = (props: any) => {
+    const [selectedSubjects] = useSelectedSubjects();
     const theme = useTheme();
     const isMobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
+    const [selectedCareer] = useSelectedCareer();
 
     return (
         <React.Fragment>
-            {selectedCarreer &&
-            selectedCarreer.cuatris &&
-            selectedCarreer.cuatris.length > 0 ? (
+            {selectedCareer &&
+            selectedCareer.cuatris &&
+            selectedCareer.cuatris.length > 0 ? (
                 <InfoCard
-                    date={selectedCarreer.date}
-                    pensumCode={selectedCarreer.pensumCode}
+                    date={selectedCareer.date}
+                    pensumCode={selectedCareer.pensumCode}
                     subjectsCount={
-                        selectedSubjects[selectedCarreer.pensumCode].length
+                        selectedSubjects[selectedCareer.pensumCode].length
                     }
-                    totalSubjects={selectedCarreer.cuatris.reduce(
+                    totalSubjects={selectedCareer.cuatris.reduce(
                         (acc, subject) => acc + subject.subjects.length,
                         0
                     )}
                     creditsCount={selectedSubjects[
-                        selectedCarreer.pensumCode
+                        selectedCareer.pensumCode
                     ].reduce((acc, subject) => acc + subject.credits, 0)}
-                    totalCredits={selectedCarreer.cuatris.reduce(
+                    totalCredits={selectedCareer.cuatris.reduce(
                         (acc, cuatri) =>
                             acc +
                             cuatri.subjects.reduce(
@@ -58,22 +56,19 @@ export const MainContent = ({
             )}
 
             <Grid container spacing={2} style={{ flexGrow: 1 }}>
-                {selectedCarreer &&
-                    selectedCarreer.cuatris &&
-                    selectedCarreer.cuatris.length > 0 &&
-                    selectedCarreer.cuatris.map((cuatri) => (
+                {selectedCareer &&
+                    selectedCareer.cuatris &&
+                    selectedCareer.cuatris.length > 0 &&
+                    selectedCareer.cuatris.map((cuatri) => (
                         <Grid item xs={12} md={6} key={cuatri.period}>
                             <CuatriTable
                                 cuatri={cuatri}
-                                cuatris={selectedCarreer.cuatris}
-                                pensumCode={selectedCarreer.pensumCode}
-                                selectedSubjects={selectedSubjects}
-                                subjectSelected={onSubjectSelected}
-                                onSubjectSelectedBulk={onSubjectSelectedBulk}
+                                cuatris={selectedCareer.cuatris}
+                                pensumCode={selectedCareer.pensumCode}
                                 creditsCount={selectedSubjects[
-                                    selectedCarreer.pensumCode
+                                    selectedCareer.pensumCode
                                 ].reduce((acc, item) => acc + item.credits, 0)}
-                                totalCredits={selectedCarreer.cuatris.reduce(
+                                totalCredits={selectedCareer.cuatris.reduce(
                                     (acc, cuatri) =>
                                         acc +
                                         cuatri.subjects.reduce(

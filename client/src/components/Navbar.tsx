@@ -28,34 +28,16 @@ import {
 } from "mdi-material-ui";
 import { SearchBox } from "./SearchBox";
 import { NavbarProps } from "../interfaces/props.interface";
+import { useImportExport } from "../contexts/importExportContext";
 
-export const Navbar = ({
-    pensums,
-    selectedCarreer,
-    selectedSubjects,
-    setSelectedSubjects,
-    onCarreerSelect,
-}: NavbarProps) => {
+export const Navbar = ({ pensums }: NavbarProps) => {
+    const [, importExportDispatch] = useImportExport();
     const fileInputRef = createRef<HTMLInputElement>();
     const [drawerOpen, setDrawerOpen] = useState(false);
     const theme = useTheme();
 
     function exportToJsonFile() {
-        let dataStr = JSON.stringify(selectedSubjects);
-        let dataUri =
-            "data:application/json;charset=utf-8," +
-            encodeURIComponent(dataStr);
-
-        let exportFileDefaultName = "uptracker.json";
-
-        let linkElement = document.createElement("a");
-        linkElement.setAttribute("href", dataUri);
-        linkElement.setAttribute("download", exportFileDefaultName);
-        linkElement.click();
-
-        setTimeout(() => {
-            linkElement.remove();
-        }, 5000);
+        importExportDispatch({ type: "export" })
     }
 
     function clickImportFromJsonInput() {
@@ -77,7 +59,7 @@ export const Navbar = ({
             reader.onload = (event: any) => {
                 const fileContents = event.target.result;
                 localStorage.setItem("selectedSubjects", fileContents);
-                setSelectedSubjects(JSON.parse(fileContents));
+                importExportDispatch({ type: "import" })
             };
 
             reader.readAsText(uploadedFile);
@@ -259,14 +241,7 @@ export const Navbar = ({
                             UNAPEC Pensum Tracker
                         </Typography>
 
-                        <SearchBox
-                            pensums={pensums.map((p) => {
-                                const { cuatris, totalCredits, ...rest } = p;
-                                return rest;
-                            })}
-                            selectedCarreer={selectedCarreer}
-                            selectCarreer={onCarreerSelect}
-                        />
+                        <SearchBox pensums={pensums} />
 
                         <div className={classes.root}></div>
 

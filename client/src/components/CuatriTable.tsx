@@ -22,18 +22,16 @@ import getSubjectsThatCanBeSelected from "../helpers/getSubjectsThatCanBeSelecte
 import prerequisitesMet from "../helpers/prerequisitesMet";
 import { Subject } from "../interfaces/pensums.interface";
 import AlertDialog from "./AlertDialog";
+import { useSelectedSubjects } from "../contexts/selectedSubjects.context";
 
 export const CuatriTable = ({
     cuatri,
-    selectedSubjects,
-    subjectSelected,
     cuatris,
     pensumCode,
     totalCredits,
     creditsCount,
-    onSubjectSelectedBulk,
 }: CuatriTableProps) => {
-    const [period, setPeriod] = useState(0);
+    const [selectedSubjects, selectedSubjectsDispatch] = useSelectedSubjects();
     const [checkboxStatus, setCheckboxStatus] = useState<
         SelectAllCheckboxStatus
     >("unchecked");
@@ -46,13 +44,12 @@ export const CuatriTable = ({
     });
 
     useEffect(() => {
-        setPeriod(cuatri.period);
-
         let selectedSubjectsChecked = 0;
 
         cuatri.subjects.forEach((subject) => {
             const subjectChecked = selectedSubjects[pensumCode].some(
-                (selectedSubject) => selectedSubject.code === subject.code
+                (selectedSubject: Subject) =>
+                    selectedSubject.code === subject.code
             );
 
             if (subjectChecked) selectedSubjectsChecked++;
@@ -76,11 +73,10 @@ export const CuatriTable = ({
             setCheckboxStatus("disabled");
         else setCheckboxStatus("unchecked");
     }, [
-        cuatri.period,
         checkboxStatus,
         cuatri.subjects,
-        pensumCode,
         selectedSubjects,
+        pensumCode,
         creditsCount,
         totalCredits,
     ]);
@@ -93,9 +89,15 @@ export const CuatriTable = ({
                 creditsCount,
                 totalCredits
             )
-        )
-            subjectSelected(subject);
-        else {
+        ) {
+            selectedSubjectsDispatch({
+                type: "select-subject",
+                payload: {
+                    subject,
+                    pensumCode,
+                },
+            });
+        } else {
             setAlertDialog({
                 enabled: true,
                 title: "No puede seleccionar esta materia",
@@ -122,11 +124,15 @@ export const CuatriTable = ({
             totalCredits
         );
 
-        onSubjectSelectedBulk(
-            subjectsThatCanBeSelected,
-            checkboxStatus,
-            cuatri.subjects.length
-        );
+        selectedSubjectsDispatch({
+            type: "bulk-select",
+            payload: {
+                newSelectedSubjects: subjectsThatCanBeSelected,
+                pensumCode,
+                periodSubjectsCount: cuatri.subjects.length,
+                checkboxStatus: checkboxStatus,
+            },
+        });
     }
 
     const HtmlTooltip = withStyles((theme: Theme) => ({
@@ -160,7 +166,7 @@ export const CuatriTable = ({
                         id="tableTitle"
                         component="div"
                     >
-                        Cuatrimestre {period}
+                        Cuatrimestre {cuatri.period}
                     </Typography>
                 </Toolbar>
                 <Table
@@ -214,7 +220,7 @@ export const CuatriTable = ({
                                             checked={selectedSubjects[
                                                 pensumCode
                                             ].some((s) => s.code === row.code)}
-                                            onChange={(e) => selectSubject(row)}
+                                            // onChange={(e) => selectSubject(row)}
                                             disabled={
                                                 !prerequisitesMet(
                                                     row,
