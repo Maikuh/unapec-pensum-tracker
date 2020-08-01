@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/unapec-pensum-tracker/static/css/main.7a1f1e0c.chunk.css",
-    "main.js": "/unapec-pensum-tracker/static/js/main.012b2c6c.chunk.js",
-    "main.js.map": "/unapec-pensum-tracker/static/js/main.012b2c6c.chunk.js.map",
+    "main.js": "/unapec-pensum-tracker/static/js/main.ebe4e6d3.chunk.js",
+    "main.js.map": "/unapec-pensum-tracker/static/js/main.ebe4e6d3.chunk.js.map",
     "runtime-main.js": "/unapec-pensum-tracker/static/js/runtime-main.e3a183aa.js",
     "runtime-main.js.map": "/unapec-pensum-tracker/static/js/runtime-main.e3a183aa.js.map",
     "static/js/2.f26e04a7.chunk.js": "/unapec-pensum-tracker/static/js/2.f26e04a7.chunk.js",
     "static/js/2.f26e04a7.chunk.js.map": "/unapec-pensum-tracker/static/js/2.f26e04a7.chunk.js.map",
     "index.html": "/unapec-pensum-tracker/index.html",
-    "precache-manifest.1ac05722bc91be2d7c1aa6066f4ae8be.js": "/unapec-pensum-tracker/precache-manifest.1ac05722bc91be2d7c1aa6066f4ae8be.js",
+    "precache-manifest.444a6bf8122bcc9ad5a815586eb4456a.js": "/unapec-pensum-tracker/precache-manifest.444a6bf8122bcc9ad5a815586eb4456a.js",
     "service-worker.js": "/unapec-pensum-tracker/service-worker.js",
     "static/css/main.7a1f1e0c.chunk.css.map": "/unapec-pensum-tracker/static/css/main.7a1f1e0c.chunk.css.map",
     "static/js/2.f26e04a7.chunk.js.LICENSE.txt": "/unapec-pensum-tracker/static/js/2.f26e04a7.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.e3a183aa.js",
     "static/js/2.f26e04a7.chunk.js",
     "static/css/main.7a1f1e0c.chunk.css",
-    "static/js/main.012b2c6c.chunk.js"
+    "static/js/main.ebe4e6d3.chunk.js"
   ]
 }
