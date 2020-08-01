@@ -12,6 +12,7 @@ pages:
         - cd client
         - npm ci
         - npm run build
+        - find build -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
         - mv ../public ../public-react
         - mv build ../public
     artifacts:
