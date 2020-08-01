@@ -91,7 +91,7 @@ export const InfoCard = ({
                                             <span className="subjects-count">
                                                 {subjectsCount}
                                             </span>
-                                            (
+                                            &nbsp;(
                                             <span className="subject-credits-percentage">
                                                 {Math.round(
                                                     (subjectsCount /
