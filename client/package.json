@@ -5,20 +5,20 @@
     "license": "GPL-3.0-only",
     "homepage": "https://maikuh.gitlab.io/unapec-pensum-tracker/",
     "dependencies": {
-        "@material-ui/core": "^4.9.11",
-        "@material-ui/lab": "^4.0.0-alpha.50",
+        "@material-ui/core": "^4.11.0",
+        "@material-ui/lab": "^4.0.0-alpha.56",
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.5.0",
         "@testing-library/user-event": "^7.2.1",
         "@types/jest": "^24.9.1",
-        "@types/node": "^12.12.36",
-        "@types/react": "^16.9.34",
-        "@types/react-dom": "^16.9.6",
-        "mdi-material-ui": "^6.14.0",
+        "@types/node": "^12.12.62",
+        "@types/react": "^16.9.50",
+        "@types/react-dom": "^16.9.8",
+        "mdi-material-ui": "^6.19.0",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
-        "react-scripts": "3.4.1",
-        "typescript": "^3.7.5"
+        "react-scripts": "^3.4.3",
+        "typescript": "^3.9.7"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -45,7 +45,7 @@
         ]
     },
     "devDependencies": {
-        "cypress": "^4.11.0",
+        "cypress": "^4.12.1",
         "gh-pages": "^2.2.0"
     }
 }
