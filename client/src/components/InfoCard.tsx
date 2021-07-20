@@ -43,7 +43,7 @@ export const InfoCard = ({
     return (
         <Grid
             container
-            justify="center"
+            justifyContent="center"
             alignContent="center"
             alignItems="center"
             className="info-card"

@@ -5,20 +5,20 @@
     "license": "GPL-3.0-only",
     "homepage": "https://maikuh.gitlab.io/unapec-pensum-tracker/",
     "dependencies": {
-        "@material-ui/core": "^4.9.11",
-        "@material-ui/lab": "^4.0.0-alpha.50",
-        "@testing-library/jest-dom": "^4.2.4",
-        "@testing-library/react": "^9.5.0",
-        "@testing-library/user-event": "^7.2.1",
-        "@types/jest": "^24.9.1",
-        "@types/node": "^12.12.36",
-        "@types/react": "^16.9.34",
-        "@types/react-dom": "^16.9.6",
-        "mdi-material-ui": "^6.14.0",
-        "react": "^16.13.1",
-        "react-dom": "^16.13.1",
-        "react-scripts": "3.4.1",
-        "typescript": "^3.7.5"
+        "@material-ui/core": "^4.12.2",
+        "@material-ui/lab": "^4.0.0-alpha.60",
+        "@testing-library/jest-dom": "^5.14.1",
+        "@testing-library/react": "^12.0.0",
+        "@testing-library/user-event": "^13.2.0",
+        "@types/jest": "^26.0.24",
+        "@types/node": "^16.3.3",
+        "@types/react": "^17.0.14",
+        "@types/react-dom": "^17.0.9",
+        "mdi-material-ui": "^6.22.1",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-scripts": "^4.0.3",
+        "typescript": "^4.3.5"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -45,7 +45,7 @@
         ]
     },
     "devDependencies": {
-        "cypress": "^4.11.0",
-        "gh-pages": "^2.2.0"
+        "cypress": "^8.0.0",
+        "gh-pages": "^3.2.3"
     }
 }

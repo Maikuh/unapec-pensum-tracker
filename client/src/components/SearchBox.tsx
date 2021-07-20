@@ -81,7 +81,7 @@ export const SearchBox = ({ pensums }: SearchBoxProps) => {
             className={classes.searchBoxContainer}
             container
             direction="row"
-            justify="center"
+            justifyContent="center"
             alignItems="center"
         >
             <Grid item style={{ width: "100%" }}>
