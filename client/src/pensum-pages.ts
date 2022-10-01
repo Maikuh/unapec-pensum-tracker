@@ -1,4 +1,4 @@
-export default [
+const pensumPages = [
     "https://servicios.unapec.edu.do/pensum/Main/Detalles/ADM",
     "https://servicios.unapec.edu.do/pensum/Main/Detalles/ATH",
     "https://servicios.unapec.edu.do/pensum/Main/Detalles/CDG10",
@@ -20,3 +20,5 @@ export default [
     "https://servicios.unapec.edu.do/pensum/Main/Detalles/PUB",
     "https://servicios.unapec.edu.do/pensum/Main/Detalles/TAF",
 ];
+
+export default pensumPages

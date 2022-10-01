@@ -1,7 +1,7 @@
 import { Subject } from "../interfaces/pensums.interface";
 import prerequisitesMet from "./prerequisitesMet";
 
-export default function (
+export default function getSubjectsThatCanBeSelected(
     newSelectedSubjects: Subject[],
     selectedSubjects: Subject[],
     creditsCount: number,
