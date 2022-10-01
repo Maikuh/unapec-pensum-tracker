@@ -1,7 +1,7 @@
 import { SelectedSubjects } from "../interfaces/selectedSubjects.interface";
 import { Pensum } from "../interfaces/pensums.interface";
 
-export default function (pensumsJson?: Pensum[]) {
+export default function getSelectedSubjectsInLocalStorage(pensumsJson?: Pensum[]) {
     const savedSelectedSubjects = localStorage.getItem("selectedSubjects");
     const defaultSelectedSubjects: SelectedSubjects = savedSelectedSubjects
         ? JSON.parse(savedSelectedSubjects)
