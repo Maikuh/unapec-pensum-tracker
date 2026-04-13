@@ -1,16 +1,16 @@
-import type { Subject } from "@/types/pensum";
+import type { Subject } from '@/types/pensum'
 
 export function getAllPrerequisiteSubjects(
-  subjects: Subject[],
-  lastFoundSubject: string,
-  lastSubjectsToRemove: string[]
+	subjects: Subject[],
+	lastFoundSubject: string,
+	lastSubjectsToRemove: string[],
 ): string[] {
-  const subjectsWithPrereq = subjects
-    .filter((subject) => subject.prerequisites.includes(lastFoundSubject))
-    .map((subject) => subject.code);
+	const subjectsWithPrereq = subjects
+		.filter((subject) => subject.prerequisites.includes(lastFoundSubject))
+		.map((subject) => subject.code)
 
-  if (subjectsWithPrereq.length > 0)
-    lastSubjectsToRemove.push(...subjectsWithPrereq);
+	if (subjectsWithPrereq.length > 0)
+		lastSubjectsToRemove.push(...subjectsWithPrereq)
 
-  return lastSubjectsToRemove;
+	return lastSubjectsToRemove
 }

@@ -1,5 +1,5 @@
 export type SelectAllCheckboxStatus =
-  | "unchecked"
-  | "checked"
-  | "indeterminate"
-  | "disabled";
+	| 'unchecked'
+	| 'checked'
+	| 'indeterminate'
+	| 'disabled'
