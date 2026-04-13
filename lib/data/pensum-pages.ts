@@ -1,0 +1,23 @@
+// Maps pensumCode to the official UNAPEC pensum page URL
+export const pensumPages: Record<string, string> = {
+  ADM11: "https://servicios.unapec.edu.do/pensum/Main/Detalles/ADM",
+  ATH11: "https://servicios.unapec.edu.do/pensum/Main/Detalles/ATH",
+  CDG11: "https://servicios.unapec.edu.do/pensum/Main/Detalles/CDG10",
+  CON11: "https://servicios.unapec.edu.do/pensum/Main/Detalles/CON",
+  DER7: "https://servicios.unapec.edu.do/pensum/Main/Detalles/DEr",
+  DIG11: "https://servicios.unapec.edu.do/pensum/Main/Detalles/DIG",
+  DIN11: "https://servicios.unapec.edu.do/pensum/Main/Detalles/DIN",
+  FIN11: "https://servicios.unapec.edu.do/pensum/Main/Detalles/FIN",
+  IEL7: "https://servicios.unapec.edu.do/pensum/Main/Detalles/IEL",
+  IND7: "https://servicios.unapec.edu.do/pensum/Main/Detalles/IND",
+  INE7: "https://servicios.unapec.edu.do/pensum/Main/Detalles/INE",
+  ISC10: "https://servicios.unapec.edu.do/pensum/Main/Detalles/ISC",
+  ISO10: "https://servicios.unapec.edu.do/pensum/Main/Detalles/ISO",
+  LES11: "https://servicios.unapec.edu.do/pensum/Main/Detalles/LES11",
+  LIE11: "https://servicios.unapec.edu.do/pensum/Main/Detalles/LIE11",
+  LMS11: "https://servicios.unapec.edu.do/pensum/Main/Detalles/LMS11",
+  MER11: "https://servicios.unapec.edu.do/pensum/Main/Detalles/MER",
+  NIN11: "https://servicios.unapec.edu.do/pensum/Main/Detalles/NIN",
+  PUB11: "https://servicios.unapec.edu.do/pensum/Main/Detalles/PUB",
+  TAF11: "https://servicios.unapec.edu.do/pensum/Main/Detalles/TAF",
+};
