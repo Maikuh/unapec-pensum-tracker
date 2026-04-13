@@ -2,6 +2,7 @@
 
 import { Calendar, CreditCard, ExternalLink, FileText } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Progress } from '@/components/ui/progress'
 import { pensumPages } from '@/lib/data/pensum-pages'
 
 interface InfoCardProps {
@@ -72,6 +73,7 @@ export function InfoCard({
 								</span>
 								) de <span data-testid="total-credits">{totalCredits}</span>
 							</p>
+							<Progress value={creditsPercent} className="h-2 mt-1" />
 						</div>
 					</div>
 

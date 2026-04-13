@@ -294,22 +294,27 @@ export function CuatriTable({
 										{subject.credits}
 									</TableCell>
 									<TableCell className="text-right">
-										{subject.prerequisites.map((pr) =>
-											pr.includes('%') ? (
-												<span key={pr} className="block text-xs">
-													{pr}
-												</span>
-											) : (
-												<Tooltip key={pr}>
-													<TooltipTrigger className="block text-xs cursor-help underline decoration-dotted bg-transparent p-0 h-auto font-normal">
+										<div className="flex flex-wrap justify-end gap-1">
+											{subject.prerequisites.map((pr) =>
+												pr.includes('%') ? (
+													<span
+														key={pr}
+														className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-secondary text-secondary-foreground"
+													>
 														{pr}
-													</TooltipTrigger>
-													<TooltipContent>
-														{getSubjectNameFromPrereq(pr)}
-													</TooltipContent>
-												</Tooltip>
-											),
-										)}
+													</span>
+												) : (
+													<Tooltip key={pr}>
+														<TooltipTrigger className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-zinc-300 dark:bg-zinc-600 text-zinc-900 dark:text-zinc-100 cursor-help">
+															{pr}
+														</TooltipTrigger>
+														<TooltipContent>
+															{getSubjectNameFromPrereq(pr)}
+														</TooltipContent>
+													</Tooltip>
+												),
+											)}
+										</div>
 									</TableCell>
 								</TableRow>
 							)
