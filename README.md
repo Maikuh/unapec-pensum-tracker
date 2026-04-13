@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UNAPEC Pensum Tracker
 
-## Getting Started
+Web app that allows you (an UNAPEC student) to keep track of which subjects you've taken. Pensums are virtually identical to the official ones.
 
-First, run the development server:
+The project can be accessed in [https://maikuh.github.io/unapec-pensum-tracker/](https://maikuh.github.io/unapec-pensum-tracker/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+-   Select the career/pensum
+-   Show the pensum date, taken from the official page
+-   Show how many subjects the user has taken (ex: _12 out of 78_) and percentage from total
+-   Show how many credits the user has taken (ex: _43 out of 268_) and percentage from total
+-   Show a link to the original pensum, from which data is scraped
+-   Show subjects by period, with their respective code, credits, and prerequisites
+-   User cannot select a subject if the prerequisites have not been taken
+-   Hover over a prerequisite to show full name
+-   Deselecting a subject also deselects all the subjects which had the first one as a prerequisite. This means, subject chains (like ENG001, ENG002 and so on) will all be deselected
+-   User can select/deselect a whole period (cuatrimestre). If in said period there are subjects which the user cannot select, they will be ignored, and the same rules from the previous point also apply
+-   Last chosen career and selected subjects persist across refreshes and closing tabs
+-   User can import and export a file with the data
+-   Go to top of the page via a floating button
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## What's next?
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Improve pensum data structure (e.g. Graphs)
+- Migrate to the new/updated pensum system that uses an HTTP API instead of PDFs
