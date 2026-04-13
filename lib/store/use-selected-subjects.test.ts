@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
+import { buildPrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
 import type { SelectedSubjects, Subject } from '@/types/pensum'
 
@@ -47,9 +48,8 @@ describe('selectSubject', () => {
 
 	it('adds a subject when not yet selected', () => {
 		const subject = makeSubject('A')
-		useSelectedSubjectsStore
-			.getState()
-			.selectSubject(PENSUM, subject, [subject])
+		const graph = buildPrerequisiteGraph([subject])
+		useSelectedSubjectsStore.getState().selectSubject(PENSUM, subject, graph)
 		expect(
 			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM],
 		).toContainEqual(subject)
@@ -57,12 +57,11 @@ describe('selectSubject', () => {
 
 	it('removes a subject when already selected', () => {
 		const subject = makeSubject('A')
+		const graph = buildPrerequisiteGraph([subject])
 		useSelectedSubjectsStore.setState({
 			selectedSubjects: { [PENSUM]: [subject] },
 		})
-		useSelectedSubjectsStore
-			.getState()
-			.selectSubject(PENSUM, subject, [subject])
+		useSelectedSubjectsStore.getState().selectSubject(PENSUM, subject, graph)
 		expect(
 			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM],
 		).toHaveLength(0)
@@ -72,11 +71,12 @@ describe('selectSubject', () => {
 		const a = makeSubject('A')
 		const b = makeSubject('B', ['A'])
 		const c = makeSubject('C', ['B'])
+		const graph = buildPrerequisiteGraph([a, b, c])
 		useSelectedSubjectsStore.setState({
 			selectedSubjects: { [PENSUM]: [a, b, c] },
 		})
 
-		useSelectedSubjectsStore.getState().selectSubject(PENSUM, a, [a, b, c])
+		useSelectedSubjectsStore.getState().selectSubject(PENSUM, a, graph)
 
 		const selected =
 			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM]
@@ -86,6 +86,7 @@ describe('selectSubject', () => {
 
 describe('bulkSelect', () => {
 	const subjects = [makeSubject('A'), makeSubject('B'), makeSubject('C')]
+	const graph = buildPrerequisiteGraph(subjects)
 
 	beforeEach(() => {
 		useSelectedSubjectsStore.setState({ selectedSubjects: { [PENSUM]: [] } })
@@ -94,7 +95,7 @@ describe('bulkSelect', () => {
 	it('adds all selectable subjects when status is unchecked', () => {
 		useSelectedSubjectsStore
 			.getState()
-			.bulkSelect(PENSUM, subjects, 3, 'unchecked', 0, 100)
+			.bulkSelect(PENSUM, subjects, 3, 'unchecked', 0, 100, graph)
 		expect(
 			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM],
 		).toHaveLength(3)
@@ -106,7 +107,7 @@ describe('bulkSelect', () => {
 		})
 		useSelectedSubjectsStore
 			.getState()
-			.bulkSelect(PENSUM, subjects, 3, 'checked', 0, 100)
+			.bulkSelect(PENSUM, subjects, 3, 'checked', 0, 100, graph)
 		expect(
 			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM],
 		).toHaveLength(0)
@@ -115,7 +116,7 @@ describe('bulkSelect', () => {
 	it('does nothing when status is disabled', () => {
 		useSelectedSubjectsStore
 			.getState()
-			.bulkSelect(PENSUM, subjects, 3, 'disabled', 0, 100)
+			.bulkSelect(PENSUM, subjects, 3, 'disabled', 0, 100, graph)
 		expect(
 			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM],
 		).toHaveLength(0)

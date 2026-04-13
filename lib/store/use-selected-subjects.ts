@@ -2,7 +2,8 @@
 
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { getAllPrerequisiteSubjects } from '@/lib/helpers/get-all-prerequisite-subjects'
+import type { PrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
+import { getCascadeRemovalSet } from '@/lib/helpers/get-cascade-removal-set'
 import { getSubjectsThatCanBeSelected } from '@/lib/helpers/get-subjects-that-can-be-selected'
 import type { SelectAllCheckboxStatus } from '@/types/checkbox'
 import type { SelectedSubjects, Subject } from '@/types/pensum'
@@ -13,7 +14,7 @@ interface SelectedSubjectsState {
 	selectSubject: (
 		pensumCode: string,
 		subject: Subject,
-		allSubjects: Subject[],
+		graph: PrerequisiteGraph,
 	) => void
 	bulkSelect: (
 		pensumCode: string,
@@ -22,6 +23,7 @@ interface SelectedSubjectsState {
 		checkboxStatus: SelectAllCheckboxStatus,
 		creditsCount: number,
 		totalCredits: number,
+		graph: PrerequisiteGraph,
 	) => void
 	importFromFile: (data: SelectedSubjects) => void
 	exportToFile: () => void
@@ -41,23 +43,15 @@ export const useSelectedSubjectsStore = create<SelectedSubjectsState>()(
 				}
 			},
 
-			selectSubject: (pensumCode, subject, allSubjects) => {
+			selectSubject: (pensumCode, subject, graph) => {
 				const { selectedSubjects } = get()
 				const subjects = selectedSubjects[pensumCode] ?? []
 				let temp: Subject[]
 
 				if (subjects.some((s) => s.code === subject.code)) {
 					// Remove subject and cascade-remove its dependents
-					let subjectsToRemove: string[] = [subject.code]
-					for (const subjectToRemove of subjectsToRemove) {
-						subjectsToRemove = getAllPrerequisiteSubjects(
-							allSubjects,
-							subjectToRemove,
-							subjectsToRemove,
-						)
-					}
-					subjectsToRemove = [...new Set(subjectsToRemove)]
-					temp = subjects.filter((s) => !subjectsToRemove.includes(s.code))
+					const toRemove = getCascadeRemovalSet(graph, [subject.code])
+					temp = subjects.filter((s) => !toRemove.has(s.code))
 				} else {
 					temp = subjects.concat(subject)
 				}
@@ -74,6 +68,7 @@ export const useSelectedSubjectsStore = create<SelectedSubjectsState>()(
 				checkboxStatus,
 				creditsCount,
 				totalCredits,
+				graph,
 			) => {
 				const { selectedSubjects } = get()
 				const subjects = selectedSubjects[pensumCode] ?? []
@@ -90,16 +85,11 @@ export const useSelectedSubjectsStore = create<SelectedSubjectsState>()(
 				} else if (checkboxStatus === 'indeterminate') {
 					if (newSelectedSubjects.length < periodSubjectsCount) {
 						// Some are selected — deselect them with cascade
-						let subjectsToRemove = newSelectedSubjects.map((s) => s.code)
-						for (const subjectToRemove of subjectsToRemove) {
-							subjectsToRemove = getAllPrerequisiteSubjects(
-								subjects,
-								subjectToRemove,
-								subjectsToRemove,
-							)
-						}
-						subjectsToRemove = [...new Set(subjectsToRemove)]
-						temp = subjects.filter((s) => !subjectsToRemove.includes(s.code))
+						const toRemove = getCascadeRemovalSet(
+							graph,
+							newSelectedSubjects.map((s) => s.code),
+						)
+						temp = subjects.filter((s) => !toRemove.has(s.code))
 					} else {
 						// All are selected — add ones that aren't yet selected
 						const notInSelected = newSelectedSubjects.filter(
@@ -109,16 +99,11 @@ export const useSelectedSubjectsStore = create<SelectedSubjectsState>()(
 					}
 				} else if (checkboxStatus === 'checked') {
 					// Deselect all with cascade
-					let subjectsToRemove = newSelectedSubjects.map((s) => s.code)
-					for (const subjectToRemove of subjectsToRemove) {
-						subjectsToRemove = getAllPrerequisiteSubjects(
-							subjects,
-							subjectToRemove,
-							subjectsToRemove,
-						)
-					}
-					subjectsToRemove = [...new Set(subjectsToRemove)]
-					temp = subjects.filter((s) => !subjectsToRemove.includes(s.code))
+					const toRemove = getCascadeRemovalSet(
+						graph,
+						newSelectedSubjects.map((s) => s.code),
+					)
+					temp = subjects.filter((s) => !toRemove.has(s.code))
 				}
 
 				set({

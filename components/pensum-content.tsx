@@ -1,8 +1,9 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { CuatriTable } from '@/components/cuatri-table'
 import { InfoCard } from '@/components/info-card'
+import { buildPrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
 import { useHydrated } from '@/lib/store/use-hydrated'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
 import type { Pensum } from '@/types/pensum'
@@ -23,6 +24,10 @@ export function PensumContent({ pensum }: PensumContentProps) {
 	const allSubjects = pensum.cuatris.flatMap((c) => c.subjects)
 	const totalSubjects = allSubjects.length
 	const creditsCount = currentSelected.reduce((sum, s) => sum + s.credits, 0)
+	const graph = useMemo(
+		() => buildPrerequisiteGraph(allSubjects),
+		[allSubjects],
+	)
 
 	if (!hydrated) {
 		return (
@@ -61,6 +66,7 @@ export function PensumContent({ pensum }: PensumContentProps) {
 						pensumCode={pensum.pensumCode}
 						creditsCount={creditsCount}
 						totalCredits={pensum.totalCredits}
+						graph={graph}
 					/>
 				))}
 			</div>
