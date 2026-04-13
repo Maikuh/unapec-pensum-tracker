@@ -1,1 +1,57 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 @AGENTS.md
+
+## Commands
+
+All commands use **bun** as the package manager.
+
+```bash
+bun dev          # Start dev server
+bun build        # Static export build (outputs to /out)
+bun lint         # Biome check
+bun lint:fix     # Biome check with auto-fix
+bun format       # Biome format with auto-fix
+bun test         # Vitest (watch mode)
+bun test:run     # Vitest (single run)
+bun cypress:open # Cypress interactive
+bun cypress:run  # Cypress headless
+```
+
+To run a single test file: `bun vitest run lib/graph/prerequisite-graph.test.ts`
+
+## Code Style
+
+Uses **Biome** (not ESLint/Prettier): tabs for indentation, single quotes, no semicolons. Run `bun lint:fix` before committing.
+
+## Architecture
+
+**Static export app** deployed to GitHub Pages. `next.config.ts` sets `output: 'export'` and `basePath: '/unapec-pensum-tracker'`. No server-side rendering — all data is baked in at build time.
+
+### Data layer
+
+All pensum (curriculum) data lives in [`lib/data/pensums.json`](lib/data/pensums.json) as a static JSON array of `Pensum` objects. The type hierarchy (`Pensum → Cuatri → Subject`) is defined in [`types/pensum.ts`](types/pensum.ts). [`lib/data/pensum-pages.ts`](lib/data/pensum-pages.ts) maps pensumCode to official UNAPEC URLs.
+
+### Prerequisite graph
+
+[`lib/graph/prerequisite-graph.ts`](lib/graph/prerequisite-graph.ts) builds a bidirectional DAG from a flat `Subject[]`:
+- `prerequisites`: code → set of codes required before this subject
+- `dependents`: code → set of codes this subject unlocks
+
+The graph is built in [`pensum-content.tsx`](components/pensum-content.tsx) via `useMemo` and threaded down to components. Logic that operates on this graph lives in [`lib/helpers/`](lib/helpers/) (cascade removal, selectable subjects, prerequisite checking) and [`lib/graph/traversal.ts`](lib/graph/traversal.ts).
+
+### State management
+
+Zustand store in [`lib/store/use-selected-subjects.ts`](lib/store/use-selected-subjects.ts) with `persist` middleware (localStorage key `selectedSubjects`). The store uses `skipHydration: true` — [`lib/store/use-hydrated.ts`](lib/store/use-hydrated.ts) manually triggers rehydration and exposes an `isHydrated` flag. Components must gate on `useHydrated()` to avoid SSR/client mismatches; [`components/store-initializer.tsx`](components/store-initializer.tsx) handles rehydration on mount.
+
+### Routing
+
+Two routes:
+- `/` — home page with career search
+- `/pensums/[id]` — pensum view, statically generated for every pensumCode via `generateStaticParams()`
+
+### UI components
+
+shadcn/ui components in [`components/ui/`](components/ui/) backed by **`@base-ui/react`** (not Radix UI). Use the existing shadcn setup when adding new components.
