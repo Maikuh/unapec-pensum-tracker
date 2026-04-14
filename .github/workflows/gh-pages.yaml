@@ -37,7 +37,7 @@ jobs:
             ${{ runner.os }}-cypress-
 
       - name: Install dependencies
-        run: bun ci
+        run: bun ci && bun cypress install
 
       - name: Run unit tests
         run: bun test:run
