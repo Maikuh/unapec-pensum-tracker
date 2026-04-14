@@ -29,6 +29,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-
 
+      - name: Run unit tests
+        run: bun test:run
+
+      - name: Run component tests
+        run: bun cypress:run --component
+
       - name: Build
         run: bun run build
 

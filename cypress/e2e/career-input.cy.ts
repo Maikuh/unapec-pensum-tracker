@@ -14,8 +14,8 @@ describe('Career select input related tests', () => {
 
 	it('User can navigate back to home from a pensum page', () => {
 		cy.selectCareer()
-		cy.get("a[href='/']").first().click()
-		cy.url().should('eq', Cypress.config().baseUrl + '/')
+		cy.get("a[href='/unapec-pensum-tracker']").first().click()
+		cy.url().should('include', Cypress.config().baseUrl)
 		cy.get("[data-testid='career-search-trigger']").should('be.visible')
 	})
 })

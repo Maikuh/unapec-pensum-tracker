@@ -22,7 +22,10 @@ Cypress.Commands.add('selectCareer', (pensumCode = 'NIN11') => {
 
 Cypress.Commands.add('selectCareerFromHome', (searchText = 'negocios') => {
 	cy.visit('/')
-	cy.get("[data-testid='career-search-trigger']").click()
+	// Wait for aria-haspopup to confirm React has hydrated and attached event handlers
+	cy.get("[data-testid='career-search-trigger']")
+		.should('have.attr', 'aria-haspopup', 'dialog')
+		.click()
 	cy.get("[data-testid='career-search-input']").type(searchText)
 	cy.get("[data-testid='career-search-option']").first().click()
 	cy.url().should('include', '/pensums/')

@@ -31,7 +31,7 @@ export function PrerequisiteAlert({
 					<AlertDialogDescription>{message}</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
-					<AlertDialogAction onClick={onClose}>Entendido</AlertDialogAction>
+					<AlertDialogAction>Entendido</AlertDialogAction>
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>

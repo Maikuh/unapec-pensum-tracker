@@ -222,12 +222,7 @@ export function CuatriTable({
 									ref={(el) => {
 										if (el) {
 											// Simulate indeterminate via data attribute for CSS
-											el.dataset.state =
-												checkboxStatus === 'indeterminate'
-													? 'indeterminate'
-													: checkboxStatus === 'checked'
-														? 'checked'
-														: 'unchecked'
+											el.dataset.state = checkboxStatus
 										}
 									}}
 									onCheckedChange={handleSelectAll}
