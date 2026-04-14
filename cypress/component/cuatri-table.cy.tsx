@@ -1,12 +1,12 @@
 import { CuatriTable } from '@/components/cuatri-table'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
 import {
-	PENSUM_CODE,
-	TOTAL_CREDITS,
 	cuatri1,
 	cuatri2,
 	graph,
+	PENSUM_CODE,
 	subjects,
+	TOTAL_CREDITS,
 } from './fixtures'
 
 function mountCuatri1(creditsCount = 0) {

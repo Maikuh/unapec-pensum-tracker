@@ -118,8 +118,7 @@ export const useSelectedSubjectsStore = create<SelectedSubjectsState>()(
 			exportToFile: () => {
 				const { selectedSubjects } = get()
 				const dataStr = JSON.stringify(selectedSubjects)
-				const dataUri =
-					'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr)
+				const dataUri = `data:application/json;charset=utf-8,${encodeURIComponent(dataStr)}`
 				const link = document.createElement('a')
 				link.setAttribute('href', dataUri)
 				link.setAttribute('download', 'uptracker.json')

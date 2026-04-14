@@ -24,7 +24,9 @@ describe('PrerequisiteAlert', () => {
 		)
 		cy.get("[role='alertdialog']").should('be.visible')
 		cy.contains('No puede seleccionar esta materia').should('be.visible')
-		cy.contains('No tienes los prerrequisitos completados.').should('be.visible')
+		cy.contains('No tienes los prerrequisitos completados.').should(
+			'be.visible',
+		)
 	})
 
 	it('calls onClose when action button is clicked', () => {

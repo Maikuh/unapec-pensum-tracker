@@ -37,6 +37,7 @@ export function PensumContent({ pensum }: PensumContentProps) {
 				</div>
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 					{Array.from({ length: 4 }).map((_, i) => (
+						// biome-ignore lint/suspicious/noArrayIndexKey: static skeleton placeholders, no state or reordering
 						<div key={i} className="h-48 rounded-md bg-muted" />
 					))}
 				</div>
