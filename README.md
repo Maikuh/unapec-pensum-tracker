@@ -19,8 +19,8 @@ The project can be accessed in [https://maikuh.github.io/unapec-pensum-tracker/]
 -   Last chosen career and selected subjects persist across refreshes and closing tabs
 -   User can import and export a file with the data
 -   Go to top of the page via a floating button
+-   View what subjects are opened by selected subject
 
 ## What's next?
 
-- Improve pensum data structure (e.g. Graphs)
 - Migrate to the new/updated pensum system that uses an HTTP API instead of PDFs
