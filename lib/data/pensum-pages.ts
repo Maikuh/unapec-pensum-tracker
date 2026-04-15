@@ -4,6 +4,7 @@ export const pensumPages: Record<string, string> = {
 	ATH11: 'https://servicios.unapec.edu.do/pensum/Main/Detalles/ATH',
 	CDG11: 'https://servicios.unapec.edu.do/pensum/Main/Detalles/CDG10',
 	CON11: 'https://servicios.unapec.edu.do/pensum/Main/Detalles/CON',
+	DER8: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-derecho/',
 	DER7: 'https://servicios.unapec.edu.do/pensum/Main/Detalles/DEr',
 	DIG11: 'https://servicios.unapec.edu.do/pensum/Main/Detalles/DIG',
 	DIN11: 'https://servicios.unapec.edu.do/pensum/Main/Detalles/DIN',
