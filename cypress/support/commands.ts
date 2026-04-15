@@ -2,8 +2,8 @@ declare namespace Cypress {
 	interface Chainable {
 		/**
 		 * Navigate to a pensum page by visiting it directly.
-		 * @example cy.selectCareer()           // defaults to NIN11
-		 * @example cy.selectCareer("ISO10")
+		 * @example cy.selectCareer()           // defaults to NINR11
+		 * @example cy.selectCareer("ISO11")
 		 */
 		selectCareer(pensumCode?: string): Chainable<void>
 
@@ -15,7 +15,7 @@ declare namespace Cypress {
 	}
 }
 
-Cypress.Commands.add('selectCareer', (pensumCode = 'NIN11') => {
+Cypress.Commands.add('selectCareer', (pensumCode = 'NINR11') => {
 	cy.visit(`/pensums/${pensumCode}`)
 	cy.contains('Informacion').should('be.visible')
 })

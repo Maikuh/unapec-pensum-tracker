@@ -1,13 +1,13 @@
 import { InfoCard } from '@/components/info-card'
 
-// ADM11 has an entry in pensum-pages.ts; UNKNOWN99 does not.
+// ADMR11 has an entry in pensum-pages.ts; UNKNOWN99 does not.
 const DATE = '2021-01-01T04:00:00.000Z'
 
 describe('InfoCard', () => {
 	it('renders subject and credit counts', () => {
 		cy.mount(
 			<InfoCard
-				pensumCode="ADM11"
+				pensumCode="ADMR11"
 				subjectsCount={10}
 				totalSubjects={50}
 				creditsCount={40}
@@ -24,7 +24,7 @@ describe('InfoCard', () => {
 	it('shows correct percentage for subjects and credits', () => {
 		cy.mount(
 			<InfoCard
-				pensumCode="ADM11"
+				pensumCode="ADMR11"
 				subjectsCount={25}
 				totalSubjects={50}
 				creditsCount={100}
@@ -42,7 +42,7 @@ describe('InfoCard', () => {
 	it('renders progress bar reflecting credit percentage', () => {
 		cy.mount(
 			<InfoCard
-				pensumCode="ADM11"
+				pensumCode="ADMR11"
 				subjectsCount={0}
 				totalSubjects={50}
 				creditsCount={80}
@@ -57,7 +57,7 @@ describe('InfoCard', () => {
 	it('shows external pensum link when pensumCode is in pensum-pages', () => {
 		cy.mount(
 			<InfoCard
-				pensumCode="ADM11"
+				pensumCode="ADMR11"
 				subjectsCount={0}
 				totalSubjects={50}
 				creditsCount={0}
@@ -88,7 +88,7 @@ describe('InfoCard', () => {
 	it('formats date in Spanish locale', () => {
 		cy.mount(
 			<InfoCard
-				pensumCode="ADM11"
+				pensumCode="ADMR11"
 				subjectsCount={0}
 				totalSubjects={50}
 				creditsCount={0}

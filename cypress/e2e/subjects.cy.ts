@@ -1,11 +1,11 @@
-// Uses NIN11 (Negocios Internacionales) pensum.
+// Uses NINR11 (Negocios Internacionales) pensum.
 // Period 1 has all no-prerequisite subjects.
 // Period 2 has MAT121 (requires MAT010), ESP106 (requires ESP101), etc.
 // Chain for cascade test: MAT010 -> MAT121 -> MAT131
 
 describe('Subject related tests', () => {
 	beforeEach(() => {
-		cy.selectCareer('NIN11')
+		cy.selectCareer('NINR11')
 		// Clear localStorage to start fresh each test
 		cy.clearLocalStorage()
 		cy.reload()

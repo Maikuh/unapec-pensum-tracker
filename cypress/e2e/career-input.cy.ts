@@ -9,7 +9,7 @@ describe('Career select input related tests', () => {
 
 	it('User can select a career and navigate to its page', () => {
 		cy.selectCareerFromHome('negocios')
-		cy.url().should('include', '/pensums/NIN11')
+		cy.url().should('include', '/pensums/NINR11')
 	})
 
 	it('User can navigate back to home from a pensum page', () => {
