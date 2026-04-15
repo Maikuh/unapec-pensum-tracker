@@ -20,35 +20,64 @@ const API_BASE = 'https://apiestudiante.azurewebsites.net/pensum'
 // Hardcoded mapping: pensumCode → program page URL.
 // Codes are stable; only update if UNAPEC adds a new program or retires one.
 const PROGRAMS: Record<string, string> = {
-	ADMR11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-administracion-de-empresas/',
-	ATHR11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-administracion-turistica-y-hotelera/',
-	CDG11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-comunicacion-digital/',
-	CIN11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-cinematografia/',
-	CONR11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-contabilidad/',
-	CPM11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-comunicacion-y-periodismo-multiplataforma/',
-	DER11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-derecho/',
-	DIG11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-diseno-grafico/',
-	DIN11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-diseno-de-interiores/',
-	ECO11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-econom%C3%ADa-y-ciencia-de-datos/',
-	EST11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-estadistica/',
-	FINR11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-finanzas/',
-	GAS11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-gastronom%C3%ADa-y-arte-culinario/',
-	GOL11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-gesti%C3%B3n-de-operaciones-y-log%C3%ADstica/',
-	IEL11: 'https://unapec.edu.do/academia/programas-de-grado/ingenieria-electronica/',
-	IND11: 'https://unapec.edu.do/academia/programas-de-grado/ingenieria-industrial/',
-	INE11: 'https://unapec.edu.do/academia/programas-de-grado/ingenieria-electrica/',
-	ISC11: 'https://unapec.edu.do/academia/programas-de-grado/ingenieria-de-sistemas-de-computacion/',
-	ISO11: 'https://unapec.edu.do/academia/programas-de-grado/ingenieria-de-software/',
-	LEA11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-educacion-artistica/',
-	LES11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-lengua-espanola-y-literatura-orientada-a-la-educacion-secundaria/',
-	LFE11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-educaci%C3%B3n-lenguas-extranjeras-franc%C3%A9s/',
-	LIE11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-educaci%C3%B3n-lenguas-extranjeras-ingl%C3%A9s/',
-	LMS11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-matematica-orientada-a-la-educacion-secundaria/',
-	MERR11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-mercadotecnia/',
-	NINR11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-negocios-internacionales/',
-	PSO11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-psicologia-organizacional/',
-	PUB11: 'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-publicidad/',
-	TSF11: 'https://unapec.edu.do/academia/programas-de-grado/tecnico-superior-en-finanzas/',
+	ADMR11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-administracion-de-empresas/',
+	ATHR11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-administracion-turistica-y-hotelera/',
+	CDG11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-comunicacion-digital/',
+	CIN11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-cinematografia/',
+	CONR11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-contabilidad/',
+	CPM11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-comunicacion-y-periodismo-multiplataforma/',
+	DER11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-derecho/',
+	DIG11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-diseno-grafico/',
+	DIN11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-diseno-de-interiores/',
+	ECO11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-econom%C3%ADa-y-ciencia-de-datos/',
+	EST11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-estadistica/',
+	FINR11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-finanzas/',
+	GAS11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-gastronom%C3%ADa-y-arte-culinario/',
+	GOL11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-gesti%C3%B3n-de-operaciones-y-log%C3%ADstica/',
+	IEL11:
+		'https://unapec.edu.do/academia/programas-de-grado/ingenieria-electronica/',
+	IND11:
+		'https://unapec.edu.do/academia/programas-de-grado/ingenieria-industrial/',
+	INE11:
+		'https://unapec.edu.do/academia/programas-de-grado/ingenieria-electrica/',
+	ISC11:
+		'https://unapec.edu.do/academia/programas-de-grado/ingenieria-de-sistemas-de-computacion/',
+	ISO11:
+		'https://unapec.edu.do/academia/programas-de-grado/ingenieria-de-software/',
+	LEA11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-educacion-artistica/',
+	LES11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-lengua-espanola-y-literatura-orientada-a-la-educacion-secundaria/',
+	LFE11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-educaci%C3%B3n-lenguas-extranjeras-franc%C3%A9s/',
+	LIE11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-educaci%C3%B3n-lenguas-extranjeras-ingl%C3%A9s/',
+	LMS11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-matematica-orientada-a-la-educacion-secundaria/',
+	MERR11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-mercadotecnia/',
+	NINR11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-negocios-internacionales/',
+	PSO11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-psicologia-organizacional/',
+	PUB11:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-publicidad/',
+	TSF11:
+		'https://unapec.edu.do/academia/programas-de-grado/tecnico-superior-en-finanzas/',
 }
 
 // ─── API types ────────────────────────────────────────────────────────────────
@@ -77,7 +106,10 @@ function parsePrereqs(prerequisito: string): string[] {
 		.filter((s) => s.length > 0)
 }
 
-function buildCuatris(rows: ApiRow[]): { cuatris: Cuatri[]; totalCredits: number } {
+function buildCuatris(rows: ApiRow[]): {
+	cuatris: Cuatri[]
+	totalCredits: number
+} {
 	const periodMap = new Map<number, Subject[]>()
 
 	for (const row of rows) {
@@ -109,7 +141,10 @@ function buildCuatris(rows: ApiRow[]): { cuatris: Cuatri[]; totalCredits: number
 	return { cuatris, totalCredits }
 }
 
-function parseElectivesTable($: cheerio.CheerioAPI, table: AnyNode): ElectiveOption[] {
+function parseElectivesTable(
+	$: cheerio.CheerioAPI,
+	table: AnyNode,
+): ElectiveOption[] {
 	const results: ElectiveOption[] = []
 	let lastTier = ''
 
@@ -156,7 +191,10 @@ function scrapeProgramName(html: string): string {
 	return h1 || ''
 }
 
-function scrapeElectives(html: string): { certifications: ElectiveOption[]; electives: ElectiveOption[] } {
+function scrapeElectives(html: string): {
+	certifications: ElectiveOption[]
+	electives: ElectiveOption[]
+} {
 	const $ = cheerio.load(html)
 	const certifications: ElectiveOption[] = []
 	const electives: ElectiveOption[] = []
@@ -197,7 +235,10 @@ function scrapeElectives(html: string): { certifications: ElectiveOption[]; elec
 
 // ─── Per-program fetch ────────────────────────────────────────────────────────
 
-async function fetchProgram(pensumCode: string, pageUrl: string): Promise<Pensum> {
+async function fetchProgram(
+	pensumCode: string,
+	pageUrl: string,
+): Promise<Pensum> {
 	const [apiRes, htmlRes] = await Promise.all([
 		fetch(`${API_BASE}/${pensumCode}`),
 		fetch(pageUrl),
@@ -207,7 +248,8 @@ async function fetchProgram(pensumCode: string, pageUrl: string): Promise<Pensum
 	if (!htmlRes.ok) throw new Error(`Page ${htmlRes.status} for ${pageUrl}`)
 
 	const apiRows: ApiRow[] = await apiRes.json()
-	if (apiRows.length === 0) throw new Error(`API returned no rows for ${pensumCode}`)
+	if (apiRows.length === 0)
+		throw new Error(`API returned no rows for ${pensumCode}`)
 
 	const html = await htmlRes.text()
 
@@ -242,7 +284,9 @@ async function main() {
 		entries.map(([code, url]) =>
 			fetchProgram(code, url).then(
 				(p) => {
-					console.log(`  ✓ ${p.pensumCode} — ${p.cuatris.length} cuatris, ${p.certifications.length} certifications, ${p.electives.length} electives`)
+					console.log(
+						`  ✓ ${p.pensumCode} — ${p.cuatris.length} cuatris, ${p.certifications.length} certifications, ${p.electives.length} electives`,
+					)
 					pensums.push(p)
 				},
 				(err) => {
@@ -263,14 +307,25 @@ async function main() {
 
 	const pensumPagesTs = `// Maps pensumCode to the official UNAPEC pensum page URL
 // Auto-generated by scripts/sync-pensums.ts — do not edit by hand
-export const pensumPages: Record<string, string> = ${JSON.stringify(PROGRAMS, null, '\t')}
+export const pensumPages: Record<string, string> = {
+${entries.map(([k, v]) => `\t${k}: '${v}',`).join('\n')}
+}
 `
 
-	await Bun.write(`${import.meta.dir}/../lib/data/pensums.json`, JSON.stringify(pensums, null, '\t'))
-	await Bun.write(`${import.meta.dir}/../lib/data/pensum-pages.ts`, pensumPagesTs)
+	await Bun.write(
+		`${import.meta.dir}/../lib/data/pensums.json`,
+		JSON.stringify(pensums),
+	)
+	const pensumPagesPath = `${import.meta.dir}/../lib/data/pensum-pages.ts`
+	await Bun.write(pensumPagesPath, pensumPagesTs)
+	Bun.spawnSync(['bun', 'lint:fix', pensumPagesPath], {
+		cwd: `${import.meta.dir}/..`,
+	})
 
 	console.log(`\n✓ Wrote ${pensums.length} pensums to lib/data/pensums.json`)
-	console.log(`✓ Wrote ${Object.keys(PROGRAMS).length} entries to lib/data/pensum-pages.ts`)
+	console.log(
+		`✓ Wrote ${Object.keys(PROGRAMS).length} entries to lib/data/pensum-pages.ts`,
+	)
 
 	if (errors.length > 0) {
 		console.error(`\n${errors.length} error(s) — see above`)

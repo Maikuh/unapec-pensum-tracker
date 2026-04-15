@@ -72,10 +72,7 @@ describe('Subject related tests', () => {
 	})
 
 	it('Select a subject by clicking the checkbox directly', () => {
-		cy.contains('MAT010')
-			.closest('tr')
-			.find('[data-slot="checkbox"]')
-			.click()
+		cy.contains('MAT010').closest('tr').find('[data-slot="checkbox"]').click()
 
 		cy.contains('MAT010')
 			.closest('tr')
