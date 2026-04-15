@@ -1,7 +1,7 @@
 [
 	{
 		"carreerName": "ADMR",
-		"totalCredits": 203,
+		"totalCredits": 200,
 		"pensumCode": "ADMR11",
 		"cuatris": [
 			{
@@ -72,14 +72,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -592,7 +584,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:09.165Z",
+		"date": "2026-04-15T12:09:26.667Z",
 		"certifications": [
 			{
 				"tier": "EADM1",
@@ -726,7 +718,7 @@
 	},
 	{
 		"carreerName": "ATHR",
-		"totalCredits": 216,
+		"totalCredits": 213,
 		"pensumCode": "ATHR11",
 		"cuatris": [
 			{
@@ -804,14 +796,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -1381,7 +1365,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:02.185Z",
+		"date": "2026-04-15T12:09:29.638Z",
 		"certifications": [
 			{
 				"tier": "EADM1",
@@ -1473,7 +1457,7 @@
 	},
 	{
 		"carreerName": "CDG",
-		"totalCredits": 193,
+		"totalCredits": 190,
 		"pensumCode": "CDG11",
 		"cuatris": [
 			{
@@ -1555,14 +1539,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -2073,7 +2049,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:05.562Z",
+		"date": "2026-04-15T12:09:29.289Z",
 		"certifications": [
 			{
 				"tier": "ELECTIVA I",
@@ -2186,7 +2162,7 @@
 	},
 	{
 		"carreerName": "CIN",
-		"totalCredits": 195,
+		"totalCredits": 192,
 		"pensumCode": "CIN11",
 		"cuatris": [
 			{
@@ -2266,14 +2242,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -2751,7 +2719,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:05.388Z",
+		"date": "2026-04-15T12:09:28.618Z",
 		"certifications": [
 			{
 				"tier": "ELECTIVA I",
@@ -2864,7 +2832,7 @@
 	},
 	{
 		"carreerName": "CONR",
-		"totalCredits": 223,
+		"totalCredits": 220,
 		"pensumCode": "CONR11",
 		"cuatris": [
 			{
@@ -2943,14 +2911,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -3500,7 +3460,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:02.946Z",
+		"date": "2026-04-15T12:09:29.258Z",
 		"certifications": [
 			{
 				"tier": "EADM1",
@@ -3549,7 +3509,7 @@
 	},
 	{
 		"carreerName": "CPM",
-		"totalCredits": 193,
+		"totalCredits": 190,
 		"pensumCode": "CPM11",
 		"cuatris": [
 			{
@@ -3617,14 +3577,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -4071,7 +4023,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:58:58.920Z",
+		"date": "2026-04-15T12:09:23.198Z",
 		"certifications": [
 			{
 				"tier": "ELECTIVA I",
@@ -4247,7 +4199,7 @@
 	},
 	{
 		"carreerName": "DER",
-		"totalCredits": 215,
+		"totalCredits": 212,
 		"pensumCode": "DER11",
 		"cuatris": [
 			{
@@ -4333,14 +4285,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -4892,13 +4836,13 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:05.585Z",
+		"date": "2026-04-15T12:09:22.670Z",
 		"certifications": [],
 		"electives": []
 	},
 	{
 		"carreerName": "DIG",
-		"totalCredits": 178,
+		"totalCredits": 175,
 		"pensumCode": "DIG11",
 		"cuatris": [
 			{
@@ -4980,14 +4924,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -5450,7 +5386,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:01.257Z",
+		"date": "2026-04-15T12:09:31.919Z",
 		"certifications": [
 			{
 				"tier": "ELECTIVA I",
@@ -5577,7 +5513,7 @@
 	},
 	{
 		"carreerName": "DIN",
-		"totalCredits": 189,
+		"totalCredits": 186,
 		"pensumCode": "DIN11",
 		"cuatris": [
 			{
@@ -5653,14 +5589,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -6132,7 +6060,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:02.261Z",
+		"date": "2026-04-15T12:09:31.366Z",
 		"certifications": [
 			{
 				"tier": "ELECTIVA I",
@@ -6245,7 +6173,7 @@
 	},
 	{
 		"carreerName": "ECO",
-		"totalCredits": 222,
+		"totalCredits": 219,
 		"pensumCode": "ECO11",
 		"cuatris": [
 			{
@@ -6315,14 +6243,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -6884,13 +6804,13 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:08.835Z",
+		"date": "2026-04-15T12:09:31.145Z",
 		"certifications": [],
 		"electives": []
 	},
 	{
 		"carreerName": "EST",
-		"totalCredits": 195,
+		"totalCredits": 192,
 		"pensumCode": "EST11",
 		"cuatris": [
 			{
@@ -6952,14 +6872,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -7410,7 +7322,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:08.807Z",
+		"date": "2026-04-15T12:09:28.627Z",
 		"certifications": [],
 		"electives": []
 	},
@@ -8003,13 +7915,13 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:04.264Z",
+		"date": "2026-04-15T12:09:25.872Z",
 		"certifications": [],
 		"electives": []
 	},
 	{
 		"carreerName": "GAS",
-		"totalCredits": 205,
+		"totalCredits": 202,
 		"pensumCode": "GAS11",
 		"cuatris": [
 			{
@@ -8077,14 +7989,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -8612,7 +8516,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:05.619Z",
+		"date": "2026-04-15T12:09:26.097Z",
 		"certifications": [
 			{
 				"tier": "EADM1",
@@ -8725,7 +8629,7 @@
 	},
 	{
 		"carreerName": "GOL",
-		"totalCredits": 203,
+		"totalCredits": 200,
 		"pensumCode": "GOL11",
 		"cuatris": [
 			{
@@ -8807,14 +8711,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -9305,7 +9201,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:07.863Z",
+		"date": "2026-04-15T12:09:27.822Z",
 		"certifications": [
 			{
 				"tier": "EADM1",
@@ -9354,7 +9250,7 @@
 	},
 	{
 		"carreerName": "IEL",
-		"totalCredits": 214,
+		"totalCredits": 211,
 		"pensumCode": "IEL11",
 		"cuatris": [
 			{
@@ -9422,14 +9318,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -10076,7 +9964,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:08.272Z",
+		"date": "2026-04-15T12:09:22.501Z",
 		"certifications": [],
 		"electives": [
 			{
@@ -10195,7 +10083,7 @@
 	},
 	{
 		"carreerName": "IND",
-		"totalCredits": 216,
+		"totalCredits": 213,
 		"pensumCode": "IND11",
 		"cuatris": [
 			{
@@ -10271,14 +10159,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -10876,7 +10756,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:03.870Z",
+		"date": "2026-04-15T12:09:30.667Z",
 		"certifications": [],
 		"electives": [
 			{
@@ -10995,7 +10875,7 @@
 	},
 	{
 		"carreerName": "INE",
-		"totalCredits": 213,
+		"totalCredits": 210,
 		"pensumCode": "INE11",
 		"cuatris": [
 			{
@@ -11057,14 +10937,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -11692,7 +11564,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:04.775Z",
+		"date": "2026-04-15T12:09:27.497Z",
 		"certifications": [],
 		"electives": [
 			{
@@ -11811,7 +11683,7 @@
 	},
 	{
 		"carreerName": "ISC",
-		"totalCredits": 203,
+		"totalCredits": 200,
 		"pensumCode": "ISC11",
 		"cuatris": [
 			{
@@ -11905,14 +11777,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -12429,7 +12293,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:01.991Z",
+		"date": "2026-04-15T12:09:31.926Z",
 		"certifications": [
 			{
 				"tier": "ELECTIVA I",
@@ -12528,7 +12392,7 @@
 	},
 	{
 		"carreerName": "ISO",
-		"totalCredits": 224,
+		"totalCredits": 218,
 		"pensumCode": "ISO11",
 		"cuatris": [
 			{
@@ -12596,14 +12460,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -13123,14 +12979,6 @@
 						]
 					},
 					{
-						"code": "ISO945",
-						"name": "SISTEMAS DE INFORMACIÓN GEOGRAFICA",
-						"credits": 3,
-						"prerequisites": [
-							"ISO937"
-						]
-					},
-					{
 						"code": "DER800",
 						"name": "DERECHO APLICADO A LA INFORMATICA",
 						"credits": 3,
@@ -13162,7 +13010,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:58:59.571Z",
+		"date": "2026-04-15T12:09:25.750Z",
 		"certifications": [
 			{
 				"tier": "ELECTIVA I",
@@ -13704,7 +13552,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:09.199Z",
+		"date": "2026-04-15T12:09:30.955Z",
 		"certifications": [],
 		"electives": []
 	},
@@ -14278,7 +14126,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:05.395Z",
+		"date": "2026-04-15T12:09:27.183Z",
 		"certifications": [],
 		"electives": []
 	},
@@ -14755,7 +14603,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:58:58.812Z",
+		"date": "2026-04-15T12:09:20.973Z",
 		"certifications": [],
 		"electives": []
 	},
@@ -15215,7 +15063,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:08.860Z",
+		"date": "2026-04-15T12:09:28.008Z",
 		"certifications": [],
 		"electives": []
 	},
@@ -15782,13 +15630,13 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:06.767Z",
+		"date": "2026-04-15T12:09:29.951Z",
 		"certifications": [],
 		"electives": []
 	},
 	{
 		"carreerName": "MERR",
-		"totalCredits": 205,
+		"totalCredits": 202,
 		"pensumCode": "MERR11",
 		"cuatris": [
 			{
@@ -15867,14 +15715,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -16392,7 +16232,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:02.177Z",
+		"date": "2026-04-15T12:09:24.392Z",
 		"certifications": [
 			{
 				"tier": "EADM1",
@@ -16526,7 +16366,7 @@
 	},
 	{
 		"carreerName": "NINR",
-		"totalCredits": 208,
+		"totalCredits": 205,
 		"pensumCode": "NINR11",
 		"cuatris": [
 			{
@@ -16605,14 +16445,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -17135,7 +16967,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:07.326Z",
+		"date": "2026-04-15T12:09:24.132Z",
 		"certifications": [
 			{
 				"tier": "EADM1",
@@ -17248,7 +17080,7 @@
 	},
 	{
 		"carreerName": "PSO",
-		"totalCredits": 185,
+		"totalCredits": 182,
 		"pensumCode": "PSO11",
 		"cuatris": [
 			{
@@ -17316,14 +17148,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -17804,13 +17628,13 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:06.246Z",
+		"date": "2026-04-15T12:09:24.226Z",
 		"certifications": [],
 		"electives": []
 	},
 	{
 		"carreerName": "PUB",
-		"totalCredits": 184,
+		"totalCredits": 181,
 		"pensumCode": "PUB11",
 		"cuatris": [
 			{
@@ -17892,14 +17716,6 @@
 					{
 						"code": "ESP106",
 						"name": "REDACCION DE TEXTOS DISCURSIVOS I",
-						"credits": 3,
-						"prerequisites": [
-							"ESP101"
-						]
-					},
-					{
-						"code": "ESP106",
-						"name": "REDACCION TEXTOS DISCURSIVOS I",
 						"credits": 3,
 						"prerequisites": [
 							"ESP101"
@@ -18387,7 +18203,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:59:00.677Z",
+		"date": "2026-04-15T12:09:25.238Z",
 		"certifications": [
 			{
 				"tier": "ELECTIVA I",
@@ -18785,7 +18601,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T11:58:58.775Z",
+		"date": "2026-04-15T12:09:20.915Z",
 		"certifications": [],
 		"electives": []
 	}

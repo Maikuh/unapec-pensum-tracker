@@ -92,7 +92,9 @@ function buildCuatris(rows: ApiRow[]): { cuatris: Cuatri[]; totalCredits: number
 		}
 
 		const subjects = periodMap.get(period) ?? []
-		subjects.push(subject)
+		if (!subjects.some((s) => s.code === subject.code)) {
+			subjects.push(subject)
+		}
 		periodMap.set(period, subjects)
 	}
 
