@@ -150,6 +150,12 @@ function parseElectivesTable($: cheerio.CheerioAPI, table: AnyNode): ElectiveOpt
 	return results
 }
 
+function scrapeProgramName(html: string): string {
+	const $ = cheerio.load(html)
+	const h1 = $('h1').first().text().trim()
+	return h1 || ''
+}
+
 function scrapeElectives(html: string): { certifications: ElectiveOption[]; electives: ElectiveOption[] } {
 	const $ = cheerio.load(html)
 	const certifications: ElectiveOption[] = []
@@ -208,12 +214,8 @@ async function fetchProgram(pensumCode: string, pageUrl: string): Promise<Pensum
 	const { cuatris, totalCredits } = buildCuatris(apiRows)
 	const { certifications, electives } = scrapeElectives(html)
 
-	// Derive carreerName from the first cuatrimestre string, e.g. "ISO CUATRIMESTRE 1" → "ISO"
-	// Fall back to pensumCode; the UI can display this however it likes.
-	const carreerName = (apiRows[0].cuatrimestre ?? '')
-		.replace(/\s+CUATRIMESTRE\s+\d+$/i, '')
-		.trim()
-		.toUpperCase() || pensumCode
+	// Prefer the full program name from the HTML <h1>; fall back to pensumCode.
+	const carreerName = scrapeProgramName(html) || pensumCode
 
 	return {
 		carreerName,

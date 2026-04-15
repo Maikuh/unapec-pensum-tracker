@@ -1,6 +1,6 @@
 [
 	{
-		"carreerName": "ADMR",
+		"carreerName": "Licenciatura en Administración de Empresas",
 		"totalCredits": 200,
 		"pensumCode": "ADMR11",
 		"cuatris": [
@@ -584,7 +584,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:26.667Z",
+		"date": "2026-04-15T12:20:28.352Z",
 		"certifications": [
 			{
 				"tier": "EADM1",
@@ -717,7 +717,7 @@
 		]
 	},
 	{
-		"carreerName": "ATHR",
+		"carreerName": "Licenciatura en Administración Turística y Hotelera",
 		"totalCredits": 213,
 		"pensumCode": "ATHR11",
 		"cuatris": [
@@ -1365,7 +1365,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:29.638Z",
+		"date": "2026-04-15T12:20:28.404Z",
 		"certifications": [
 			{
 				"tier": "EADM1",
@@ -1456,7 +1456,7 @@
 		]
 	},
 	{
-		"carreerName": "CDG",
+		"carreerName": "Licenciatura en Comunicación Digital",
 		"totalCredits": 190,
 		"pensumCode": "CDG11",
 		"cuatris": [
@@ -2049,7 +2049,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:29.289Z",
+		"date": "2026-04-15T12:20:30.923Z",
 		"certifications": [
 			{
 				"tier": "ELECTIVA I",
@@ -2161,7 +2161,7 @@
 		]
 	},
 	{
-		"carreerName": "CIN",
+		"carreerName": "Licenciatura en Cinematografía",
 		"totalCredits": 192,
 		"pensumCode": "CIN11",
 		"cuatris": [
@@ -2719,7 +2719,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:28.618Z",
+		"date": "2026-04-15T12:20:30.345Z",
 		"certifications": [
 			{
 				"tier": "ELECTIVA I",
@@ -2831,7 +2831,7 @@
 		]
 	},
 	{
-		"carreerName": "CONR",
+		"carreerName": "Licenciatura en Contabilidad",
 		"totalCredits": 220,
 		"pensumCode": "CONR11",
 		"cuatris": [
@@ -3460,7 +3460,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:29.258Z",
+		"date": "2026-04-15T12:20:32.983Z",
 		"certifications": [
 			{
 				"tier": "EADM1",
@@ -3508,7 +3508,7 @@
 		"electives": []
 	},
 	{
-		"carreerName": "CPM",
+		"carreerName": "Licenciatura en Comunicación y Periodismo Multiplataforma",
 		"totalCredits": 190,
 		"pensumCode": "CPM11",
 		"cuatris": [
@@ -4023,7 +4023,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:23.198Z",
+		"date": "2026-04-15T12:20:29.749Z",
 		"certifications": [
 			{
 				"tier": "ELECTIVA I",
@@ -4198,7 +4198,7 @@
 		]
 	},
 	{
-		"carreerName": "DER",
+		"carreerName": "Licenciatura en Derecho",
 		"totalCredits": 212,
 		"pensumCode": "DER11",
 		"cuatris": [
@@ -4836,12 +4836,12 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:22.670Z",
+		"date": "2026-04-15T12:20:32.082Z",
 		"certifications": [],
 		"electives": []
 	},
 	{
-		"carreerName": "DIG",
+		"carreerName": "Licenciatura en Diseño Gráfico",
 		"totalCredits": 175,
 		"pensumCode": "DIG11",
 		"cuatris": [
@@ -5386,7 +5386,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:31.919Z",
+		"date": "2026-04-15T12:20:34.931Z",
 		"certifications": [
 			{
 				"tier": "ELECTIVA I",
@@ -5512,7 +5512,7 @@
 		]
 	},
 	{
-		"carreerName": "DIN",
+		"carreerName": "Licenciatura en Diseño de Interiores",
 		"totalCredits": 186,
 		"pensumCode": "DIN11",
 		"cuatris": [
@@ -6060,7 +6060,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:31.366Z",
+		"date": "2026-04-15T12:20:29.602Z",
 		"certifications": [
 			{
 				"tier": "ELECTIVA I",
@@ -6172,7 +6172,7 @@
 		]
 	},
 	{
-		"carreerName": "ECO",
+		"carreerName": "Licenciatura en Economía y Ciencia de Datos",
 		"totalCredits": 219,
 		"pensumCode": "ECO11",
 		"cuatris": [
@@ -6804,12 +6804,12 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:31.145Z",
+		"date": "2026-04-15T12:20:34.156Z",
 		"certifications": [],
 		"electives": []
 	},
 	{
-		"carreerName": "EST",
+		"carreerName": "Licenciatura en Estadística",
 		"totalCredits": 192,
 		"pensumCode": "EST11",
 		"cuatris": [
@@ -7322,12 +7322,12 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:28.627Z",
+		"date": "2026-04-15T12:20:32.901Z",
 		"certifications": [],
 		"electives": []
 	},
 	{
-		"carreerName": "FINR",
+		"carreerName": "Licenciatura en Finanzas",
 		"totalCredits": 193,
 		"pensumCode": "FINR11",
 		"cuatris": [
@@ -7915,12 +7915,12 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:25.872Z",
+		"date": "2026-04-15T12:20:33.535Z",
 		"certifications": [],
 		"electives": []
 	},
 	{
-		"carreerName": "GAS",
+		"carreerName": "Licenciatura en Gastronomía y Arte Culinario",
 		"totalCredits": 202,
 		"pensumCode": "GAS11",
 		"cuatris": [
@@ -8516,7 +8516,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:26.097Z",
+		"date": "2026-04-15T12:20:31.461Z",
 		"certifications": [
 			{
 				"tier": "EADM1",
@@ -8628,7 +8628,7 @@
 		]
 	},
 	{
-		"carreerName": "GOL",
+		"carreerName": "Licenciatura en Gestión de Operaciones y Logística",
 		"totalCredits": 200,
 		"pensumCode": "GOL11",
 		"cuatris": [
@@ -9201,7 +9201,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:27.822Z",
+		"date": "2026-04-15T12:20:31.703Z",
 		"certifications": [
 			{
 				"tier": "EADM1",
@@ -9249,7 +9249,7 @@
 		"electives": []
 	},
 	{
-		"carreerName": "IEL",
+		"carreerName": "Ingeniería Electrónica",
 		"totalCredits": 211,
 		"pensumCode": "IEL11",
 		"cuatris": [
@@ -9964,7 +9964,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:22.501Z",
+		"date": "2026-04-15T12:20:35.357Z",
 		"certifications": [],
 		"electives": [
 			{
@@ -10082,7 +10082,7 @@
 		]
 	},
 	{
-		"carreerName": "IND",
+		"carreerName": "Ingeniería Industrial",
 		"totalCredits": 213,
 		"pensumCode": "IND11",
 		"cuatris": [
@@ -10756,7 +10756,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:30.667Z",
+		"date": "2026-04-15T12:20:30.731Z",
 		"certifications": [],
 		"electives": [
 			{
@@ -10874,7 +10874,7 @@
 		]
 	},
 	{
-		"carreerName": "INE",
+		"carreerName": "Ingeniería Eléctrica",
 		"totalCredits": 210,
 		"pensumCode": "INE11",
 		"cuatris": [
@@ -11564,7 +11564,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:27.497Z",
+		"date": "2026-04-15T12:20:31.778Z",
 		"certifications": [],
 		"electives": [
 			{
@@ -11682,7 +11682,7 @@
 		]
 	},
 	{
-		"carreerName": "ISC",
+		"carreerName": "Ingeniería de Sistemas de Computación",
 		"totalCredits": 200,
 		"pensumCode": "ISC11",
 		"cuatris": [
@@ -12293,7 +12293,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:31.926Z",
+		"date": "2026-04-15T12:20:34.058Z",
 		"certifications": [
 			{
 				"tier": "ELECTIVA I",
@@ -12391,7 +12391,7 @@
 		]
 	},
 	{
-		"carreerName": "ISO",
+		"carreerName": "Ingeniería de Software",
 		"totalCredits": 218,
 		"pensumCode": "ISO11",
 		"cuatris": [
@@ -13010,7 +13010,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:25.750Z",
+		"date": "2026-04-15T12:20:35.372Z",
 		"certifications": [
 			{
 				"tier": "ELECTIVA I",
@@ -13108,7 +13108,7 @@
 		]
 	},
 	{
-		"carreerName": "LEA",
+		"carreerName": "Licenciatura en Educación Artística",
 		"totalCredits": 180,
 		"pensumCode": "LEA11",
 		"cuatris": [
@@ -13552,12 +13552,12 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:30.955Z",
+		"date": "2026-04-15T12:20:25.102Z",
 		"certifications": [],
 		"electives": []
 	},
 	{
-		"carreerName": "LES",
+		"carreerName": "Licenciatura en Lengua Española y Literatura Orientada a la Educación Secundaria",
 		"totalCredits": 189,
 		"pensumCode": "LES11",
 		"cuatris": [
@@ -14126,12 +14126,12 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:27.183Z",
+		"date": "2026-04-15T12:20:26.147Z",
 		"certifications": [],
 		"electives": []
 	},
 	{
-		"carreerName": "LFE",
+		"carreerName": "Licenciatura en Educación Lenguas Extranjeras- Francés",
 		"totalCredits": 183,
 		"pensumCode": "LFE11",
 		"cuatris": [
@@ -14603,12 +14603,12 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:20.973Z",
+		"date": "2026-04-15T12:20:25.112Z",
 		"certifications": [],
 		"electives": []
 	},
 	{
-		"carreerName": "LIE",
+		"carreerName": "Licenciatura en Educación Lenguas Extranjeras- Inglés",
 		"totalCredits": 185,
 		"pensumCode": "LIE11",
 		"cuatris": [
@@ -15063,12 +15063,12 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:28.008Z",
+		"date": "2026-04-15T12:20:28.188Z",
 		"certifications": [],
 		"electives": []
 	},
 	{
-		"carreerName": "LMS",
+		"carreerName": "Licenciatura en Matemática Orientada a la Educación Secundaria",
 		"totalCredits": 192,
 		"pensumCode": "LMS11",
 		"cuatris": [
@@ -15630,12 +15630,12 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:29.951Z",
+		"date": "2026-04-15T12:20:27.670Z",
 		"certifications": [],
 		"electives": []
 	},
 	{
-		"carreerName": "MERR",
+		"carreerName": "Licenciatura en Mercadotecnia",
 		"totalCredits": 202,
 		"pensumCode": "MERR11",
 		"cuatris": [
@@ -16232,7 +16232,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:24.392Z",
+		"date": "2026-04-15T12:20:27.245Z",
 		"certifications": [
 			{
 				"tier": "EADM1",
@@ -16365,7 +16365,7 @@
 		]
 	},
 	{
-		"carreerName": "NINR",
+		"carreerName": "Licenciatura en Negocios Internacionales",
 		"totalCredits": 205,
 		"pensumCode": "NINR11",
 		"cuatris": [
@@ -16967,7 +16967,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:24.132Z",
+		"date": "2026-04-15T12:20:28.509Z",
 		"certifications": [
 			{
 				"tier": "EADM1",
@@ -17079,7 +17079,7 @@
 		]
 	},
 	{
-		"carreerName": "PSO",
+		"carreerName": "Licenciatura en Psicología Organizacional",
 		"totalCredits": 182,
 		"pensumCode": "PSO11",
 		"cuatris": [
@@ -17628,12 +17628,12 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:24.226Z",
+		"date": "2026-04-15T12:20:33.382Z",
 		"certifications": [],
 		"electives": []
 	},
 	{
-		"carreerName": "PUB",
+		"carreerName": "Licenciatura en Publicidad",
 		"totalCredits": 181,
 		"pensumCode": "PUB11",
 		"cuatris": [
@@ -18203,7 +18203,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:25.238Z",
+		"date": "2026-04-15T12:20:25.123Z",
 		"certifications": [
 			{
 				"tier": "ELECTIVA I",
@@ -18315,7 +18315,7 @@
 		]
 	},
 	{
-		"carreerName": "TSF",
+		"carreerName": "Técnico Superior en Finanzas",
 		"totalCredits": 112,
 		"pensumCode": "TSF11",
 		"cuatris": [
@@ -18601,7 +18601,7 @@
 				]
 			}
 		],
-		"date": "2026-04-15T12:09:20.915Z",
+		"date": "2026-04-15T12:20:34.809Z",
 		"certifications": [],
 		"electives": []
 	}

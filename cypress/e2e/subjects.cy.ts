@@ -71,6 +71,25 @@ describe('Subject related tests', () => {
 			.should('have.attr', 'data-disabled', 'true')
 	})
 
+	it('Select a subject by clicking the checkbox directly', () => {
+		cy.contains('MAT010')
+			.closest('tr')
+			.find('[data-slot="checkbox"]')
+			.click()
+
+		cy.contains('MAT010')
+			.closest('tr')
+			.should('have.attr', 'data-selected', 'true')
+	})
+
+	it('Select a subject by clicking elsewhere on the row (not the checkbox)', () => {
+		cy.contains('MAT010').click()
+
+		cy.contains('MAT010')
+			.closest('tr')
+			.should('have.attr', 'data-selected', 'true')
+	})
+
 	it('Clicking a disabled subject shows prerequisite alert dialog', () => {
 		// MAT121 requires MAT010, so it is disabled initially
 		cy.contains('MAT121').closest('tr').click()

@@ -265,12 +265,11 @@ export function CuatriTable({
 									data-selected={isSelected}
 									data-disabled={!canSelect}
 								>
-									<TableCell>
+									<TableCell onClick={(e) => e.stopPropagation()}>
 										<Checkbox
 											checked={isSelected}
 											disabled={!canSelect}
 											onCheckedChange={() => handleSubjectClick(subject)}
-											onClick={(e) => e.stopPropagation()}
 											data-state={isSelected ? 'checked' : 'unchecked'}
 										/>
 									</TableCell>
