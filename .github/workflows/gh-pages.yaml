@@ -42,11 +42,11 @@ jobs:
       - name: Run unit tests
         run: bun test:run
 
-      - name: Run E2Es
-        run: bun dev & bun cypress:run --e2e
-
       - name: Run component tests
         run: bun cypress:run --component
+
+      - name: Run E2E tests
+        run: bun dev & bun cypress:run --e2e
 
       - name: Build
         run: bun run build
