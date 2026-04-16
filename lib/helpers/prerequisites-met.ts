@@ -11,7 +11,7 @@ export function prerequisitesMet(
 		: subject.prerequisites.every((p: string) =>
 				p.includes('%')
 					? Math.round((creditsCount / totalCredits) * 100) >=
-						Number(p.slice(0, 2))
+						Number(p.replace('%', ''))
 					: selectedSubjects.map((s) => s.code).includes(p),
 			)
 }

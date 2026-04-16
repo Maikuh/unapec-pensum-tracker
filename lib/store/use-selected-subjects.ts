@@ -63,7 +63,7 @@ export const useSelectedSubjectsStore = create<SelectedSubjectsState>()(
 
 			bulkSelect: (
 				pensumCode,
-				newSelectedSubjects,
+				periodSubjects,
 				periodSubjectsCount,
 				checkboxStatus,
 				creditsCount,
@@ -76,32 +76,38 @@ export const useSelectedSubjectsStore = create<SelectedSubjectsState>()(
 
 				if (checkboxStatus === 'unchecked') {
 					const selectable = getSubjectsThatCanBeSelected(
-						newSelectedSubjects,
+						periodSubjects,
 						subjects,
 						creditsCount,
 						totalCredits,
 					)
 					temp = subjects.concat(...selectable)
 				} else if (checkboxStatus === 'indeterminate') {
-					if (newSelectedSubjects.length < periodSubjectsCount) {
-						// Some are selected — deselect them with cascade
-						const toRemove = getCascadeRemovalSet(
-							graph,
-							newSelectedSubjects.map((s) => s.code),
-						)
+					const selectableCount = getSubjectsThatCanBeSelected(
+						periodSubjects,
+						subjects,
+						creditsCount,
+						totalCredits,
+					).length
+					if (selectableCount < periodSubjectsCount) {
+						// Some can't be selected — deselect whatever is currently selected from this period
+						const periodSelectedCodes = periodSubjects
+							.filter((ps) => subjects.some((s) => s.code === ps.code))
+							.map((s) => s.code)
+						const toRemove = getCascadeRemovalSet(graph, periodSelectedCodes)
 						temp = subjects.filter((s) => !toRemove.has(s.code))
 					} else {
-						// All are selected — add ones that aren't yet selected
-						const notInSelected = newSelectedSubjects.filter(
-							(ns) => !subjects.some((s) => s.code === ns.code),
+						// All can be selected — add the ones not yet selected
+						const notInSelected = periodSubjects.filter(
+							(ps) => !subjects.some((s) => s.code === ps.code),
 						)
 						temp = subjects.concat(...notInSelected)
 					}
 				} else if (checkboxStatus === 'checked') {
-					// Deselect all with cascade
+					// Deselect all from this period with cascade
 					const toRemove = getCascadeRemovalSet(
 						graph,
-						newSelectedSubjects.map((s) => s.code),
+						periodSubjects.map((s) => s.code),
 					)
 					temp = subjects.filter((s) => !toRemove.has(s.code))
 				}
@@ -123,7 +129,6 @@ export const useSelectedSubjectsStore = create<SelectedSubjectsState>()(
 				link.setAttribute('href', dataUri)
 				link.setAttribute('download', 'uptracker.json')
 				link.click()
-				setTimeout(() => link.remove(), 5000)
 			},
 		}),
 		{

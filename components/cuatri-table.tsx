@@ -24,7 +24,6 @@ import {
 } from '@/components/ui/tooltip'
 import type { PrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
 import { getAllAncestors, getAllDescendants } from '@/lib/graph/traversal'
-import { getSubjectsThatCanBeSelected } from '@/lib/helpers/get-subjects-that-can-be-selected'
 import { prerequisitesMet } from '@/lib/helpers/prerequisites-met'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
 import { cn } from '@/lib/utils'
@@ -175,15 +174,9 @@ export function CuatriTable({
 	}
 
 	function handleSelectAll() {
-		const selectable = getSubjectsThatCanBeSelected(
-			cuatri.subjects,
-			currentSelected,
-			creditsCount,
-			totalCredits,
-		)
 		bulkSelect(
 			pensumCode,
-			selectable,
+			cuatri.subjects,
 			cuatri.subjects.length,
 			checkboxStatus,
 			creditsCount,

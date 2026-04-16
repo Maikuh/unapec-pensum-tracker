@@ -21,7 +21,10 @@ export function PensumContent({ pensum }: PensumContentProps) {
 	}, [pensum.pensumCode, initPensum])
 
 	const currentSelected = selectedSubjects[pensum.pensumCode] ?? []
-	const allSubjects = pensum.cuatris.flatMap((c) => c.subjects)
+	const allSubjects = useMemo(
+		() => pensum.cuatris.flatMap((c) => c.subjects),
+		[pensum.cuatris],
+	)
 	const totalSubjects = allSubjects.length
 	const creditsCount = currentSelected.reduce((sum, s) => sum + s.credits, 0)
 	const graph = useMemo(
