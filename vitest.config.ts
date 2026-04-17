@@ -7,6 +7,9 @@ export default defineConfig({
 		environment: 'jsdom',
 		include: ['**/*.test.ts', '**/*.test.tsx'],
 		globals: true,
+		coverage: {
+			provider: 'istanbul',
+		},
 	},
 	resolve: {
 		tsconfigPaths: true,
