@@ -38,6 +38,16 @@ describe('prerequisitesMet', () => {
 		expect(prerequisitesMet(subject, [], 60, 100)).toBe(false)
 	})
 
+	it('returns true when full-text percentage prerequisite is met', () => {
+		const subject = makeSubject('ADV001', ['50% de los créditos aprobados'])
+		expect(prerequisitesMet(subject, [], 50, 100)).toBe(true)
+	})
+
+	it('returns false when full-text percentage prerequisite is not met', () => {
+		const subject = makeSubject('ADV001', ['50% de los créditos aprobados'])
+		expect(prerequisitesMet(subject, [], 49, 100)).toBe(false)
+	})
+
 	it('returns true when all mixed prerequisites are met', () => {
 		const subject = makeSubject('ADV002', ['MAT001', '70%'])
 		const selected = [makeSubject('MAT001')]

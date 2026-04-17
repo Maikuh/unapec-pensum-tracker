@@ -101,9 +101,17 @@ function parsePeriod(cuatrimestre: string): number {
 function parsePrereqs(prerequisito: string): string[] {
 	if (!prerequisito.trim()) return []
 	return prerequisito
-		.split(/[,/\s]+/)
-		.map((s) => s.trim().toUpperCase())
+		.split(/[,/]+/)
+		.flatMap((s) => s.split(' - '))
+		.map((s) => s.trim())
 		.filter((s) => s.length > 0)
+		.map((s) => {
+			if (s.includes('%')) {
+				const match = s.match(/(\d+)%/)
+				return match ? `${match[1]}%` : s
+			}
+			return s.toUpperCase()
+		})
 }
 
 function buildPeriods(rows: ApiRow[]): {

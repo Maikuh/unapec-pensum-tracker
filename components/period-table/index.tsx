@@ -82,7 +82,7 @@ export function PeriodTable({
 		if (
 			prerequisitesMet(subject, currentSelected, creditsCount, totalCredits)
 		) {
-			selectSubject(pensumCode, subject, graph)
+			selectSubject(pensumCode, subject, graph, totalCredits)
 		} else {
 			setAlert({
 				open: true,

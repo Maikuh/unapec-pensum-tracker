@@ -5,6 +5,7 @@ import { persist } from 'zustand/middleware'
 import type { PrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
 import { getCascadeRemovalSet } from '@/lib/helpers/get-cascade-removal-set'
 import { getSubjectsThatCanBeSelected } from '@/lib/helpers/get-subjects-that-can-be-selected'
+import { removePercentPrereqViolators } from '@/lib/helpers/remove-percent-prereq-violators'
 import type { SelectedSubjects, Subject } from '@/types'
 import type { SelectAllCheckboxStatus } from '@/types/select-all-checkbox-status.type'
 
@@ -15,6 +16,7 @@ interface SelectedSubjectsState {
 		pensumCode: string,
 		subject: Subject,
 		graph: PrerequisiteGraph,
+		totalCredits: number,
 	) => void
 	bulkSelect: (
 		pensumCode: string,
@@ -43,15 +45,15 @@ export const useSelectedSubjectsStore = create<SelectedSubjectsState>()(
 				}
 			},
 
-			selectSubject: (pensumCode, subject, graph) => {
+			selectSubject: (pensumCode, subject, graph, totalCredits) => {
 				const { selectedSubjects } = get()
 				const subjects = selectedSubjects[pensumCode] ?? []
 				let temp: Subject[]
 
 				if (subjects.some((s) => s.code === subject.code)) {
-					// Remove subject and cascade-remove its dependents
 					const toRemove = getCascadeRemovalSet(graph, [subject.code])
 					temp = subjects.filter((s) => !toRemove.has(s.code))
+					temp = removePercentPrereqViolators(temp, totalCredits, graph)
 				} else {
 					temp = subjects.concat(subject)
 				}
@@ -96,6 +98,7 @@ export const useSelectedSubjectsStore = create<SelectedSubjectsState>()(
 							.map((s) => s.code)
 						const toRemove = getCascadeRemovalSet(graph, periodSelectedCodes)
 						temp = subjects.filter((s) => !toRemove.has(s.code))
+						temp = removePercentPrereqViolators(temp, totalCredits, graph)
 					} else {
 						// All can be selected — add the ones not yet selected
 						const notInSelected = periodSubjects.filter(
@@ -110,6 +113,7 @@ export const useSelectedSubjectsStore = create<SelectedSubjectsState>()(
 						periodSubjects.map((s) => s.code),
 					)
 					temp = subjects.filter((s) => !toRemove.has(s.code))
+					temp = removePercentPrereqViolators(temp, totalCredits, graph)
 				}
 
 				set({
