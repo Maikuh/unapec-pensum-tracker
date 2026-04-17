@@ -46,6 +46,16 @@ describe('selectSubject', () => {
 		useSelectedSubjectsStore.setState({ selectedSubjects: { [PENSUM]: [] } })
 	})
 
+	it('initialises from empty when pensumCode has no entry', () => {
+		const subject = makeSubject('A')
+		const graph = buildPrerequisiteGraph([subject])
+		useSelectedSubjectsStore.setState({ selectedSubjects: {} })
+		useSelectedSubjectsStore.getState().selectSubject(PENSUM, subject, graph)
+		expect(
+			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM],
+		).toContainEqual(subject)
+	})
+
 	it('adds a subject when not yet selected', () => {
 		const subject = makeSubject('A')
 		const graph = buildPrerequisiteGraph([subject])
@@ -92,6 +102,16 @@ describe('bulkSelect', () => {
 		useSelectedSubjectsStore.setState({ selectedSubjects: { [PENSUM]: [] } })
 	})
 
+	it('initialises from empty when pensumCode has no entry', () => {
+		useSelectedSubjectsStore.setState({ selectedSubjects: {} })
+		useSelectedSubjectsStore
+			.getState()
+			.bulkSelect(PENSUM, subjects, 3, 'unchecked', 0, 100, graph)
+		expect(
+			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM],
+		).toHaveLength(3)
+	})
+
 	it('adds all selectable subjects when status is unchecked', () => {
 		useSelectedSubjectsStore
 			.getState()
@@ -120,6 +140,46 @@ describe('bulkSelect', () => {
 		expect(
 			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM],
 		).toHaveLength(0)
+	})
+
+	it('indeterminate: deselects period subjects when some cannot be selected', () => {
+		// A has no prereqs, B and C require an external code 'X' not in subjects
+		const a = makeSubject('A')
+		const b = makeSubject('B', ['X'])
+		const c = makeSubject('C', ['X'])
+		const periodSubjects = [a, b, c]
+		const g = buildPrerequisiteGraph(periodSubjects)
+		// Only A is currently selected (X is never available)
+		useSelectedSubjectsStore.setState({
+			selectedSubjects: { [PENSUM]: [a] },
+		})
+		// selectableCount = 1 (only A) < periodSubjectsCount = 3 → deselect A
+		useSelectedSubjectsStore
+			.getState()
+			.bulkSelect(PENSUM, periodSubjects, 3, 'indeterminate', 0, 100, g)
+		expect(
+			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM],
+		).toHaveLength(0)
+	})
+
+	it('indeterminate: adds remaining subjects when all can be selected', () => {
+		// A, B, C have no prerequisites — all selectable
+		const a = makeSubject('A')
+		const b = makeSubject('B')
+		const c = makeSubject('C')
+		const periodSubjects = [a, b, c]
+		const g = buildPrerequisiteGraph(periodSubjects)
+		// Only A is currently selected
+		useSelectedSubjectsStore.setState({
+			selectedSubjects: { [PENSUM]: [a] },
+		})
+		// selectableCount = 3 = periodSubjectsCount = 3 → add B and C
+		useSelectedSubjectsStore
+			.getState()
+			.bulkSelect(PENSUM, periodSubjects, 3, 'indeterminate', 0, 100, g)
+		const selected = useSelectedSubjectsStore.getState().selectedSubjects[PENSUM]
+		expect(selected).toHaveLength(3)
+		expect(selected.map((s) => s.code).sort()).toEqual(['A', 'B', 'C'])
 	})
 })
 

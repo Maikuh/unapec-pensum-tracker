@@ -129,4 +129,21 @@ describe('getAllDescendantsMultiple', () => {
 		const result = getAllDescendantsMultiple(graph, ['A'])
 		expect(result.has('A')).toBe(false)
 	})
+
+	it('handles duplicate start codes without including them in the result', () => {
+		const graph = buildPrerequisiteGraph([make('A'), make('B', ['A'])])
+		// Duplicate 'A' exercises the visited.has(current) continue branch
+		const result = getAllDescendantsMultiple(graph, ['A', 'A'])
+		expect(result).toEqual(new Set(['B']))
+	})
+})
+
+describe('dfs: unreachable neighbor branch', () => {
+	it('handles a code present in dependents but absent from prerequisites without error', () => {
+		// B lists 'A' as a prereq, but 'A' is not in the subjects array.
+		// graph.prerequisites has no entry for 'A', so adjacencyMap.get('A') is undefined.
+		const graph = buildPrerequisiteGraph([make('B', ['A'])])
+		// getAllAncestors for 'A' exercises the if (neighbors) false branch
+		expect(getAllAncestors(graph, 'A')).toEqual(new Set())
+	})
 })

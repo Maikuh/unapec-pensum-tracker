@@ -10,6 +10,14 @@ export default defineConfig({
 		setupFiles: ['./vitest.setup.ts'],
 		coverage: {
 			provider: 'istanbul',
+			thresholds: {
+				lines: 80,
+				functions: 80,
+				branches: 75,
+				statements: 80,
+				perFile: true,
+				autoUpdate: true,
+			},
 		},
 	},
 	resolve: {
