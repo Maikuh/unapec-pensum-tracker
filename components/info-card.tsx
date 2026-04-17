@@ -1,8 +1,20 @@
 'use client'
 
-import { Calendar, CreditCard, ExternalLink, FileText } from 'lucide-react'
+import {
+	Calendar,
+	CreditCard,
+	ExternalLink,
+	FileText,
+	Info,
+} from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { pensumPages } from '@/lib/data/pensum-pages'
 
 interface InfoCardProps {
@@ -43,7 +55,20 @@ export function InfoCard({
 					<div className="flex items-start gap-3">
 						<Calendar className="h-5 w-5 mt-0.5 text-muted-foreground shrink-0" />
 						<div>
-							<p className="text-sm font-medium">Fecha del Pensum</p>
+							<p className="text-sm font-medium flex items-center gap-1">
+								Fecha de generación
+								<TooltipProvider>
+									<Tooltip>
+										<TooltipTrigger className="cursor-default text-muted-foreground hover:text-foreground">
+											<Info className="h-3.5 w-3.5" />
+										</TooltipTrigger>
+										<TooltipContent>
+											La página oficial ya no provee la fecha del Pensum como
+											antes.
+										</TooltipContent>
+									</Tooltip>
+								</TooltipProvider>
+							</p>
 							<p className="text-sm text-muted-foreground">{formattedDate}</p>
 						</div>
 					</div>
