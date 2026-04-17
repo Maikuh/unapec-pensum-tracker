@@ -21,6 +21,7 @@
 # next.js
 /.next/
 /out/
+/.e2e-serve/
 
 # production
 /build

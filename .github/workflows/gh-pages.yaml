@@ -41,11 +41,11 @@ jobs:
       - name: Run unit tests
         run: bun test:run
 
-      - name: Run E2E tests
-        run: DEBUG=pw:browser bun test:e2e
-
       - name: Build
         run: bun run build
+
+      - name: Run E2E tests
+        run: bun test:e2e
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4

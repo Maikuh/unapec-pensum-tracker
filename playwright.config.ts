@@ -1,17 +1,20 @@
 import { defineConfig, devices } from '@playwright/test'
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '/unapec-pensum-tracker'
+const baseURL = `http://localhost:3000${basePath}`
 
 export default defineConfig({
 	testDir: './e2e',
 	use: {
-		baseURL: `http://localhost:3000${basePath}`,
+		baseURL,
 	},
 	webServer: {
-		command: 'bun run build && bunx serve out',
-		port: 3000,
+		command: process.env.CI
+			? `mkdir -p .e2e-serve && cp -r out .e2e-serve/${basePath.slice(1)} && bunx serve .e2e-serve`
+			: 'bun dev',
+		url: baseURL,
 		reuseExistingServer: !process.env.CI,
-		timeout: 120_000,
+		timeout: process.env.CI ? 60_000 : 120_000,
 	},
 	projects: [
 		{
