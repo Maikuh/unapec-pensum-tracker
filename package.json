@@ -13,7 +13,7 @@
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:coverage:ui": "vitest --ui --coverage",
-    "test:all": "vitest run && cypress run --e2e && cypress run --component",
+    "test:all": "vitest run && cypress run --component && cypress run --e2e",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "sync:pensums": "bun scripts/sync-pensums.ts",
