@@ -56,7 +56,9 @@ test.describe('Subject related tests', () => {
 		page,
 	}) => {
 		await getSubjectRow(page, 'MAT010').click()
+		await expect(getSubjectRow(page, 'MAT121')).toHaveAttribute('data-disabled', 'false')
 		await getSubjectRow(page, 'MAT121').click()
+		await expect(getSubjectRow(page, 'MAT131')).toHaveAttribute('data-disabled', 'false')
 		await getSubjectRow(page, 'MAT131').click()
 		await getSubjectRow(page, 'MAT010').click()
 		await expect(getSubjectRow(page, 'MAT121')).toHaveAttribute(
@@ -92,6 +94,7 @@ test.describe('Subject related tests', () => {
 	test('Clicking a disabled subject shows prerequisite alert dialog', async ({
 		page,
 	}) => {
+		await expect(getSubjectRow(page, 'MAT121')).toHaveAttribute('data-disabled', 'true')
 		await getSubjectRow(page, 'MAT121').click()
 		await expect(page.getByRole('alertdialog')).toBeVisible()
 	})
