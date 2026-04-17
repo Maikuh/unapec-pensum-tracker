@@ -2,8 +2,10 @@
 
 import { useEffect, useMemo } from 'react'
 import { CuatriTable } from '@/components/cuatri-table'
+import { FloatingProgress } from '@/components/floating-progress'
 import { InfoCard } from '@/components/info-card'
 import { buildPrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
+import { useInViewport } from '@/lib/hooks/use-in-viewport'
 import { useHydrated } from '@/lib/store/use-hydrated'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
 import type { Pensum } from '@/types/pensum'
@@ -20,6 +22,7 @@ export function PensumContent({ pensum }: PensumContentProps) {
 		initPensum(pensum.pensumCode)
 	}, [pensum.pensumCode, initPensum])
 
+	const [infoCardRef, infoCardInView] = useInViewport<HTMLDivElement>()
 	const currentSelected = selectedSubjects[pensum.pensumCode] ?? []
 	const allSubjects = useMemo(
 		() => pensum.cuatris.flatMap((c) => c.subjects),
@@ -49,31 +52,43 @@ export function PensumContent({ pensum }: PensumContentProps) {
 	}
 
 	return (
-		<div className="space-y-8">
-			<h1 className="text-2xl font-bold text-center">{pensum.carreerName}</h1>
+		<>
+			<div className="space-y-8">
+				<h1 className="text-2xl font-bold text-center">{pensum.carreerName}</h1>
 
-			<InfoCard
-				pensumCode={pensum.pensumCode}
+				<div ref={infoCardRef}>
+					<InfoCard
+						pensumCode={pensum.pensumCode}
+						subjectsCount={currentSelected.length}
+						totalSubjects={totalSubjects}
+						creditsCount={creditsCount}
+						totalCredits={pensum.totalCredits}
+						date={pensum.date}
+					/>
+				</div>
+
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+					{pensum.cuatris.map((cuatri) => (
+						<CuatriTable
+							key={cuatri.period}
+							cuatri={cuatri}
+							allSubjects={allSubjects}
+							pensumCode={pensum.pensumCode}
+							creditsCount={creditsCount}
+							totalCredits={pensum.totalCredits}
+							graph={graph}
+						/>
+					))}
+				</div>
+			</div>
+
+			<FloatingProgress
+				visible={!infoCardInView}
 				subjectsCount={currentSelected.length}
 				totalSubjects={totalSubjects}
 				creditsCount={creditsCount}
 				totalCredits={pensum.totalCredits}
-				date={pensum.date}
 			/>
-
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-				{pensum.cuatris.map((cuatri) => (
-					<CuatriTable
-						key={cuatri.period}
-						cuatri={cuatri}
-						allSubjects={allSubjects}
-						pensumCode={pensum.pensumCode}
-						creditsCount={creditsCount}
-						totalCredits={pensum.totalCredits}
-						graph={graph}
-					/>
-				))}
-			</div>
-		</div>
+		</>
 	)
 }
