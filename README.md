@@ -21,6 +21,8 @@ The project can be accessed in [https://maikuh.github.io/unapec-pensum-tracker/]
 -   Go to top of the page via a floating button
 -   View what subjects are opened by selected subject
 
-## What's next?
+## Contributing
+See [CONTRIBUTING](CONTRIBUTING)
 
-- Migrate to the new/updated pensum system that uses an HTTP API instead of PDFs
+## Copyright
+See [LICENSE](LICENSE)
