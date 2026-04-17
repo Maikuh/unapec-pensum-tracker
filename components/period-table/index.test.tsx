@@ -3,15 +3,15 @@ import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
 import {
-	cuatri1,
-	cuatri2,
-	cuatri3,
 	graph,
 	PENSUM_CODE,
+	period1,
+	period2,
+	period3,
 	subjects,
 	TOTAL_CREDITS,
 } from '@/test/fixtures/pensum'
-import { CuatriTable } from './cuatri-table'
+import { PeriodTable } from './index'
 
 function getRow(el: Element): Element {
 	const row = el.closest('tr')
@@ -19,9 +19,9 @@ function getRow(el: Element): Element {
 	return row
 }
 
-function tableProps(cuatri: typeof cuatri1) {
+function tableProps(period: typeof period1) {
 	return {
-		cuatri,
+		period,
 		allSubjects: subjects,
 		pensumCode: PENSUM_CODE,
 		creditsCount: 0,
@@ -30,20 +30,20 @@ function tableProps(cuatri: typeof cuatri1) {
 	}
 }
 
-function renderCuatri1() {
-	return render(<CuatriTable {...tableProps(cuatri1)} />)
+function renderPeriod1() {
+	return render(<PeriodTable {...tableProps(period1)} />)
 }
 
-function renderCuatri2() {
-	return render(<CuatriTable {...tableProps(cuatri2)} />)
+function renderPeriod2() {
+	return render(<PeriodTable {...tableProps(period2)} />)
 }
 
-function renderAllCuatris() {
+function renderAllPeriods() {
 	return render(
 		<>
-			<CuatriTable {...tableProps(cuatri1)} />
-			<CuatriTable {...tableProps(cuatri2)} />
-			<CuatriTable {...tableProps(cuatri3)} />
+			<PeriodTable {...tableProps(period1)} />
+			<PeriodTable {...tableProps(period2)} />
+			<PeriodTable {...tableProps(period3)} />
 		</>,
 	)
 }
@@ -54,29 +54,29 @@ beforeEach(() => {
 	localStorage.clear()
 })
 
-describe('CuatriTable — rendering', () => {
+describe('PeriodTable — rendering', () => {
 	it('renders the cuatrimestre period heading', () => {
-		renderCuatri1()
+		renderPeriod1()
 		expect(screen.getByText('Cuatrimestre 1')).toBeVisible()
 	})
 
-	it('renders all subjects in the cuatri', () => {
-		renderCuatri1()
+	it('renders all subjects in the period', () => {
+		renderPeriod1()
 		expect(screen.getByText('MAT010')).toBeVisible()
 		expect(screen.getByText('ESP101')).toBeVisible()
 		expect(screen.getByText('HIS010')).toBeVisible()
 	})
 
 	it('shows subject names and prerequisite badges', () => {
-		renderCuatri2()
+		renderPeriod2()
 		expect(screen.getByText('MAT010')).toBeVisible()
 		expect(screen.getByText('MAT121')).toBeVisible()
 	})
 })
 
-describe('CuatriTable — subject selection', () => {
+describe('PeriodTable — subject selection', () => {
 	it('selects a subject with no prerequisites on row click', async () => {
-		renderCuatri1()
+		renderPeriod1()
 		await userEvent.click(getRow(screen.getByText('MAT010')))
 		expect(screen.getByText('MAT010').closest('tr')).toHaveAttribute(
 			'data-selected',
@@ -85,7 +85,7 @@ describe('CuatriTable — subject selection', () => {
 	})
 
 	it('deselects a selected subject on second click', async () => {
-		renderCuatri1()
+		renderPeriod1()
 		await userEvent.click(getRow(screen.getByText('MAT010')))
 		await userEvent.click(getRow(screen.getByText('MAT010')))
 		expect(screen.getByText('MAT010').closest('tr')).toHaveAttribute(
@@ -95,7 +95,7 @@ describe('CuatriTable — subject selection', () => {
 	})
 
 	it('marks subjects with unmet prerequisites as disabled', () => {
-		renderCuatri2()
+		renderPeriod2()
 		expect(screen.getByText('MAT121').closest('tr')).toHaveAttribute(
 			'data-disabled',
 			'true',
@@ -103,7 +103,7 @@ describe('CuatriTable — subject selection', () => {
 	})
 
 	it('enables a dependent subject after its prerequisite is selected', async () => {
-		renderAllCuatris()
+		renderAllPeriods()
 		await userEvent.click(getRow(screen.getAllByText('MAT010')[0]))
 		await waitFor(() => {
 			expect(screen.getAllByText('MAT121')[0].closest('tr')).toHaveAttribute(
@@ -114,7 +114,7 @@ describe('CuatriTable — subject selection', () => {
 	})
 
 	it('shows prerequisite alert when clicking a disabled subject', async () => {
-		renderCuatri2()
+		renderPeriod2()
 		await userEvent.click(getRow(screen.getByText('MAT121')))
 		await screen.findByRole('alertdialog')
 		await userEvent.click(screen.getByText('Entendido'))
@@ -124,9 +124,9 @@ describe('CuatriTable — subject selection', () => {
 	})
 })
 
-describe('CuatriTable — cascade deselection', () => {
+describe('PeriodTable — cascade deselection', () => {
 	it('cascade-deselects dependents when a prerequisite is removed', async () => {
-		renderAllCuatris()
+		renderAllPeriods()
 
 		await userEvent.click(getRow(screen.getAllByText('MAT010')[0]))
 		await waitFor(() => {
@@ -159,9 +159,9 @@ describe('CuatriTable — cascade deselection', () => {
 	})
 })
 
-describe('CuatriTable — select-all checkbox', () => {
+describe('PeriodTable — select-all checkbox', () => {
 	it('selects all available subjects when checkbox is unchecked', async () => {
-		renderCuatri1()
+		renderPeriod1()
 		await userEvent.click(screen.getByTestId('select-all-checkbox'))
 		await waitFor(() => {
 			for (const row of screen.getAllByRole('row').slice(1)) {
@@ -171,7 +171,7 @@ describe('CuatriTable — select-all checkbox', () => {
 	})
 
 	it('deselects all subjects when checkbox is checked', async () => {
-		renderCuatri1()
+		renderPeriod1()
 		await userEvent.click(screen.getByTestId('select-all-checkbox'))
 		await userEvent.click(screen.getByTestId('select-all-checkbox'))
 		await waitFor(() => {
@@ -182,7 +182,7 @@ describe('CuatriTable — select-all checkbox', () => {
 	})
 
 	it('shows indeterminate state when some subjects are selected', async () => {
-		renderCuatri1()
+		renderPeriod1()
 		await userEvent.click(getRow(screen.getByText('MAT010')))
 		await waitFor(() => {
 			expect(screen.getByTestId('select-all-checkbox')).toHaveAttribute(
@@ -193,7 +193,7 @@ describe('CuatriTable — select-all checkbox', () => {
 	})
 
 	it('shows checked state when all subjects are selected', async () => {
-		renderCuatri1()
+		renderPeriod1()
 		await userEvent.click(screen.getByTestId('select-all-checkbox'))
 		await waitFor(() => {
 			expect(screen.getByTestId('select-all-checkbox')).toHaveAttribute(
@@ -204,7 +204,7 @@ describe('CuatriTable — select-all checkbox', () => {
 	})
 
 	it('shows disabled state when no subjects can be selected', () => {
-		renderCuatri2()
+		renderPeriod2()
 		expect(screen.getByTestId('select-all-checkbox')).toHaveAttribute(
 			'data-state',
 			'disabled',

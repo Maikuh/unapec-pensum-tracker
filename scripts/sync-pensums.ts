@@ -13,7 +13,7 @@
 
 import * as cheerio from 'cheerio'
 import type { AnyNode } from 'domhandler'
-import type { Cuatri, ElectiveOption, Pensum, Subject } from '../types/pensum'
+import type { ElectiveOption, Pensum, Period, Subject } from '../types/pensum'
 
 const API_BASE = 'https://apiestudiante.azurewebsites.net/pensum'
 
@@ -106,8 +106,8 @@ function parsePrereqs(prerequisito: string): string[] {
 		.filter((s) => s.length > 0)
 }
 
-function buildCuatris(rows: ApiRow[]): {
-	cuatris: Cuatri[]
+function buildPeriods(rows: ApiRow[]): {
+	periods: Period[]
 	totalCredits: number
 } {
 	const periodMap = new Map<number, Subject[]>()
@@ -130,15 +130,15 @@ function buildCuatris(rows: ApiRow[]): {
 		periodMap.set(period, subjects)
 	}
 
-	const cuatris: Cuatri[] = Array.from(periodMap.entries())
+	const periods: Period[] = Array.from(periodMap.entries())
 		.sort(([a], [b]) => a - b)
-		.map(([period, subjects]) => ({ period, subjects }))
+		.map(([number, subjects]) => ({ number, subjects }))
 
-	const totalCredits = cuatris
-		.flatMap((c) => c.subjects)
+	const totalCredits = periods
+		.flatMap((p) => p.subjects)
 		.reduce((sum, s) => sum + s.credits, 0)
 
-	return { cuatris, totalCredits }
+	return { periods, totalCredits }
 }
 
 function parseElectivesTable(
@@ -253,7 +253,7 @@ async function fetchProgram(
 
 	const html = await htmlRes.text()
 
-	const { cuatris, totalCredits } = buildCuatris(apiRows)
+	const { periods, totalCredits } = buildPeriods(apiRows)
 	const { certifications, electives } = scrapeElectives(html)
 
 	// Prefer the full program name from the HTML <h1>; fall back to pensumCode.
@@ -263,7 +263,7 @@ async function fetchProgram(
 		carreerName,
 		totalCredits,
 		pensumCode,
-		cuatris,
+		periods,
 		date: new Date().toISOString(),
 		certifications,
 		electives,
@@ -285,7 +285,7 @@ async function main() {
 			fetchProgram(code, url).then(
 				(p) => {
 					console.log(
-						`  ✓ ${p.pensumCode} — ${p.cuatris.length} cuatris, ${p.certifications.length} certifications, ${p.electives.length} electives`,
+						`  ✓ ${p.pensumCode} — ${p.periods.length} periods, ${p.certifications.length} certifications, ${p.electives.length} electives`,
 					)
 					pensums.push(p)
 				},

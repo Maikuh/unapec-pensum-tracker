@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useMemo } from 'react'
-import { CuatriTable } from '@/components/cuatri-table'
 import { FloatingProgress } from '@/components/floating-progress'
 import { InfoCard } from '@/components/info-card'
+import { PeriodTable } from '@/components/period-table'
 import { buildPrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
 import { useInViewport } from '@/lib/hooks/use-in-viewport'
 import { useHydrated } from '@/lib/store/use-hydrated'
@@ -25,8 +25,8 @@ export function PensumContent({ pensum }: PensumContentProps) {
 	const [infoCardRef, infoCardInView] = useInViewport<HTMLDivElement>()
 	const currentSelected = selectedSubjects[pensum.pensumCode] ?? []
 	const allSubjects = useMemo(
-		() => pensum.cuatris.flatMap((c) => c.subjects),
-		[pensum.cuatris],
+		() => pensum.periods.flatMap((c) => c.subjects),
+		[pensum.periods],
 	)
 	const totalSubjects = allSubjects.length
 	const creditsCount = currentSelected.reduce((sum, s) => sum + s.credits, 0)
@@ -68,10 +68,10 @@ export function PensumContent({ pensum }: PensumContentProps) {
 				</div>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-					{pensum.cuatris.map((cuatri) => (
-						<CuatriTable
-							key={cuatri.period}
-							cuatri={cuatri}
+					{pensum.periods.map((period) => (
+						<PeriodTable
+							key={period.number}
+							period={period}
 							allSubjects={allSubjects}
 							pensumCode={pensum.pensumCode}
 							creditsCount={creditsCount}

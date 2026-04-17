@@ -45,11 +45,11 @@ test.describe('Subject related tests', () => {
 		page,
 	}) => {
 		await page.getByTestId('select-all-checkbox').first().click()
-		const cuatri1Rows = page
+		const period1Rows = page
 			.locator('.rounded-md')
 			.filter({ hasText: 'Cuatrimestre 1' })
 			.locator('tbody tr')
-		await expect(cuatri1Rows.first()).toHaveAttribute('data-selected', 'true')
+		await expect(period1Rows.first()).toHaveAttribute('data-selected', 'true')
 	})
 
 	test('Deselecting a subject cascade-deselects its dependents', async ({

@@ -1,5 +1,5 @@
 import { buildPrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
-import type { Cuatri, Subject } from '@/types/pensum'
+import type { Period, Subject } from '@/types/pensum'
 
 /**
  * A small self-contained set of subjects with prerequisite chains:
@@ -36,21 +36,21 @@ export const subjects: Subject[] = [
 	},
 ]
 
-/** First cuatri — subjects with no prerequisites */
-export const cuatri1: Cuatri = {
-	period: 1,
+/** First period — subjects with no prerequisites */
+export const period1: Period = {
+	number: 1,
 	subjects: [subjects[0], subjects[3], subjects[5]], // MAT010, ESP101, HIS010
 }
 
-/** Second cuatri — subjects that require cuatri1 subjects */
-export const cuatri2: Cuatri = {
-	period: 2,
+/** Second period — subjects that require period1 subjects */
+export const period2: Period = {
+	number: 2,
 	subjects: [subjects[1], subjects[4]], // MAT121 (req MAT010), ESP106 (req ESP101)
 }
 
-/** Third cuatri — subjects with deeper prerequisite chains */
-export const cuatri3: Cuatri = {
-	period: 3,
+/** Third period — subjects with deeper prerequisite chains */
+export const period3: Period = {
+	number: 3,
 	subjects: [subjects[2]], // MAT131 (req MAT121)
 }
 

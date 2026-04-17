@@ -1,14 +1,8 @@
 'use client'
 
-import { Info } from 'lucide-react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PrerequisiteAlert } from '@/components/prerequisite-alert'
 import { Checkbox } from '@/components/ui/checkbox'
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from '@/components/ui/popover'
 import {
 	Table,
 	TableBody,
@@ -23,16 +17,16 @@ import {
 	TooltipTrigger,
 } from '@/components/ui/tooltip'
 import type { PrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
-import { getAllAncestors, getAllDescendants } from '@/lib/graph/traversal'
 import { getSubjectsThatCanBeSelected } from '@/lib/helpers/get-subjects-that-can-be-selected'
 import { prerequisitesMet } from '@/lib/helpers/prerequisites-met'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
 import { cn } from '@/lib/utils'
 import type { SelectAllCheckboxStatus } from '@/types/checkbox'
-import type { Cuatri, Subject } from '@/types/pensum'
+import type { Period, Subject } from '@/types/pensum'
+import { SubjectDependencyInfo } from './subject-dependency-info'
 
-interface CuatriTableProps {
-	cuatri: Cuatri
+interface PeriodTableProps {
+	period: Period
 	allSubjects: Subject[]
 	pensumCode: string
 	creditsCount: number
@@ -40,89 +34,14 @@ interface CuatriTableProps {
 	graph: PrerequisiteGraph
 }
 
-interface SubjectDependencyInfoProps {
-	code: string
-	graph: PrerequisiteGraph
-	allSubjects: Subject[]
-}
-
-function SubjectDependencyInfo({
-	code,
-	graph,
-	allSubjects,
-}: SubjectDependencyInfoProps) {
-	const ancestors = useMemo(() => getAllAncestors(graph, code), [graph, code])
-	const descendants = useMemo(
-		() => getAllDescendants(graph, code),
-		[graph, code],
-	)
-
-	if (ancestors.size === 0 && descendants.size === 0) return null
-
-	function getSubjectName(subjectCode: string): string {
-		return allSubjects.find((s) => s.code === subjectCode)?.name ?? subjectCode
-	}
-
-	return (
-		<Popover>
-			<PopoverTrigger
-				onClick={(e) => e.stopPropagation()}
-				className="inline-flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
-				aria-label="Ver dependencias"
-			>
-				<Info className="h-3.5 w-3.5" />
-			</PopoverTrigger>
-			<PopoverContent
-				className="w-72 text-sm"
-				onClick={(e) => e.stopPropagation()}
-			>
-				{ancestors.size > 0 && (
-					<div className="mb-3">
-						<p className="font-medium text-xs text-muted-foreground uppercase tracking-wide mb-1">
-							Prerrequisitos (cadena completa)
-						</p>
-						<ul className="space-y-0.5">
-							{[...ancestors].map((ancestorCode) => (
-								<li key={ancestorCode} className="flex gap-1.5 text-xs">
-									<span className="font-mono shrink-0">{ancestorCode}</span>
-									<span className="text-muted-foreground">
-										{getSubjectName(ancestorCode)}
-									</span>
-								</li>
-							))}
-						</ul>
-					</div>
-				)}
-				{descendants.size > 0 && (
-					<div>
-						<p className="font-medium text-xs text-muted-foreground uppercase tracking-wide mb-1">
-							Desbloquea
-						</p>
-						<ul className="space-y-0.5">
-							{[...descendants].map((descendantCode) => (
-								<li key={descendantCode} className="flex gap-1.5 text-xs">
-									<span className="font-mono shrink-0">{descendantCode}</span>
-									<span className="text-muted-foreground">
-										{getSubjectName(descendantCode)}
-									</span>
-								</li>
-							))}
-						</ul>
-					</div>
-				)}
-			</PopoverContent>
-		</Popover>
-	)
-}
-
-export function CuatriTable({
-	cuatri,
+export function PeriodTable({
+	period,
 	allSubjects,
 	pensumCode,
 	creditsCount,
 	totalCredits,
 	graph,
-}: CuatriTableProps) {
+}: PeriodTableProps) {
 	const { selectedSubjects, selectSubject, bulkSelect } =
 		useSelectedSubjectsStore()
 	const currentSelected = selectedSubjects[pensumCode] ?? []
@@ -137,17 +56,17 @@ export function CuatriTable({
 
 	useEffect(() => {
 		let selectedCount = 0
-		cuatri.subjects.forEach((subject) => {
+		period.subjects.forEach((subject) => {
 			if (currentSelected.some((s) => s.code === subject.code)) selectedCount++
 		})
 
-		if (selectedCount > 0 && selectedCount < cuatri.subjects.length) {
+		if (selectedCount > 0 && selectedCount < period.subjects.length) {
 			setCheckboxStatus('indeterminate')
-		} else if (selectedCount === cuatri.subjects.length) {
+		} else if (selectedCount === period.subjects.length) {
 			setCheckboxStatus('checked')
 		} else if (
 			getSubjectsThatCanBeSelected(
-				cuatri.subjects,
+				period.subjects,
 				currentSelected,
 				creditsCount,
 				totalCredits,
@@ -157,7 +76,7 @@ export function CuatriTable({
 		} else {
 			setCheckboxStatus('unchecked')
 		}
-	}, [currentSelected, cuatri.subjects, creditsCount, totalCredits])
+	}, [currentSelected, period.subjects, creditsCount, totalCredits])
 
 	function handleSubjectClick(subject: Subject) {
 		if (
@@ -177,8 +96,8 @@ export function CuatriTable({
 	function handleSelectAll() {
 		bulkSelect(
 			pensumCode,
-			cuatri.subjects,
-			cuatri.subjects.length,
+			period.subjects,
+			period.subjects.length,
 			checkboxStatus,
 			creditsCount,
 			totalCredits,
@@ -202,7 +121,7 @@ export function CuatriTable({
 			<div className="rounded-md border overflow-hidden">
 				<div className="px-4 py-3 bg-muted/40 border-b">
 					<h3 className="font-semibold text-base">
-						Cuatrimestre {cuatri.period}
+						Cuatrimestre {period.number}
 					</h3>
 				</div>
 
@@ -236,7 +155,7 @@ export function CuatriTable({
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{cuatri.subjects.map((subject) => {
+						{period.subjects.map((subject) => {
 							const isSelected = currentSelected.some(
 								(s) => s.code === subject.code,
 							)

@@ -2,10 +2,10 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
 import {
-	cuatri1,
-	cuatri2,
-	cuatri3,
 	PENSUM_CODE,
+	period1,
+	period2,
+	period3,
 	TOTAL_CREDITS,
 } from '@/test/fixtures/pensum'
 import type { Pensum } from '@/types/pensum'
@@ -16,7 +16,7 @@ const MOCK_PENSUM: Pensum = {
 	carreerName: 'Carrera de Prueba',
 	date: '2021-01-01T04:00:00.000Z',
 	totalCredits: TOTAL_CREDITS,
-	cuatris: [cuatri1, cuatri2, cuatri3],
+	periods: [period1, period2, period3],
 	certifications: [],
 	electives: [],
 }
@@ -49,7 +49,7 @@ describe('PensumContent — rendering', () => {
 	it('renders an InfoCard with totals', () => {
 		render(<PensumContent pensum={MOCK_PENSUM} />)
 		expect(screen.getByTestId('total-subjects')).toHaveTextContent(
-			String(MOCK_PENSUM.cuatris.flatMap((c) => c.subjects).length),
+			String(MOCK_PENSUM.periods.flatMap((c) => c.subjects).length),
 		)
 		expect(screen.getByTestId('total-credits')).toHaveTextContent(
 			String(TOTAL_CREDITS),

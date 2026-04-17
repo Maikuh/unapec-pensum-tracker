@@ -5,8 +5,8 @@ export interface Subject {
 	prerequisites: string[]
 }
 
-export interface Cuatri {
-	period: number
+export interface Period {
+	number: number
 	subjects: Subject[]
 }
 
@@ -22,7 +22,7 @@ export interface Pensum {
 	carreerName: string
 	totalCredits: number
 	pensumCode: string
-	cuatris: Cuatri[]
+	periods: Period[]
 	date: string
 	/** Options the student can fulfill by completing a certification track. */
 	certifications: ElectiveOption[]
