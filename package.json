@@ -12,10 +12,12 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "test:coverage:ui": "vitest --ui --coverage",
     "test:all": "vitest run && cypress run --e2e && cypress run --component",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "sync:pensums": "bun scripts/sync-pensums.ts"
+    "sync:pensums": "bun scripts/sync-pensums.ts",
+    "vitest:ui": "vitest --ui"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",
@@ -44,6 +46,7 @@
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.0.1",
     "@vitest/coverage-istanbul": "^4.1.4",
+    "@vitest/ui": "^4.1.4",
     "babel-plugin-react-compiler": "1.0.0",
     "cheerio": "^1.2.0",
     "cypress": "^15.13.1",
