@@ -1,4 +1,5 @@
 import { Separator } from '@/components/ui/separator'
+import { version } from '@/package.json'
 
 export function Footer() {
 	return (
@@ -14,6 +15,7 @@ export function Footer() {
 				>
 					Maikuh
 				</a>
+				&nbsp;&middot;&nbsp;v{version}
 			</footer>
 		</div>
 	)
