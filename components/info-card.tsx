@@ -84,6 +84,7 @@ export function InfoCard({
 								</span>
 								) de <span data-testid="total-subjects">{totalSubjects}</span>
 							</p>
+							<Progress value={subjectsPercent} className="h-2 mt-1" />
 						</div>
 					</div>
 
