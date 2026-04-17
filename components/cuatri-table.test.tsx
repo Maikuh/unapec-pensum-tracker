@@ -13,6 +13,12 @@ import {
 } from '@/test/fixtures/pensum'
 import { CuatriTable } from './cuatri-table'
 
+function getRow(el: Element): Element {
+	const row = el.closest('tr')
+	if (!row) throw new Error('no <tr> ancestor found')
+	return row
+}
+
 function tableProps(cuatri: typeof cuatri1) {
 	return {
 		cuatri,
@@ -71,7 +77,7 @@ describe('CuatriTable — rendering', () => {
 describe('CuatriTable — subject selection', () => {
 	it('selects a subject with no prerequisites on row click', async () => {
 		renderCuatri1()
-		await userEvent.click(screen.getByText('MAT010').closest('tr')!)
+		await userEvent.click(getRow(screen.getByText('MAT010')))
 		expect(screen.getByText('MAT010').closest('tr')).toHaveAttribute(
 			'data-selected',
 			'true',
@@ -80,8 +86,8 @@ describe('CuatriTable — subject selection', () => {
 
 	it('deselects a selected subject on second click', async () => {
 		renderCuatri1()
-		await userEvent.click(screen.getByText('MAT010').closest('tr')!)
-		await userEvent.click(screen.getByText('MAT010').closest('tr')!)
+		await userEvent.click(getRow(screen.getByText('MAT010')))
+		await userEvent.click(getRow(screen.getByText('MAT010')))
 		expect(screen.getByText('MAT010').closest('tr')).toHaveAttribute(
 			'data-selected',
 			'false',
@@ -98,7 +104,7 @@ describe('CuatriTable — subject selection', () => {
 
 	it('enables a dependent subject after its prerequisite is selected', async () => {
 		renderAllCuatris()
-		await userEvent.click(screen.getAllByText('MAT010')[0].closest('tr')!)
+		await userEvent.click(getRow(screen.getAllByText('MAT010')[0]))
 		await waitFor(() => {
 			expect(screen.getAllByText('MAT121')[0].closest('tr')).toHaveAttribute(
 				'data-disabled',
@@ -109,7 +115,7 @@ describe('CuatriTable — subject selection', () => {
 
 	it('shows prerequisite alert when clicking a disabled subject', async () => {
 		renderCuatri2()
-		await userEvent.click(screen.getByText('MAT121').closest('tr')!)
+		await userEvent.click(getRow(screen.getByText('MAT121')))
 		await screen.findByRole('alertdialog')
 		await userEvent.click(screen.getByText('Entendido'))
 		await waitFor(() =>
@@ -122,7 +128,7 @@ describe('CuatriTable — cascade deselection', () => {
 	it('cascade-deselects dependents when a prerequisite is removed', async () => {
 		renderAllCuatris()
 
-		await userEvent.click(screen.getAllByText('MAT010')[0].closest('tr')!)
+		await userEvent.click(getRow(screen.getAllByText('MAT010')[0]))
 		await waitFor(() => {
 			expect(screen.getAllByText('MAT121')[0].closest('tr')).toHaveAttribute(
 				'data-disabled',
@@ -130,7 +136,7 @@ describe('CuatriTable — cascade deselection', () => {
 			)
 		})
 
-		await userEvent.click(screen.getAllByText('MAT121')[0].closest('tr')!)
+		await userEvent.click(getRow(screen.getAllByText('MAT121')[0]))
 		await waitFor(() => {
 			expect(screen.getAllByText('MAT121')[0].closest('tr')).toHaveAttribute(
 				'data-selected',
@@ -138,7 +144,7 @@ describe('CuatriTable — cascade deselection', () => {
 			)
 		})
 
-		await userEvent.click(screen.getAllByText('MAT010')[0].closest('tr')!)
+		await userEvent.click(getRow(screen.getAllByText('MAT010')[0]))
 
 		await waitFor(() => {
 			expect(screen.getAllByText('MAT121')[0].closest('tr')).toHaveAttribute(
@@ -177,7 +183,7 @@ describe('CuatriTable — select-all checkbox', () => {
 
 	it('shows indeterminate state when some subjects are selected', async () => {
 		renderCuatri1()
-		await userEvent.click(screen.getByText('MAT010').closest('tr')!)
+		await userEvent.click(getRow(screen.getByText('MAT010')))
 		await waitFor(() => {
 			expect(screen.getByTestId('select-all-checkbox')).toHaveAttribute(
 				'data-state',
