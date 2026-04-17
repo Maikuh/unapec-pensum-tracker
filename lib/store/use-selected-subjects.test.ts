@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { buildPrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
 import type { SelectedSubjects, Subject } from '@/types/pensum'
@@ -133,5 +133,27 @@ describe('importFromFile', () => {
 		expect(useSelectedSubjectsStore.getState().selectedSubjects).toEqual(
 			newData,
 		)
+	})
+})
+
+describe('exportToFile', () => {
+	it('creates a download anchor with the correct attributes and triggers a click', () => {
+		const subject = makeSubject('MAT010')
+		useSelectedSubjectsStore.setState({
+			selectedSubjects: { [PENSUM]: [subject] },
+		})
+
+		const anchor = document.createElement('a')
+		const clickSpy = vi.spyOn(anchor, 'click').mockImplementation(() => {})
+		vi.spyOn(document, 'createElement').mockReturnValueOnce(anchor as any)
+
+		useSelectedSubjectsStore.getState().exportToFile()
+
+		expect(anchor.getAttribute('download')).toBe('uptracker.json')
+		expect(anchor.getAttribute('href')).toContain('application/json')
+		expect(anchor.getAttribute('href')).toContain(
+			encodeURIComponent(subject.code),
+		)
+		expect(clickSpy).toHaveBeenCalledOnce()
 	})
 })
