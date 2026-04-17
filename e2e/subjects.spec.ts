@@ -60,7 +60,7 @@ test.describe('Subject related tests', () => {
 			'data-disabled',
 			'false',
 		)
-		await getSubjectRow(page, 'MAT121').click()
+		await getSubjectRow(page, 'MAT121').locator('.font-mono').click()
 		await expect(getSubjectRow(page, 'MAT131')).toHaveAttribute(
 			'data-disabled',
 			'false',
@@ -104,7 +104,7 @@ test.describe('Subject related tests', () => {
 			'data-disabled',
 			'true',
 		)
-		await getSubjectRow(page, 'MAT121').click()
+		await getSubjectRow(page, 'MAT121').locator('.font-mono').click()
 		await expect(page.getByRole('alertdialog')).toBeVisible()
 	})
 
