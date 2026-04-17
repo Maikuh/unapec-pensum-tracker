@@ -5,8 +5,8 @@ import { persist } from 'zustand/middleware'
 import type { PrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
 import { getCascadeRemovalSet } from '@/lib/helpers/get-cascade-removal-set'
 import { getSubjectsThatCanBeSelected } from '@/lib/helpers/get-subjects-that-can-be-selected'
-import type { SelectAllCheckboxStatus } from '@/types/checkbox'
-import type { SelectedSubjects, Subject } from '@/types/pensum'
+import type { SelectedSubjects, Subject } from '@/types'
+import type { SelectAllCheckboxStatus } from '@/types/select-all-checkbox-status.type'
 
 interface SelectedSubjectsState {
 	selectedSubjects: SelectedSubjects

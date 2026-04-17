@@ -5,7 +5,7 @@ import {
 	getAllDescendants,
 	getAllDescendantsMultiple,
 } from '@/lib/graph/traversal'
-import type { Subject } from '@/types/pensum'
+import type { Subject } from '@/types'
 
 const make = (code: string, prerequisites: string[] = []): Subject => ({
 	code,

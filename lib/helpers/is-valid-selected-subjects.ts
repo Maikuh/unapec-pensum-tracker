@@ -1,4 +1,4 @@
-import type { SelectedSubjects } from '@/types/pensum'
+import type { SelectedSubjects } from '@/types'
 
 export function isValidSelectedSubjects(
 	data: unknown,

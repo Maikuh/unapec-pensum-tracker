@@ -21,8 +21,8 @@ import { getSubjectsThatCanBeSelected } from '@/lib/helpers/get-subjects-that-ca
 import { prerequisitesMet } from '@/lib/helpers/prerequisites-met'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
 import { cn } from '@/lib/utils'
-import type { SelectAllCheckboxStatus } from '@/types/checkbox'
-import type { Period, Subject } from '@/types/pensum'
+import type { Period, Subject } from '@/types'
+import type { SelectAllCheckboxStatus } from '@/types/select-all-checkbox-status.type'
 import { SubjectDependencyInfo } from './subject-dependency-info'
 
 interface PeriodTableProps {

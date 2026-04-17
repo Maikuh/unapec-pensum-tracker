@@ -17,9 +17,9 @@ const MOCK_PENSUMS = [
 const mockPush = vi.fn()
 
 beforeEach(() => {
-	vi.mocked(useRouter).mockReturnValue({ push: mockPush } as ReturnType<
-		typeof useRouter
-	>)
+	vi.mocked(useRouter).mockReturnValue({
+		push: mockPush,
+	} as unknown as ReturnType<typeof useRouter>)
 	vi.mocked(usePathname).mockReturnValue('/')
 	mockPush.mockClear()
 })

@@ -1,4 +1,4 @@
-import type { Subject } from '@/types/pensum'
+import type { Subject } from '@/types'
 import { prerequisitesMet } from './prerequisites-met'
 
 export function getSubjectsThatCanBeSelected(

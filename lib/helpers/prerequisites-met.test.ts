@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { prerequisitesMet } from '@/lib/helpers/prerequisites-met'
-import type { Subject } from '@/types/pensum'
+import type { Subject } from '@/types'
 
 const makeSubject = (code: string, prerequisites: string[] = []): Subject => ({
 	code,

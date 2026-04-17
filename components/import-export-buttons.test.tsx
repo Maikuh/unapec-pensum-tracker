@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
 import { renderWithTooltip } from '@/test/utils'
-import type { SelectedSubjects } from '@/types/pensum'
+import type { SelectedSubjects } from '@/types'
 import { ImportExportButtons } from './import-export-buttons'
 
 const VALID_DATA: SelectedSubjects = {

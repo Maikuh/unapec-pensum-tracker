@@ -13,7 +13,7 @@
 
 import * as cheerio from 'cheerio'
 import type { AnyNode } from 'domhandler'
-import type { ElectiveOption, Pensum, Period, Subject } from '../types/pensum'
+import type { ElectiveOption, Pensum, Period, Subject } from '../types'
 
 const API_BASE = 'https://apiestudiante.azurewebsites.net/pensum'
 

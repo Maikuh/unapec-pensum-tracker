@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/popover'
 import type { PrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
 import { getAllAncestors, getAllDescendants } from '@/lib/graph/traversal'
-import type { Subject } from '@/types/pensum'
+import type { Subject } from '@/types'
 
 export interface SubjectDependencyInfoProps {
 	code: string

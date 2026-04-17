@@ -1,4 +1,4 @@
-import type { Subject } from '@/types/pensum'
+import type { Subject } from '@/types'
 
 export interface PrerequisiteGraph {
 	/** code -> set of codes that are direct prerequisites OF this subject (backward edges) */

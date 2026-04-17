@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/tooltip'
 import pensumsData from '@/lib/data/pensums.json'
 import { cn } from '@/lib/utils'
-import type { Pensum } from '@/types/pensum'
+import type { Pensum } from '@/types'
 
 const pensums = (pensumsData as Pensum[]).map(
 	({ pensumCode, carreerName }) => ({

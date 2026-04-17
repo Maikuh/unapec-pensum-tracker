@@ -8,7 +8,7 @@ import {
 	period3,
 	TOTAL_CREDITS,
 } from '@/test/fixtures/pensum'
-import type { Pensum } from '@/types/pensum'
+import type { Pensum } from '@/types'
 import { PensumContent } from './pensum-content'
 
 const MOCK_PENSUM: Pensum = {

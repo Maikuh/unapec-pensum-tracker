@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { buildPrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
-import type { Subject } from '@/types/pensum'
+import type { Subject } from '@/types'
 
 const make = (code: string, prerequisites: string[] = []): Subject => ({
 	code,

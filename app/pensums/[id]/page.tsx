@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { PensumContent } from '@/components/pensum-content'
 import pensumsData from '@/lib/data/pensums.json'
-import type { Pensum } from '@/types/pensum'
+import type { Pensum } from '@/types'
 
 const pensums = pensumsData as Pensum[]
 

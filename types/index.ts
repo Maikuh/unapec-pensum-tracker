@@ -1,0 +1,5 @@
+export type { ElectiveOption } from './elective-option.interface'
+export type { Pensum } from './pensum.interface'
+export type { Period } from './period.interface'
+export type { SelectedSubjects } from './selected-subjects.interface'
+export type { Subject } from './subject.interface'

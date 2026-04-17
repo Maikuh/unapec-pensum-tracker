@@ -1,4 +1,4 @@
-import type { Subject } from '@/types/pensum'
+import type { Subject } from '@/types'
 
 export function prerequisitesMet(
 	subject: Subject,

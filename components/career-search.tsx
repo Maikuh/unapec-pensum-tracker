@@ -18,7 +18,7 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
-import type { Pensum } from '@/types/pensum'
+import type { Pensum } from '@/types'
 
 interface CareerSearchProps {
 	pensums: Pick<Pensum, 'pensumCode' | 'carreerName'>[]

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { getSubjectsThatCanBeSelected } from '@/lib/helpers/get-subjects-that-can-be-selected'
-import type { Subject } from '@/types/pensum'
+import type { Subject } from '@/types'
 
 const makeSubject = (code: string, prerequisites: string[] = []): Subject => ({
 	code,

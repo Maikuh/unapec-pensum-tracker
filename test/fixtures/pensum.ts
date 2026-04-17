@@ -1,5 +1,5 @@
 import { buildPrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
-import type { Period, Subject } from '@/types/pensum'
+import type { Period, Subject } from '@/types'
 
 /**
  * A small self-contained set of subjects with prerequisite chains:

@@ -8,7 +8,7 @@ import { buildPrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
 import { useInViewport } from '@/lib/hooks/use-in-viewport'
 import { useHydrated } from '@/lib/store/use-hydrated'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
-import type { Pensum } from '@/types/pensum'
+import type { Pensum } from '@/types'
 
 interface PensumContentProps {
 	pensum: Pensum

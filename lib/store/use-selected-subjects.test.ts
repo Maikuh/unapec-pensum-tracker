@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { buildPrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
-import type { SelectedSubjects, Subject } from '@/types/pensum'
+import type { SelectedSubjects, Subject } from '@/types'
 
 const makeSubject = (
 	code: string,
