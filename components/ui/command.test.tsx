@@ -13,7 +13,11 @@ import {
 	CommandShortcut,
 } from './command'
 
-function FruitCommand({ onSelect = vi.fn() }: { onSelect?: (v: string) => void }) {
+function FruitCommand({
+	onSelect = vi.fn(),
+}: {
+	onSelect?: (v: string) => void
+}) {
 	return (
 		<Command>
 			<CommandInput placeholder="Search fruit…" />

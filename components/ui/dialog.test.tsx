@@ -12,9 +12,7 @@ import {
 	DialogTrigger,
 } from './dialog'
 
-function TestDialog({
-	showCloseButton = true,
-}: { showCloseButton?: boolean }) {
+function TestDialog({ showCloseButton = true }: { showCloseButton?: boolean }) {
 	return (
 		<Dialog>
 			<DialogTrigger>Open dialog</DialogTrigger>

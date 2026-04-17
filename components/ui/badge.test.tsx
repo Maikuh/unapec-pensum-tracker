@@ -25,7 +25,7 @@ describe('Badge — contract', () => {
 	})
 
 	it('renders as a custom element when render prop is supplied', () => {
-		render(<Badge render={<a href="/x" />}>Link badge</Badge>)
+		render(<Badge render={<a href="/x">Link badge</a>}>Link badge</Badge>)
 		const link = screen.getByRole('link', { name: 'Link badge' })
 		expect(link).toBeVisible()
 		expect(link).toHaveAttribute('href', '/x')

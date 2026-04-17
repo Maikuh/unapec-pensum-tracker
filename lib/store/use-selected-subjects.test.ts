@@ -177,7 +177,8 @@ describe('bulkSelect', () => {
 		useSelectedSubjectsStore
 			.getState()
 			.bulkSelect(PENSUM, periodSubjects, 3, 'indeterminate', 0, 100, g)
-		const selected = useSelectedSubjectsStore.getState().selectedSubjects[PENSUM]
+		const selected =
+			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM]
 		expect(selected).toHaveLength(3)
 		expect(selected.map((s) => s.code).sort()).toEqual(['A', 'B', 'C'])
 	})

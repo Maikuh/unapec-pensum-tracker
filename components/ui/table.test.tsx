@@ -45,9 +45,7 @@ describe('Table — contract', () => {
 
 	it('renders column headers', () => {
 		render(<SimpleTable />)
-		expect(
-			screen.getByRole('columnheader', { name: 'Subject' }),
-		).toBeVisible()
+		expect(screen.getByRole('columnheader', { name: 'Subject' })).toBeVisible()
 		expect(screen.getByRole('columnheader', { name: 'Grade' })).toBeVisible()
 	})
 

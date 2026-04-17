@@ -19,13 +19,20 @@ describe('Progress — contract', () => {
 	})
 
 	it('renders children alongside the track', () => {
-		render(<Progress value={10} aria-label="Loading">Extra</Progress>)
+		render(
+			<Progress value={10} aria-label="Loading">
+				Extra
+			</Progress>,
+		)
 		expect(screen.getByText('Extra')).toBeVisible()
 	})
 
 	it('renders at 0% without errors', () => {
 		render(<Progress value={0} aria-label="Empty" />)
-		expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '0')
+		expect(screen.getByRole('progressbar')).toHaveAttribute(
+			'aria-valuenow',
+			'0',
+		)
 	})
 
 	it('renders at 100% without errors', () => {
@@ -39,12 +46,20 @@ describe('Progress — contract', () => {
 
 describe('ProgressLabel / ProgressValue', () => {
 	it('ProgressLabel renders text content', () => {
-		render(<Progress value={30} aria-label="x"><ProgressLabel>Uploading</ProgressLabel></Progress>)
+		render(
+			<Progress value={30} aria-label="x">
+				<ProgressLabel>Uploading</ProgressLabel>
+			</Progress>,
+		)
 		expect(screen.getByText('Uploading')).toBeVisible()
 	})
 
 	it('ProgressValue renders its children', () => {
-		render(<Progress value={30} aria-label="x"><ProgressValue>30%</ProgressValue></Progress>)
+		render(
+			<Progress value={30} aria-label="x">
+				<ProgressValue>30%</ProgressValue>
+			</Progress>,
+		)
 		expect(screen.getByText('30%')).toBeVisible()
 	})
 })
