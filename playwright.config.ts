@@ -6,7 +6,7 @@ export default defineConfig({
 		baseURL: 'http://localhost:3000',
 	},
 	webServer: {
-		command: 'bun run build && bun start',
+		command: 'bun run build && bunx serve out',
 		port: 3000,
 		reuseExistingServer: !process.env.CI,
 		timeout: 120_000,
