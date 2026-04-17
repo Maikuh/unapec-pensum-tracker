@@ -145,7 +145,7 @@ describe('exportToFile', () => {
 
 		const anchor = document.createElement('a')
 		const clickSpy = vi.spyOn(anchor, 'click').mockImplementation(() => {})
-		vi.spyOn(document, 'createElement').mockReturnValueOnce(anchor as any)
+		vi.spyOn(document, 'createElement').mockReturnValueOnce(anchor)
 
 		useSelectedSubjectsStore.getState().exportToFile()
 
