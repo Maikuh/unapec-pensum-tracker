@@ -27,26 +27,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/bun.lock') }}-
 
-      - name: Cache Cypress
+      - name: Cache Playwright
         uses: actions/cache@v5
         with:
-          path: |
-            ~/.cache/Cypress
-          key: ${{ runner.os }}-cypress-${{ hashFiles('**/bun.lock') }}
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/bun.lock') }}
           restore-keys: |
-            ${{ runner.os }}-cypress-
+            ${{ runner.os }}-playwright-
 
       - name: Install dependencies
-        run: bun ci && bun cypress install
+        run: bun ci && bunx playwright install --with-deps chromium
 
       - name: Run unit tests
         run: bun test:run
 
-      - name: Run component tests
-        run: bun cypress:run --component
-
       - name: Run E2E tests
-        run: bun dev & bun cypress:run --e2e
+        run: bun test:e2e
 
       - name: Build
         run: bun run build

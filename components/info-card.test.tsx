@@ -1,11 +1,12 @@
-import { InfoCard } from '@/components/info-card'
+import { render, screen } from '@testing-library/react'
+import { describe, expect, it } from 'vitest'
+import { InfoCard } from './info-card'
 
-// ADMR11 has an entry in pensum-pages.ts; UNKNOWN99 does not.
 const DATE = '2021-01-01T04:00:00.000Z'
 
 describe('InfoCard', () => {
 	it('renders subject and credit counts', () => {
-		cy.mount(
+		render(
 			<InfoCard
 				pensumCode="ADMR11"
 				subjectsCount={10}
@@ -15,14 +16,14 @@ describe('InfoCard', () => {
 				date={DATE}
 			/>,
 		)
-		cy.get("[data-testid='subjects-count']").should('contain.text', '10')
-		cy.get("[data-testid='total-subjects']").should('contain.text', '50')
-		cy.get("[data-testid='credits-count']").should('contain.text', '40')
-		cy.get("[data-testid='total-credits']").should('contain.text', '200')
+		expect(screen.getByTestId('subjects-count')).toHaveTextContent('10')
+		expect(screen.getByTestId('total-subjects')).toHaveTextContent('50')
+		expect(screen.getByTestId('credits-count')).toHaveTextContent('40')
+		expect(screen.getByTestId('total-credits')).toHaveTextContent('200')
 	})
 
 	it('shows correct percentage for subjects and credits', () => {
-		cy.mount(
+		render(
 			<InfoCard
 				pensumCode="ADMR11"
 				subjectsCount={25}
@@ -32,15 +33,15 @@ describe('InfoCard', () => {
 				date={DATE}
 			/>,
 		)
-		// Both should be 50%
-		cy.get('.subject-credits-percentage').should('have.length', 2)
-		cy.get('.subject-credits-percentage').each(($el) => {
-			cy.wrap($el).should('contain.text', '50%')
-		})
+		const percentages = document.querySelectorAll('.subject-credits-percentage')
+		expect(percentages).toHaveLength(2)
+		for (const el of percentages) {
+			expect(el).toHaveTextContent('50%')
+		}
 	})
 
 	it('renders progress bar reflecting credit percentage', () => {
-		cy.mount(
+		render(
 			<InfoCard
 				pensumCode="ADMR11"
 				subjectsCount={0}
@@ -50,12 +51,11 @@ describe('InfoCard', () => {
 				date={DATE}
 			/>,
 		)
-		// Progress element should have value 40 (80/200 = 40%)
-		cy.get('[role="progressbar"]').should('exist')
+		expect(screen.getAllByRole('progressbar').length).toBeGreaterThan(0)
 	})
 
 	it('shows external pensum link when pensumCode is in pensum-pages', () => {
-		cy.mount(
+		render(
 			<InfoCard
 				pensumCode="ADMR11"
 				subjectsCount={0}
@@ -65,14 +65,14 @@ describe('InfoCard', () => {
 				date={DATE}
 			/>,
 		)
-		cy.contains('Link al Pensum').should('be.visible')
-		cy.contains('Link al Pensum')
-			.should('have.attr', 'target', '_blank')
-			.and('have.attr', 'rel', 'noopener noreferrer')
+		const link = screen.getByRole('link', { name: 'Link al Pensum' })
+		expect(link).toBeVisible()
+		expect(link).toHaveAttribute('target', '_blank')
+		expect(link).toHaveAttribute('rel', 'noopener noreferrer')
 	})
 
 	it('hides external pensum link when pensumCode has no entry', () => {
-		cy.mount(
+		render(
 			<InfoCard
 				pensumCode="UNKNOWN99"
 				subjectsCount={0}
@@ -82,11 +82,13 @@ describe('InfoCard', () => {
 				date={DATE}
 			/>,
 		)
-		cy.contains('Link al Pensum').should('not.exist')
+		expect(
+			screen.queryByRole('link', { name: 'Link al Pensum' }),
+		).not.toBeInTheDocument()
 	})
 
 	it('formats date in Spanish locale', () => {
-		cy.mount(
+		render(
 			<InfoCard
 				pensumCode="ADMR11"
 				subjectsCount={0}
@@ -96,8 +98,7 @@ describe('InfoCard', () => {
 				date={DATE}
 			/>,
 		)
-		// DATE = 2021-01-01. Spanish locale should contain "enero" and "2021"
-		cy.contains('2021').should('be.visible')
-		cy.contains('enero').should('be.visible')
+		expect(screen.getByText(/2021/)).toBeVisible()
+		expect(screen.getByText(/enero/i)).toBeVisible()
 	})
 })
