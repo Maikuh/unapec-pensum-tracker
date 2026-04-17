@@ -86,14 +86,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-playwright-
       - name: Install dependencies
-        run: bun ci && bunx playwright install --with-deps
+        run: bun ci && bunx playwright install --with-deps chromium
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: build-out
           path: ./out
       - name: Run E2E tests
-        run: bun test:e2e
+        run: DEBUG=pw:api bunx playwright test
 
   deploy:
     runs-on: ubuntu-latest
