@@ -42,7 +42,7 @@ jobs:
         run: bun test:run
 
       - name: Run E2E tests
-        run: bun test:e2e
+        run: DEBUG=pw:browser bun test:e2e
 
       - name: Build
         run: bun run build
