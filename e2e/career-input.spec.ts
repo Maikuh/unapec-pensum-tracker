@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Career select input related tests', () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto('/')
+		await page.goto('./')
 	})
 
 	test('Career search trigger is visible on home page', async ({ page }) => {

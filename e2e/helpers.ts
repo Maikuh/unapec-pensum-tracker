@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
 
 export async function selectCareer(page: Page, pensumCode = 'NINR11') {
-	await page.goto(`/pensums/${pensumCode}`)
+	await page.goto(`pensums/${pensumCode}`)
 	await page.getByText('Informacion', { exact: true }).waitFor()
 }
 
@@ -9,7 +9,7 @@ export async function selectCareerFromHome(
 	page: Page,
 	searchText = 'negocios',
 ) {
-	await page.goto('/')
+	await page.goto('./')
 	await page.getByTestId('career-search-trigger').waitFor({ state: 'visible' })
 	await page.getByTestId('career-search-trigger').click()
 	await page.getByTestId('career-search-input').fill(searchText)
