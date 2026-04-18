@@ -16,7 +16,7 @@
 	"[yaml]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"tailwindCSS.classFunctions": ["clsx", "tw", "cva"],
+	"tailwindCSS.classFunctions": ["clsx", "cn", "tw", "twMerge", "cva"],
 	"[jsonc]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},

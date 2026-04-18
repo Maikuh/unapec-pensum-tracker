@@ -173,7 +173,7 @@ export function PeriodTable({
 									className={cn(
 										'cursor-pointer',
 										!canSelect && 'opacity-50 cursor-not-allowed',
-										isSelected && 'bg-accent',
+										isSelected && 'bg-accent hover:bg-accent/70',
 									)}
 									data-selected={isSelected}
 									data-disabled={!canSelect}

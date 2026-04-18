@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist_Mono, Inter } from 'next/font/google'
 import { BackToTop } from '@/components/back-to-top'
 import { Footer } from '@/components/footer'
 import { Navbar } from '@/components/navbar'
@@ -9,7 +9,7 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import './globals.css'
 import { cn } from '@/lib/utils'
 
-const geist = Geist({ subsets: ['latin'], variable: '--font-sans' })
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
 const geistMono = Geist_Mono({
 	variable: '--font-geist-mono',
@@ -35,7 +35,7 @@ export default function RootLayout({
 				'antialiased',
 				geistMono.variable,
 				'font-sans',
-				geist.variable,
+				inter.variable,
 			)}
 		>
 			<body className="min-h-full flex flex-col">
