@@ -19,10 +19,26 @@ export async function generateMetadata({
 	const { id } = await params
 	const pensum = pensums.find((p) => p.pensumCode === id)
 	if (!pensum) return {}
+	const title = `${pensum.pensumCode} - ${pensum.carreerName} | UNAPEC Pensum Tracker`
+	const description = `Sigue tu progreso en la carrera de ${pensum.carreerName} en UNAPEC.`
+	const url = `/pensums/${id}`
 	return {
-		title: `${pensum.pensumCode} - ${pensum.carreerName} | UNAPEC Pensum Tracker`,
-		alternates: {
-			canonical: `/pensums/${id}`,
+		title,
+		description,
+		alternates: { canonical: url },
+		openGraph: {
+			type: 'website',
+			siteName: 'UNAPEC Pensum Tracker',
+			title,
+			description,
+			url,
+			images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+		},
+		twitter: {
+			card: 'summary_large_image',
+			title,
+			description,
+			images: ['/og-image.png'],
 		},
 	}
 }

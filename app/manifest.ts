@@ -7,7 +7,7 @@ const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '/unapec-pensum-tracker'
 export default function manifest(): MetadataRoute.Manifest {
 	return {
 		name: 'UNAPEC Pensum Tracker',
-		short_name: 'Pensum',
+		short_name: 'UPT',
 		description: 'Seguimiento de asignaturas para UNAPEC',
 		start_url: `${base}/`,
 		scope: `${base}/`,

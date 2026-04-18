@@ -53,6 +53,20 @@ export const metadata: Metadata = {
 		icon: `${base}/favicon.ico`,
 		apple: `${base}/apple-touch-icon.png`,
 	},
+	openGraph: {
+		type: 'website',
+		siteName: 'UNAPEC Pensum Tracker',
+		title: 'UNAPEC Pensum Tracker',
+		description: 'Seguimiento de asignaturas para UNAPEC',
+		url: '/',
+		images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+	},
+	twitter: {
+		card: 'summary_large_image',
+		title: 'UNAPEC Pensum Tracker',
+		description: 'Seguimiento de asignaturas para UNAPEC',
+		images: ['/og-image.png'],
+	},
 }
 
 export const viewport: Viewport = {
