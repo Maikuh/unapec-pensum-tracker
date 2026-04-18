@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/tooltip'
 import pensumsData from '@/lib/data/pensums.json'
 import { cn } from '@/lib/utils'
+import logo from '@/public/logo.svg'
 import type { Pensum } from '@/types'
 
 const pensums = (pensumsData as Pensum[]).map(
@@ -53,7 +54,7 @@ export function Navbar() {
 						href="/"
 						className="font-semibold text-base shrink-0 hidden lg:flex items-center gap-2 hover:text-foreground/80 transition-colors"
 					>
-						<Image src="/logo.svg" alt="UNAPEC logo" width={28} height={28} />
+						<Image src={logo} alt="UNAPEC logo" width={28} height={28} />
 						UNAPEC Pensum Tracker
 					</Link>
 				</div>
