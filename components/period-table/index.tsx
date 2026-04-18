@@ -116,9 +116,9 @@ export function PeriodTable({
 
 			<div className="rounded-md border overflow-hidden">
 				<div className="px-4 py-3 bg-muted/40 border-b">
-					<h3 className="font-semibold text-base">
+					<h2 className="font-semibold text-base">
 						Cuatrimestre {period.number}
-					</h3>
+					</h2>
 				</div>
 
 				<Table className="overflow-x-visible">
@@ -180,6 +180,7 @@ export function PeriodTable({
 											disabled={!canSelect}
 											onCheckedChange={() => handleSubjectClick(subject)}
 											data-state={isSelected ? 'checked' : 'unchecked'}
+											aria-label={`Seleccionar ${subject.name}`}
 										/>
 									</TableCell>
 									<TableCell className="font-mono text-sm">

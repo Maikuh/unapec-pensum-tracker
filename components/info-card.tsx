@@ -69,7 +69,10 @@ export function InfoCard({
 								Fecha de generación
 								<TooltipProvider>
 									<Tooltip>
-										<TooltipTrigger className="cursor-default text-muted-foreground hover:text-foreground">
+										<TooltipTrigger
+											className="cursor-default text-muted-foreground hover:text-foreground"
+											aria-label="Información sobre la fecha de generación"
+										>
 											<Info className="h-3.5 w-3.5" />
 										</TooltipTrigger>
 										<TooltipContent>
@@ -98,6 +101,7 @@ export function InfoCard({
 								value={subjectsPercent}
 								className="h-2 mt-1"
 								indicatorClassName="bg-amber-500"
+								aria-label="Progreso de materias"
 							/>
 						</div>
 					</div>
@@ -117,6 +121,7 @@ export function InfoCard({
 								value={creditsPercent}
 								className="h-2 mt-1"
 								indicatorClassName="bg-emerald-500"
+								aria-label="Progreso de créditos"
 							/>
 						</div>
 					</div>

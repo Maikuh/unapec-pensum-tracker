@@ -43,6 +43,7 @@ export function FloatingProgress({
 					value={subjectsPercent}
 					className="flex-1 h-1.5"
 					indicatorClassName="bg-amber-500"
+					aria-label="Progreso de materias"
 				/>
 				<span className="text-xs tabular-nums text-muted-foreground w-8 text-right">
 					{subjectsPercent}%
@@ -57,6 +58,7 @@ export function FloatingProgress({
 					value={creditsPercent}
 					className="flex-1 h-1.5"
 					indicatorClassName="bg-emerald-500"
+					aria-label="Progreso de créditos"
 				/>
 				<span className="text-xs tabular-nums text-muted-foreground w-8 text-right">
 					{creditsPercent}%

@@ -19,7 +19,6 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { buildPrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
 import { useInViewport } from '@/lib/hooks/use-in-viewport'
-import { useHydrated } from '@/lib/store/use-hydrated'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
 import type { Pensum } from '@/types'
 
@@ -29,7 +28,6 @@ interface PensumContentProps {
 
 export function PensumContent({ pensum }: PensumContentProps) {
 	const { selectedSubjects, initPensum } = useSelectedSubjectsStore()
-	const hydrated = useHydrated()
 	const [diagramOpen, setDiagramOpen] = useState(false)
 
 	useEffect(() => {
@@ -61,22 +59,6 @@ export function PensumContent({ pensum }: PensumContentProps) {
 			),
 		[pensum.periods],
 	)
-
-	if (!hydrated) {
-		return (
-			<div className="space-y-8 animate-pulse">
-				<div className="flex justify-center">
-					<div className="h-64 w-full max-w-lg rounded-md bg-muted" />
-				</div>
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-					{Array.from({ length: 4 }).map((_, i) => (
-						// biome-ignore lint/suspicious/noArrayIndexKey: static skeleton placeholders, no state or reordering
-						<div key={i} className="h-48 rounded-md bg-muted" />
-					))}
-				</div>
-			</div>
-		)
-	}
 
 	return (
 		<>

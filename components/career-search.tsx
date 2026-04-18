@@ -60,7 +60,6 @@ export function CareerSearch({ pensums, className }: CareerSearchProps) {
 		<Popover open={open} onOpenChange={setOpen}>
 			<PopoverTrigger
 				aria-expanded={open}
-				aria-label="Seleccionar carrera"
 				data-testid="career-search-trigger"
 				className={cn(
 					buttonVariants({ variant: 'outline' }),
