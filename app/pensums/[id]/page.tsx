@@ -21,6 +21,9 @@ export async function generateMetadata({
 	if (!pensum) return {}
 	return {
 		title: `${pensum.pensumCode} - ${pensum.carreerName} | UNAPEC Pensum Tracker`,
+		alternates: {
+			canonical: `/pensums/${id}`,
+		},
 	}
 }
 

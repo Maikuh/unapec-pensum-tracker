@@ -20,8 +20,12 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
+	metadataBase: new URL('https://unapec-pensum-tracker.vercel.app'),
 	title: 'UNAPEC Pensum Tracker',
 	description: 'Seguimiento de asignaturas para UNAPEC',
+	alternates: {
+		canonical: '/',
+	},
 	keywords: [
 		'tracker',
 		'university',
