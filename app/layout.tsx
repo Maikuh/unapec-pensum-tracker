@@ -8,6 +8,7 @@ import { StoreInitializer } from '@/components/store-initializer'
 import { ThemeProvider } from '@/components/theme-provider'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import './globals.css'
+import { GoogleTagManager } from '@next/third-parties/google'
 import { cn } from '@/lib/utils'
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '/unapec-pensum-tracker'
@@ -90,6 +91,7 @@ export default function RootLayout({
 				inter.variable,
 			)}
 		>
+			<GoogleTagManager gtmId="GTM-WZV4B89S" />
 			<body className="min-h-full flex flex-col">
 				<ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
 					<TooltipProvider>
