@@ -1,4 +1,4 @@
-:HL["/unapec-pensum-tracker/_next/static/chunks/0_db1bddc2w8n.css","style"]
+:HL["/unapec-pensum-tracker/_next/static/chunks/0e~s8nye~8fdb.css","style"]
 :HL["/unapec-pensum-tracker/_next/static/media/797e433ab948586e-s.p.0.q-h669a_dqa.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/unapec-pensum-tracker/_next/static/media/83afe278b6a6bb3c-s.p.0q-301v4kxxnr.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"pensums","param":null,"prefetchHints":0,"slots":{"children":{"name":"id","param":{"type":"d","key":"CPM11","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"5TJJqIeAiJfqBJucTwP4p"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"pensums","param":null,"prefetchHints":0,"slots":{"children":{"name":"id","param":{"type":"d","key":"CPM11","siblings":null},"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}}}},"staleTime":300,"buildId":"rpWQY84w3-LvOi56lZvAX"}
