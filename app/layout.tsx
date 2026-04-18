@@ -10,7 +10,7 @@ import { TooltipProvider } from '@/components/ui/tooltip'
 import './globals.css'
 import { cn } from '@/lib/utils'
 
-const base = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '/unapec-pensum-tracker'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 

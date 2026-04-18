@@ -1,7 +1,7 @@
 'use client'
 import { useEffect } from 'react'
 
-const base = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '/unapec-pensum-tracker'
 
 export function ServiceWorkerRegister() {
 	useEffect(() => {
