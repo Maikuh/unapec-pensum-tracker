@@ -28,7 +28,10 @@ export const metadata: Metadata = {
 		statusBarStyle: 'black-translucent',
 		title: 'Pensum',
 	},
-	icons: { apple: `${base}/apple-touch-icon.png` },
+	icons: {
+		icon: `${base}/favicon.ico`,
+		apple: `${base}/apple-touch-icon.png`,
+	},
 }
 
 export const viewport: Viewport = {
