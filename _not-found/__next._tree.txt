@@ -1,2 +1,2 @@
-:HL["/unapec-pensum-tracker/_next/static/chunks/07a_jhq1rt-~7.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"EeWn-Ihz6JiI9BE58iKxx"}
+:HL["/unapec-pensum-tracker/_next/static/chunks/04ee9vz3nry6-.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"HYSWDhBC0KGWusu5mkaO-"}
