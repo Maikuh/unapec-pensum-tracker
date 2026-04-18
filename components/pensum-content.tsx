@@ -1,11 +1,21 @@
 'use client'
 
-import { useEffect, useMemo } from 'react'
+import { X } from 'lucide-react'
+import { useEffect, useMemo, useState } from 'react'
 import { CertificationsSection } from '@/components/certifications-section'
 import { ElectivesSection } from '@/components/electives-section'
 import { FloatingProgress } from '@/components/floating-progress'
 import { InfoCard } from '@/components/info-card'
 import { PeriodTable } from '@/components/period-table'
+import { LazyPrerequisiteDiagram } from '@/components/prerequisite-diagram/lazy'
+import { Button } from '@/components/ui/button'
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+} from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { buildPrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
 import { useInViewport } from '@/lib/hooks/use-in-viewport'
@@ -20,6 +30,7 @@ interface PensumContentProps {
 export function PensumContent({ pensum }: PensumContentProps) {
 	const { selectedSubjects, initPensum } = useSelectedSubjectsStore()
 	const hydrated = useHydrated()
+	const [diagramOpen, setDiagramOpen] = useState(false)
 
 	useEffect(() => {
 		initPensum(pensum.pensumCode)
@@ -36,6 +47,19 @@ export function PensumContent({ pensum }: PensumContentProps) {
 	const graph = useMemo(
 		() => buildPrerequisiteGraph(allSubjects),
 		[allSubjects],
+	)
+	const selectedCodes = useMemo(
+		() => new Set(currentSelected.map((s) => s.code)),
+		[currentSelected],
+	)
+	const periodByCode = useMemo(
+		() =>
+			new Map(
+				pensum.periods.flatMap((p) =>
+					p.subjects.map((s) => [s.code, p.number]),
+				),
+			),
+		[pensum.periods],
 	)
 
 	if (!hydrated) {
@@ -67,8 +91,43 @@ export function PensumContent({ pensum }: PensumContentProps) {
 						creditsCount={creditsCount}
 						totalCredits={pensum.totalCredits}
 						date={pensum.date}
+						onDiagramClick={() => setDiagramOpen(true)}
 					/>
 				</div>
+
+				<Dialog open={diagramOpen} onOpenChange={setDiagramOpen}>
+					<DialogContent
+						className="max-w-[95vw] sm:max-w-[95vw] w-[95vw] h-[90vh] flex flex-col p-0 gap-0"
+						showCloseButton={false}
+					>
+						<DialogHeader className="flex-row items-center justify-between px-6 py-4 shrink-0 border-b">
+							<DialogTitle>Diagrama del pensum</DialogTitle>
+							<DialogClose
+								render={
+									<Button
+										variant="ghost"
+										size="icon-sm"
+										className="bg-secondary cursor-pointer"
+									/>
+								}
+							>
+								<X />
+								<span className="sr-only">Cerrar</span>
+							</DialogClose>
+						</DialogHeader>
+						<div className="flex-1 min-h-0">
+							{diagramOpen && (
+								<LazyPrerequisiteDiagram
+									subjects={allSubjects}
+									graph={graph}
+									selectedCodes={selectedCodes}
+									periodByCode={periodByCode}
+									pensumCode={pensum.pensumCode}
+								/>
+							)}
+						</div>
+					</DialogContent>
+				</Dialog>
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 					{pensum.periods.map((period) => (

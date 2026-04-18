@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react'
-import { beforeEach, describe, expect, it } from 'vitest'
+import userEvent from '@testing-library/user-event'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
 import {
 	PENSUM_CODE,
@@ -10,6 +11,15 @@ import {
 } from '@/test/fixtures/pensum'
 import type { Pensum } from '@/types'
 import { PensumContent } from './pensum-content'
+
+vi.mock('@/components/prerequisite-diagram/lazy', () => ({
+	LazyPrerequisiteDiagram: ({
+		selectedCodes,
+	}: {
+		selectedCodes: Set<string>
+		periodByCode: Map<string, number>
+	}) => <div data-testid="diagram" data-selected-count={selectedCodes.size} />,
+}))
 
 const MOCK_PENSUM: Pensum = {
 	pensumCode: PENSUM_CODE,
@@ -53,6 +63,43 @@ describe('PensumContent — rendering', () => {
 		)
 		expect(screen.getByTestId('total-credits')).toHaveTextContent(
 			String(TOTAL_CREDITS),
+		)
+	})
+})
+
+describe('PensumContent — diagram', () => {
+	it('renders a "Ver diagrama" button', () => {
+		render(<PensumContent pensum={MOCK_PENSUM} />)
+		expect(
+			screen.getByRole('button', { name: /ver diagrama/i }),
+		).toBeInTheDocument()
+	})
+
+	it('opens the diagram dialog when the button is clicked', async () => {
+		render(<PensumContent pensum={MOCK_PENSUM} />)
+		await userEvent.click(screen.getByRole('button', { name: /ver diagrama/i }))
+		expect(screen.getByTestId('diagram')).toBeInTheDocument()
+	})
+
+	it('passes selected subjects count to the diagram', async () => {
+		useSelectedSubjectsStore.setState({
+			selectedSubjects: {
+				[PENSUM_CODE]: [
+					{
+						code: 'MAT010',
+						name: 'PRE-CALCULO',
+						credits: 4,
+						prerequisites: [],
+					},
+					{ code: 'ESP101', name: 'ESPAÑOL I', credits: 3, prerequisites: [] },
+				],
+			},
+		})
+		render(<PensumContent pensum={MOCK_PENSUM} />)
+		await userEvent.click(screen.getByRole('button', { name: /ver diagrama/i }))
+		expect(screen.getByTestId('diagram')).toHaveAttribute(
+			'data-selected-count',
+			'2',
 		)
 	})
 })

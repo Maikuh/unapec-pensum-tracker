@@ -6,7 +6,9 @@ import {
 	ExternalLink,
 	FileText,
 	Info,
+	Network,
 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import {
@@ -24,6 +26,7 @@ interface InfoCardProps {
 	creditsCount: number
 	totalCredits: number
 	date: string
+	onDiagramClick: () => void
 }
 
 export function InfoCard({
@@ -33,6 +36,7 @@ export function InfoCard({
 	creditsCount,
 	totalCredits,
 	date,
+	onDiagramClick,
 }: InfoCardProps) {
 	const formattedDate = new Date(date).toLocaleDateString('es-MX', {
 		weekday: 'long',
@@ -50,6 +54,12 @@ export function InfoCard({
 			<Card className="w-full max-w-lg">
 				<CardHeader>
 					<CardTitle>Informacion</CardTitle>
+					<div data-slot="card-action">
+						<Button variant="outline" size="sm" onClick={onDiagramClick}>
+							<Network className="h-4 w-4 mr-2" />
+							Ver diagrama
+						</Button>
+					</div>
 				</CardHeader>
 				<CardContent className="space-y-4">
 					<div className="flex items-start gap-3">
