@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 
 export const dynamic = 'force-static'
 
-const base = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '/unapec-pensum-tracker'
 
 export default function manifest(): MetadataRoute.Manifest {
 	return {
