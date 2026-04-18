@@ -16,6 +16,7 @@ import type { AnyNode } from 'domhandler'
 import type {
 	ElectiveGroup,
 	ElectiveOption,
+	ElectiveSection,
 	Pensum,
 	Period,
 	Subject,
@@ -239,51 +240,96 @@ function scrapeProgramName(html: string): string {
 }
 
 function scrapeElectives(html: string): {
-	certifications: ElectiveGroup[]
-	electives: ElectiveGroup[]
+	certifications: ElectiveSection
+	electives: ElectiveSection
 } {
 	const $ = cheerio.load(html)
-	const certifications: ElectiveGroup[] = []
-	const electives: ElectiveGroup[] = []
 
-	type Section = 'certifications' | 'electives' | null
-	let section: Section = null
+	type DescItem = { type: 'p' | 'li'; text: string }
+	type SectionState = {
+		intro: DescItem[]
+		groups: ElectiveGroup[]
+		seenFirstTable: boolean
+		pending: DescItem[]
+	}
 
-	$('h1,h2,h3,h4,h5,h6,table').each((_i, el) => {
+	function makeSection(): SectionState {
+		return { intro: [], groups: [], seenFirstTable: false, pending: [] }
+	}
+
+	type SectionKey = 'certifications' | 'electives' | null
+	let sectionKey: SectionKey = null
+	const sections: Record<'certifications' | 'electives', SectionState> = {
+		certifications: makeSection(),
+		electives: makeSection(),
+	}
+
+	$('h1,h2,h3,h4,h5,h6,p,ul,table').each((_i, el) => {
 		const tag = el.type === 'tag' ? el.name.toLowerCase() : ''
 
-		if (tag !== 'table') {
+		if (/^h[1-6]$/.test(tag)) {
 			const text = $(el).text().trim()
 			if (/certificaciones/i.test(text)) {
-				section = 'certifications'
+				sectionKey = 'certifications'
 			} else if (/asignaturas\s+electivas/i.test(text)) {
-				section = 'electives'
-			} else if (/^h[1-3]$/.test(tag) && section !== null) {
-				section = null
+				sectionKey = 'electives'
+			} else if (/^h[1-3]$/.test(tag) && sectionKey !== null) {
+				sectionKey = null
 			}
 			return
 		}
 
-		if (section === null) return
+		if (sectionKey === null) return
+		const sec = sections[sectionKey]
 
+		if (tag === 'p') {
+			const text = $(el).text().trim()
+			if (text) sec.pending.push({ type: 'p', text })
+			return
+		}
+
+		if (tag === 'ul') {
+			$(el)
+				.find('li')
+				.each((_, li) => {
+					const text = $(li).text().trim()
+					if (text) sec.pending.push({ type: 'li', text })
+				})
+			return
+		}
+
+		// tag === 'table'
 		const firstTh = $(el).find('thead th, tr th').first().text().trim()
 		if (!/electiva/i.test(firstTh)) return
 
 		const options = parseElectivesTable($, el)
 		if (options.length === 0) return
 
+		if (!sec.seenFirstTable) {
+			// Pending items before the first table are the section intro
+			sec.intro = sec.pending
+			sec.seenFirstTable = true
+		} else {
+			// Pending items after a previous table are that table's footnote
+			sec.groups[sec.groups.length - 1].footnote = sec.pending
+		}
+		sec.pending = []
+
 		const captionText = $(el).find('caption').text()
 		const { name, periods } = parseCaption(captionText)
-		const group: ElectiveGroup = { name, periods, options }
-
-		if (section === 'certifications') {
-			certifications.push(group)
-		} else {
-			electives.push(group)
-		}
+		sec.groups.push({ name, periods, footnote: [], options })
 	})
 
-	return { certifications, electives }
+	return {
+		certifications: {
+			intro: sections.certifications.intro,
+			groups: sections.certifications.groups,
+		},
+		electives: {
+			intro: sections.electives.intro,
+			groups: sections.electives.groups,
+		},
+	}
 }
 
 // ─── Per-program fetch ────────────────────────────────────────────────────────
@@ -338,7 +384,7 @@ async function main() {
 			fetchProgram(code, url).then(
 				(p) => {
 					console.log(
-						`  ✓ ${p.pensumCode} — ${p.periods.length} periods, ${p.certifications.length} certifications, ${p.electives.length} electives`,
+						`  ✓ ${p.pensumCode} — ${p.periods.length} periods, ${p.certifications.groups.length} certifications, ${p.electives.groups.length} electives`,
 					)
 					pensums.push(p)
 				},

@@ -83,8 +83,8 @@ export function PensumContent({ pensum }: PensumContentProps) {
 					))}
 				</div>
 
-				<CertificationsSection groups={pensum.certifications} />
-				<ElectivesSection groups={pensum.electives} />
+				<CertificationsSection section={pensum.certifications} />
+				<ElectivesSection section={pensum.electives} />
 			</div>
 
 			<FloatingProgress

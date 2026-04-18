@@ -1,4 +1,4 @@
-import type { ElectiveGroup } from './elective-group.interface'
+import type { ElectiveSection } from './elective-section.interface'
 import type { Period } from './period.interface'
 
 export interface Pensum {
@@ -7,6 +7,6 @@ export interface Pensum {
 	pensumCode: string
 	periods: Period[]
 	date: string
-	certifications: ElectiveGroup[]
-	electives: ElectiveGroup[]
+	certifications: ElectiveSection
+	electives: ElectiveSection
 }

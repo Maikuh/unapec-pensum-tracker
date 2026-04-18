@@ -17,8 +17,8 @@ const MOCK_PENSUM: Pensum = {
 	date: '2021-01-01T04:00:00.000Z',
 	totalCredits: TOTAL_CREDITS,
 	periods: [period1, period2, period3],
-	certifications: [],
-	electives: [],
+	certifications: { intro: [], groups: [] },
+	electives: { intro: [], groups: [] },
 }
 
 beforeEach(() => {

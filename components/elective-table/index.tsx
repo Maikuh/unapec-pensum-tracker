@@ -7,6 +7,7 @@ import {
 	TableRow,
 } from '@/components/ui/table'
 import type { ElectiveGroup } from '@/types'
+import { renderDescItems } from './section-intro'
 
 function toRoman(n: number): string {
 	const vals = [
@@ -99,6 +100,12 @@ export function ElectiveTable({ group }: ElectiveTableProps) {
 					})()}
 				</TableBody>
 			</Table>
+
+			{group.footnote.length > 0 && (
+				<div className="px-4 py-3 border-t text-sm text-muted-foreground space-y-1.5">
+					{renderDescItems(group.footnote)}
+				</div>
+			)}
 		</div>
 	)
 }
