@@ -8,7 +8,6 @@ import { StoreInitializer } from '@/components/store-initializer'
 import { ThemeProvider } from '@/components/theme-provider'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import './globals.css'
-import { GoogleAnalytics } from '@next/third-parties/google'
 import { cn } from '@/lib/utils'
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '/unapec-pensum-tracker'
@@ -108,7 +107,6 @@ export default function RootLayout({
 					</TooltipProvider>
 				</ThemeProvider>
 			</body>
-			<GoogleAnalytics gaId="G-XG7025ZTVJ" />
 		</html>
 	)
 }

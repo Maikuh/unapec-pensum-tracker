@@ -2,6 +2,7 @@
 
 import { ChevronsUpDown } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
+import posthog from 'posthog-js'
 import { useEffect, useState } from 'react'
 import { buttonVariants } from '@/components/ui/button'
 import {
@@ -49,6 +50,11 @@ export function CareerSearch({ pensums, className }: CareerSearchProps) {
 	}, [])
 
 	function handleSelect(pensumCode: string) {
+		const pensum = pensums.find((p) => p.pensumCode === pensumCode)
+		posthog.capture('career_selected', {
+			pensum_code: pensumCode,
+			career_name: pensum?.carreerName,
+		})
 		setValue(pensumCode)
 		setOpen(false)
 		router.push(`/pensums/${pensumCode}`)

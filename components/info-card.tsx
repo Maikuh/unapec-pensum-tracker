@@ -8,6 +8,7 @@ import {
 	Info,
 	Network,
 } from 'lucide-react'
+import posthog from 'posthog-js'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
@@ -141,6 +142,11 @@ export function InfoCard({
 									target="_blank"
 									rel="noopener noreferrer"
 									className="text-sm underline hover:text-foreground"
+									onClick={() =>
+										posthog.capture('original_pensum_link_clicked', {
+											pensum_code: pensumCode,
+										})
+									}
 								>
 									Link al Pensum
 								</a>

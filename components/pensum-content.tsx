@@ -1,6 +1,7 @@
 'use client'
 
 import { X } from 'lucide-react'
+import posthog from 'posthog-js'
 import { useEffect, useMemo, useState } from 'react'
 import { CertificationsSection } from '@/components/certifications-section'
 import { ElectivesSection } from '@/components/electives-section'
@@ -32,7 +33,22 @@ export function PensumContent({ pensum }: PensumContentProps) {
 
 	useEffect(() => {
 		initPensum(pensum.pensumCode)
-	}, [pensum.pensumCode, initPensum])
+		posthog.capture('pensum_viewed', {
+			pensum_code: pensum.pensumCode,
+			career_name: pensum.carreerName,
+			total_subjects: pensum.periods.reduce(
+				(sum, p) => sum + p.subjects.length,
+				0,
+			),
+			total_credits: pensum.totalCredits,
+		})
+	}, [
+		pensum.pensumCode,
+		pensum.carreerName,
+		pensum.periods,
+		pensum.totalCredits,
+		initPensum,
+	])
 
 	const [infoCardRef, infoCardInView] = useInViewport<HTMLDivElement>()
 	const currentSelected = selectedSubjects[pensum.pensumCode] ?? []
@@ -73,7 +89,13 @@ export function PensumContent({ pensum }: PensumContentProps) {
 						creditsCount={creditsCount}
 						totalCredits={pensum.totalCredits}
 						date={pensum.date}
-						onDiagramClick={() => setDiagramOpen(true)}
+						onDiagramClick={() => {
+							posthog.capture('diagram_opened', {
+								pensum_code: pensum.pensumCode,
+								career_name: pensum.carreerName,
+							})
+							setDiagramOpen(true)
+						}}
 					/>
 				</div>
 

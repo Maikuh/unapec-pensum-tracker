@@ -1,5 +1,6 @@
 'use client'
 
+import posthog from 'posthog-js'
 import { useEffect, useState } from 'react'
 import { PrerequisiteAlert } from '@/components/prerequisite-alert'
 import { PrerequisiteBadges } from '@/components/prerequisite-badges'
@@ -78,8 +79,25 @@ export function PeriodTable({
 		if (
 			prerequisitesMet(subject, currentSelected, creditsCount, totalCredits)
 		) {
+			const isCurrentlySelected = currentSelected.some(
+				(s) => s.code === subject.code,
+			)
+			posthog.capture('subject_toggled', {
+				pensum_code: pensumCode,
+				subject_code: subject.code,
+				subject_name: subject.name,
+				subject_credits: subject.credits,
+				period_number: period.number,
+				action: isCurrentlySelected ? 'deselected' : 'selected',
+			})
 			selectSubject(pensumCode, subject, graph, totalCredits)
 		} else {
+			posthog.capture('prerequisite_alert_shown', {
+				pensum_code: pensumCode,
+				subject_code: subject.code,
+				subject_name: subject.name,
+				period_number: period.number,
+			})
 			setAlert({
 				open: true,
 				title: 'No puede seleccionar esta materia',
@@ -90,6 +108,12 @@ export function PeriodTable({
 	}
 
 	function handleSelectAll() {
+		posthog.capture('period_bulk_selected', {
+			pensum_code: pensumCode,
+			period_number: period.number,
+			previous_status: checkboxStatus,
+			subjects_count: period.subjects.length,
+		})
 		bulkSelect(
 			pensumCode,
 			period.subjects,

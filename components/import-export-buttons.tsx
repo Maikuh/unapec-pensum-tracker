@@ -1,6 +1,7 @@
 'use client'
 
 import { Download, Upload } from 'lucide-react'
+import posthog from 'posthog-js'
 import { type ChangeEvent, useRef } from 'react'
 import { buttonVariants } from '@/components/ui/button'
 import {
@@ -29,11 +30,22 @@ export function ImportExportButtons() {
 			try {
 				const parsed = JSON.parse(event.target?.result as string)
 				if (!isValidSelectedSubjects(parsed)) {
+					posthog.capture('data_import_failed', { reason: 'invalid_format' })
 					alert('El archivo no tiene el formato esperado')
 					return
 				}
 				importFromFile(parsed)
+				const pensumCount = Object.keys(parsed).length
+				const totalSubjects = Object.values(parsed).reduce(
+					(sum: number, subjects) => sum + (subjects as unknown[]).length,
+					0,
+				)
+				posthog.capture('data_imported', {
+					pensum_count: pensumCount,
+					total_subjects: totalSubjects,
+				})
 			} catch {
+				posthog.capture('data_import_failed', { reason: 'invalid_json' })
 				alert('El archivo no es un JSON válido')
 			}
 		}
@@ -47,7 +59,10 @@ export function ImportExportButtons() {
 		<>
 			<Tooltip>
 				<TooltipTrigger
-					onClick={exportToFile}
+					onClick={() => {
+						posthog.capture('data_exported')
+						exportToFile()
+					}}
 					aria-label="Exportar datos a archivo"
 					className={buttonVariants({ variant: 'ghost', size: 'icon' })}
 				>
