@@ -23,7 +23,11 @@ export const metadata: Metadata = {
 	title: 'UNAPEC Pensum Tracker',
 	description: 'Seguimiento de asignaturas para UNAPEC',
 	manifest: `${base}/manifest.webmanifest`,
-	appleWebApp: { capable: true, statusBarStyle: 'black-translucent', title: 'Pensum' },
+	appleWebApp: {
+		capable: true,
+		statusBarStyle: 'black-translucent',
+		title: 'Pensum',
+	},
 	icons: { apple: `${base}/apple-touch-icon.png` },
 }
 

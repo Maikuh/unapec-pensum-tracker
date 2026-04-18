@@ -41,7 +41,7 @@ export function PrerequisiteBadges({
 							className={cn(
 								'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium cursor-help',
 								isSelected
-									? 'bg-indigo-800 text-indigo-100 dark:bg-indigo-900 dark:text-indigo-200'
+									? 'bg-indigo-700/70 text-indigo-100 dark:bg-indigo-900 dark:text-indigo-200'
 									: 'bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-200',
 							)}
 						>
