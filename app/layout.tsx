@@ -9,7 +9,6 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import './globals.css'
 import { GoogleAnalytics } from '@next/third-parties/google'
-import Head from 'next/head'
 import { cn } from '@/lib/utils'
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH ?? '/unapec-pensum-tracker'
@@ -69,6 +68,9 @@ export const metadata: Metadata = {
 		description: 'Seguimiento de asignaturas para UNAPEC',
 		images: ['/og-image.png'],
 	},
+	verification: {
+		google: 'oKo_Rkul7dgVxokF_SMRD5etuJTncr2brh8c8stLg5Q',
+	},
 }
 
 export const viewport: Viewport = {
@@ -92,13 +94,6 @@ export default function RootLayout({
 				inter.variable,
 			)}
 		>
-			<Head>
-				<meta
-					name="google-site-verification"
-					content="oKo_Rkul7dgVxokF_SMRD5etuJTncr2brh8c8stLg5Q"
-				/>
-			</Head>
-			<GoogleAnalytics gaId="G-XG7025ZTVJ" />
 			<body className="min-h-full flex flex-col">
 				<ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
 					<TooltipProvider>
@@ -113,6 +108,7 @@ export default function RootLayout({
 					</TooltipProvider>
 				</ThemeProvider>
 			</body>
+			<GoogleAnalytics gaId="G-XG7025ZTVJ" />
 		</html>
 	)
 }
