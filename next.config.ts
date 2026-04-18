@@ -10,6 +10,20 @@ const nextConfig: NextConfig = {
 	images: {
 		unoptimized: true,
 	},
+	async headers() {
+		return [
+			{
+				source: '/_next/static/(.*)',
+				headers: [
+					{
+						key: 'Cache-Control',
+						// Cache for 1 year (31536000 seconds)
+						value: 'public, max-age=31536000, immutable',
+					},
+				],
+			},
+		]
+	},
 }
 
 export default nextConfig
