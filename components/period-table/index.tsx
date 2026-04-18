@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { PrerequisiteAlert } from '@/components/prerequisite-alert'
+import { PrerequisiteBadges } from '@/components/prerequisite-badges'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
 	Table,
@@ -11,11 +12,6 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table'
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipTrigger,
-} from '@/components/ui/tooltip'
 import type { PrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
 import { getSubjectsThatCanBeSelected } from '@/lib/helpers/get-subjects-that-can-be-selected'
 import { prerequisitesMet } from '@/lib/helpers/prerequisites-met'
@@ -201,43 +197,15 @@ export function PeriodTable({
 										{subject.credits}
 									</TableCell>
 									<TableCell className="text-right">
-										<div className="flex flex-wrap justify-end gap-1">
-											{subject.prerequisites.map((pr) =>
-												pr.includes('%') ? (
-													<Tooltip key={pr}>
-														<TooltipTrigger
-															className={cn(
-																'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium cursor-help',
-																isSelected
-																	? 'bg-white text-indigo-600 dark:bg-indigo-300 dark:text-indigo-950'
-																	: 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300',
-															)}
-														>
-															{pr} créditos
-														</TooltipTrigger>
-														<TooltipContent>
-															Haber aprobado el {pr} de los créditos del pensum
-														</TooltipContent>
-													</Tooltip>
-												) : (
-													<Tooltip key={pr}>
-														<TooltipTrigger
-															className={cn(
-																'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium cursor-help',
-																isSelected
-																	? 'bg-indigo-700/70 text-indigo-100 dark:bg-indigo-900 dark:text-indigo-300'
-																	: 'bg-rose-100 text-rose-700 dark:bg-rose-900/50 dark:text-rose-300',
-															)}
-														>
-															{pr}
-														</TooltipTrigger>
-														<TooltipContent>
-															{getSubjectNameFromPrereq(pr)}
-														</TooltipContent>
-													</Tooltip>
-												),
-											)}
-										</div>
+										<PrerequisiteBadges
+											prerequisites={subject.prerequisites}
+											isSelected={isSelected}
+											getTooltipContent={(pr) =>
+												pr.includes('%')
+													? `Haber aprobado el ${pr} de los créditos del pensum`
+													: getSubjectNameFromPrereq(pr)
+											}
+										/>
 									</TableCell>
 								</TableRow>
 							)
