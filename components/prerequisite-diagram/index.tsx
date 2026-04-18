@@ -105,7 +105,7 @@ export function PrerequisiteDiagram({
 					'--xy-controls-button-background-color-hover': 'var(--card)',
 					'--xy-controls-button-color-default': 'var(--foreground)',
 					'--xy-controls-button-border-color-default': 'var(--border)',
-					'--xy-minimap-background-color-props': 'var(--muted)',
+					'--xy-minimap-background-color-props': 'var(--background)',
 					'--xy-background-color-props': 'var(--background)',
 				} as React.CSSProperties
 			}

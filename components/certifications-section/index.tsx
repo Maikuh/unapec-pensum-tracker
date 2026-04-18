@@ -13,7 +13,7 @@ export function CertificationsSection({ section }: CertificationsSectionProps) {
 		<div className="space-y-4">
 			<h2 className="text-xl font-bold">Certificaciones</h2>
 			{section.intro.length > 0 && <SectionIntro items={section.intro} />}
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 				{section.groups.map((group) => (
 					<ElectiveTable key={group.name} group={group} />
 				))}
