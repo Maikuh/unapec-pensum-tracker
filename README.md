@@ -2,12 +2,12 @@
 
 Web app that allows you (an UNAPEC student) to keep track of which subjects you've taken. Pensums are virtually identical to the official ones.
 
-The project can be accessed in [https://maikuh.github.io/unapec-pensum-tracker/](https://maikuh.github.io/unapec-pensum-tracker/)
+The project can be accessed at https://unapec-pensum-tracker.vercel.app/
 
 ## Features
 
 -   Select the career/pensum
--   Show the pensum date, taken from the official page
+-   Show the date the pensum was generated; UNAPEC doesn't show the actual pensum date anymore
 -   Show how many subjects the user has taken (ex: _12 out of 78_) and percentage from total
 -   Show how many credits the user has taken (ex: _43 out of 268_) and percentage from total
 -   Show a link to the original pensum, from which data is scraped
@@ -20,6 +20,9 @@ The project can be accessed in [https://maikuh.github.io/unapec-pensum-tracker/]
 -   User can import and export a file with the data
 -   Go to top of the page via a floating button
 -   View what subjects are opened by selected subject
+-   View a diagram of the whole pensum and connections, highlighting selected ones
+-   View certifications and electives
+-   PWA functionality (works offline, can be installed)
 
 ## Contributing
 See [CONTRIBUTING](CONTRIBUTING)

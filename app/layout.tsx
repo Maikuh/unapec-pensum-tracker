@@ -22,6 +22,23 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
 	title: 'UNAPEC Pensum Tracker',
 	description: 'Seguimiento de asignaturas para UNAPEC',
+	keywords: [
+		'tracker',
+		'university',
+		'universidad',
+		'dominican',
+		'dominican-republic',
+		'apec',
+		'unapec',
+		'dominican-developers',
+		'pensum',
+		'currículo',
+		'carrera',
+		'asignaturas',
+		'materias',
+		'república dominicana',
+		'seguimiento académico',
+	],
 	manifest: `${base}/manifest.webmanifest`,
 	appleWebApp: {
 		capable: true,
