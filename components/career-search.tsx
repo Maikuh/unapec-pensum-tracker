@@ -37,6 +37,17 @@ export function CareerSearch({ pensums, className }: CareerSearchProps) {
 		setValue(match ? match[1] : '')
 	}, [pathname])
 
+	useEffect(() => {
+		function handleKeyDown(e: KeyboardEvent) {
+			if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+				e.preventDefault()
+				setOpen((prev) => !prev)
+			}
+		}
+		document.addEventListener('keydown', handleKeyDown)
+		return () => document.removeEventListener('keydown', handleKeyDown)
+	}, [])
+
 	function handleSelect(pensumCode: string) {
 		setValue(pensumCode)
 		setOpen(false)
@@ -62,7 +73,14 @@ export function CareerSearch({ pensums, className }: CareerSearchProps) {
 						? `${selected.pensumCode} - ${selected.carreerName}`
 						: 'Selecciona una carrera...'}
 				</span>
-				<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+				<span className="ml-2 flex shrink-0 items-center gap-1.5">
+					{!selected && (
+						<kbd className="pointer-events-none hidden select-none items-center gap-1 rounded border bg-muted px-1.5 py-0.5 font-mono text-[10px] font-medium text-muted-foreground sm:flex">
+							⌘K
+						</kbd>
+					)}
+					<ChevronsUpDown className="h-4 w-4 opacity-50" />
+				</span>
 			</PopoverTrigger>
 			<PopoverContent className="w-(--anchor-width) p-0" align="start">
 				<Command>

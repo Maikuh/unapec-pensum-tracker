@@ -51,6 +51,26 @@ describe('CareerSearch — rendering', () => {
 	})
 })
 
+describe('CareerSearch — keyboard shortcut', () => {
+	it('opens the popover with Cmd+K when closed', async () => {
+		render(<CareerSearch pensums={MOCK_PENSUMS} />)
+		await userEvent.keyboard('{Meta>}k{/Meta}')
+		await screen.findByTestId('career-search-input')
+	})
+
+	it('closes the popover with Cmd+K when already open', async () => {
+		render(<CareerSearch pensums={MOCK_PENSUMS} />)
+		await userEvent.keyboard('{Meta>}k{/Meta}')
+		await screen.findByTestId('career-search-input')
+		await userEvent.keyboard('{Meta>}k{/Meta}')
+		await waitFor(() => {
+			expect(
+				screen.queryByTestId('career-search-input'),
+			).not.toBeInTheDocument()
+		})
+	})
+})
+
 describe('CareerSearch — interaction', () => {
 	it('opens popover with search input on trigger click', async () => {
 		render(<CareerSearch pensums={MOCK_PENSUMS} />)
