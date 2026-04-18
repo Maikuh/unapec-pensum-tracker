@@ -6,6 +6,7 @@ import { ElectivesSection } from '@/components/electives-section'
 import { FloatingProgress } from '@/components/floating-progress'
 import { InfoCard } from '@/components/info-card'
 import { PeriodTable } from '@/components/period-table'
+import { Separator } from '@/components/ui/separator'
 import { buildPrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
 import { useInViewport } from '@/lib/hooks/use-in-viewport'
 import { useHydrated } from '@/lib/store/use-hydrated'
@@ -82,6 +83,9 @@ export function PensumContent({ pensum }: PensumContentProps) {
 						/>
 					))}
 				</div>
+
+				{(pensum.certifications.groups.length > 0 ||
+					pensum.electives.groups.length > 0) && <Separator />}
 
 				<CertificationsSection section={pensum.certifications} />
 				<ElectivesSection section={pensum.electives} />

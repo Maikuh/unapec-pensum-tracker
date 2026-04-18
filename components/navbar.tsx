@@ -1,6 +1,7 @@
 'use client'
 
 import { Menu } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { LuGithub } from 'react-icons/lu'
@@ -50,8 +51,9 @@ export function Navbar() {
 					</Button>
 					<Link
 						href="/"
-						className="font-semibold text-base shrink-0 hidden lg:block hover:text-foreground/80 transition-colors"
+						className="font-semibold text-base shrink-0 hidden lg:flex items-center gap-2 hover:text-foreground/80 transition-colors"
 					>
+						<Image src="/logo.svg" alt="UNAPEC logo" width={28} height={28} />
 						UNAPEC Pensum Tracker
 					</Link>
 				</div>

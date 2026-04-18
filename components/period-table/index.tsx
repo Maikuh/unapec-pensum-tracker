@@ -173,7 +173,7 @@ export function PeriodTable({
 									className={cn(
 										'cursor-pointer',
 										!canSelect && 'opacity-50 cursor-not-allowed',
-										isSelected && 'bg-accent hover:bg-accent/70',
+										isSelected && 'bg-accent/50 hover:bg-accent/70',
 									)}
 									data-selected={isSelected}
 									data-disabled={!canSelect}
@@ -204,15 +204,31 @@ export function PeriodTable({
 										<div className="flex flex-wrap justify-end gap-1">
 											{subject.prerequisites.map((pr) =>
 												pr.includes('%') ? (
-													<span
-														key={pr}
-														className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-secondary text-secondary-foreground"
-													>
-														{pr}
-													</span>
+													<Tooltip key={pr}>
+														<TooltipTrigger
+															className={cn(
+																'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium cursor-help',
+																isSelected
+																	? 'bg-white text-indigo-600 dark:bg-indigo-300 dark:text-indigo-950'
+																	: 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300',
+															)}
+														>
+															{pr} créditos
+														</TooltipTrigger>
+														<TooltipContent>
+															Haber aprobado el {pr} de los créditos del pensum
+														</TooltipContent>
+													</Tooltip>
 												) : (
 													<Tooltip key={pr}>
-														<TooltipTrigger className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-zinc-300 dark:bg-zinc-600 text-zinc-900 dark:text-zinc-100 cursor-help">
+														<TooltipTrigger
+															className={cn(
+																'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium cursor-help',
+																isSelected
+																	? 'bg-indigo-700/70 text-indigo-100 dark:bg-indigo-900 dark:text-indigo-300'
+																	: 'bg-rose-100 text-rose-700 dark:bg-rose-900/50 dark:text-rose-300',
+															)}
+														>
 															{pr}
 														</TooltipTrigger>
 														<TooltipContent>

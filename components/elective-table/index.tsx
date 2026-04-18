@@ -6,8 +6,42 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table'
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from '@/components/ui/tooltip'
 import type { ElectiveGroup } from '@/types'
 import { renderDescItems } from './section-intro'
+
+function PrerequisiteBadges({ value }: { value: string }) {
+	if (!value) return null
+	const parts = value
+		.split(',')
+		.map((p) => p.trim())
+		.filter(Boolean)
+	return (
+		<div className="flex flex-wrap justify-end gap-1">
+			{parts.map((pr) =>
+				pr.includes('%') ? (
+					<Tooltip key={pr}>
+						<TooltipTrigger className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium cursor-help bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300">
+							{pr.match(/\d+%/)?.[0] ?? pr} créditos
+						</TooltipTrigger>
+						<TooltipContent>{pr}</TooltipContent>
+					</Tooltip>
+				) : (
+					<Tooltip key={pr}>
+						<TooltipTrigger className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium cursor-help bg-rose-100 text-rose-700 dark:bg-rose-900/50 dark:text-rose-300">
+							{pr}
+						</TooltipTrigger>
+						<TooltipContent>{pr}</TooltipContent>
+					</Tooltip>
+				),
+			)}
+		</div>
+	)
+}
 
 function toRoman(n: number): string {
 	const vals = [
@@ -91,8 +125,8 @@ export function ElectiveTable({ group }: ElectiveTableProps) {
 										{opt.name}
 									</TableCell>
 									<TableCell className="text-right">{opt.credits}</TableCell>
-									<TableCell className="text-right text-sm">
-										{opt.prerequisite}
+									<TableCell className="text-right">
+										<PrerequisiteBadges value={opt.prerequisite} />
 									</TableCell>
 								</TableRow>
 							)

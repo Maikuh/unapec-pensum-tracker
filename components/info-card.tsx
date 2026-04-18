@@ -84,7 +84,11 @@ export function InfoCard({
 								</span>
 								) de <span data-testid="total-subjects">{totalSubjects}</span>
 							</p>
-							<Progress value={subjectsPercent} className="h-2 mt-1" />
+							<Progress
+								value={subjectsPercent}
+								className="h-2 mt-1"
+								indicatorClassName="bg-amber-500"
+							/>
 						</div>
 					</div>
 
@@ -99,7 +103,11 @@ export function InfoCard({
 								</span>
 								) de <span data-testid="total-credits">{totalCredits}</span>
 							</p>
-							<Progress value={creditsPercent} className="h-2 mt-1" />
+							<Progress
+								value={creditsPercent}
+								className="h-2 mt-1"
+								indicatorClassName="bg-emerald-500"
+							/>
 						</div>
 					</div>
 

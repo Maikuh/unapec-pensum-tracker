@@ -39,7 +39,11 @@ export function FloatingProgress({
 					className="h-4 w-4 text-muted-foreground shrink-0"
 					aria-hidden="true"
 				/>
-				<Progress value={subjectsPercent} className="flex-1 h-1.5" />
+				<Progress
+					value={subjectsPercent}
+					className="flex-1 h-1.5"
+					indicatorClassName="bg-amber-500"
+				/>
 				<span className="text-xs tabular-nums text-muted-foreground w-8 text-right">
 					{subjectsPercent}%
 				</span>
@@ -49,7 +53,11 @@ export function FloatingProgress({
 					className="h-4 w-4 text-muted-foreground shrink-0"
 					aria-hidden="true"
 				/>
-				<Progress value={creditsPercent} className="flex-1 h-1.5" />
+				<Progress
+					value={creditsPercent}
+					className="flex-1 h-1.5"
+					indicatorClassName="bg-emerald-500"
+				/>
 				<span className="text-xs tabular-nums text-muted-foreground w-8 text-right">
 					{creditsPercent}%
 				</span>
