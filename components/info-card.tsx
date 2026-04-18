@@ -82,7 +82,7 @@ export function InfoCard({
 									</Tooltip>
 								</TooltipProvider>
 							</p>
-							<p className="text-sm text-muted-foreground">{formattedDate}</p>
+							<p className="text-sm text-muted-foreground" suppressHydrationWarning>{formattedDate}</p>
 						</div>
 					</div>
 
