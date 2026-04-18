@@ -1,3 +1,4 @@
+export type { ElectiveGroup } from './elective-group.interface'
 export type { ElectiveOption } from './elective-option.interface'
 export type { Pensum } from './pensum.interface'
 export type { Period } from './period.interface'

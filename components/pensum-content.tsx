@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useMemo } from 'react'
+import { CertificationsSection } from '@/components/certifications-section'
+import { ElectivesSection } from '@/components/electives-section'
 import { FloatingProgress } from '@/components/floating-progress'
 import { InfoCard } from '@/components/info-card'
 import { PeriodTable } from '@/components/period-table'
@@ -80,6 +82,9 @@ export function PensumContent({ pensum }: PensumContentProps) {
 						/>
 					))}
 				</div>
+
+				<CertificationsSection groups={pensum.certifications} />
+				<ElectivesSection groups={pensum.electives} />
 			</div>
 
 			<FloatingProgress

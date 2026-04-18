@@ -13,7 +13,13 @@
 
 import * as cheerio from 'cheerio'
 import type { AnyNode } from 'domhandler'
-import type { ElectiveOption, Pensum, Period, Subject } from '../types'
+import type {
+	ElectiveGroup,
+	ElectiveOption,
+	Pensum,
+	Period,
+	Subject,
+} from '../types'
 
 const API_BASE = 'https://apiestudiante.azurewebsites.net/pensum'
 
@@ -149,6 +155,39 @@ function buildPeriods(rows: ApiRow[]): {
 	return { periods, totalCredits }
 }
 
+function romanToInt(roman: string): number {
+	const map: Record<string, number> = { I: 1, V: 5, X: 10, L: 50, C: 100 }
+	let total = 0
+	let prev = 0
+	for (const ch of roman.toUpperCase()) {
+		const val = map[ch] ?? 0
+		total += val > prev ? val - 2 * prev : val
+		prev = val
+	}
+	return total
+}
+
+function parseCaption(text: string): { name: string; periods: number[] } {
+	const cleaned = text.replace(/\s+/g, ' ').trim()
+	const quoted = cleaned.match(/["\u201c]([^"\u201d]+)["\u201d]/)
+	let name: string
+	if (quoted) {
+		name = quoted[1].trim()
+	} else {
+		name = cleaned.split(/\s*[(,]\s*cuatrimestre|\s*\(/i)[0].trim()
+	}
+	const periods: number[] = []
+	const periodsBlock = cleaned.match(/cuatrimestres?\s*([IVXLC,\s\-y]+)/i)
+	if (periodsBlock) {
+		const tokens = periodsBlock[1].match(/[IVXLC]+/gi) ?? []
+		for (const t of tokens) {
+			const n = romanToInt(t)
+			if (n > 0) periods.push(n)
+		}
+	}
+	return { name, periods }
+}
+
 function parseElectivesTable(
 	$: cheerio.CheerioAPI,
 	table: AnyNode,
@@ -200,15 +239,13 @@ function scrapeProgramName(html: string): string {
 }
 
 function scrapeElectives(html: string): {
-	certifications: ElectiveOption[]
-	electives: ElectiveOption[]
+	certifications: ElectiveGroup[]
+	electives: ElectiveGroup[]
 } {
 	const $ = cheerio.load(html)
-	const certifications: ElectiveOption[] = []
-	const electives: ElectiveOption[] = []
+	const certifications: ElectiveGroup[] = []
+	const electives: ElectiveGroup[] = []
 
-	// Walk all headings and tables in document order, routing tables to the
-	// appropriate bucket based on the last-seen section heading.
 	type Section = 'certifications' | 'electives' | null
 	let section: Section = null
 
@@ -229,13 +266,21 @@ function scrapeElectives(html: string): {
 
 		if (section === null) return
 
-		// Only tables whose first <th> says "Electiva" — distinguishes elective
-		// tables from the main pensum table (first <th>: "Cuatrimestre" / "Código")
 		const firstTh = $(el).find('thead th, tr th').first().text().trim()
 		if (!/electiva/i.test(firstTh)) return
 
-		const bucket = section === 'certifications' ? certifications : electives
-		bucket.push(...parseElectivesTable($, el))
+		const options = parseElectivesTable($, el)
+		if (options.length === 0) return
+
+		const captionText = $(el).find('caption').text()
+		const { name, periods } = parseCaption(captionText)
+		const group: ElectiveGroup = { name, periods, options }
+
+		if (section === 'certifications') {
+			certifications.push(group)
+		} else {
+			electives.push(group)
+		}
 	})
 
 	return { certifications, electives }
