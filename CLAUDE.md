@@ -16,8 +16,8 @@ bun lint:fix       # Biome check with auto-fix
 bun format         # Biome format with auto-fix
 bun test           # Vitest (watch mode)
 bun test:run       # Vitest (single run)
-bun cypress:open   # Cypress interactive
-bun cypress:run    # Cypress headless
+bun test:e2e       # Playwright E2Es
+bun test:all       # Run all tests (unit, component and e2e)
 bun sync:pensums   # Regenerate lib/data/pensums.json from UNAPEC (requires internet)
 ```
 

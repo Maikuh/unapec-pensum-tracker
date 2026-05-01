@@ -64,7 +64,7 @@ export function InfoCard({
 				</CardHeader>
 				<CardContent className="space-y-4">
 					<div className="flex items-start gap-3">
-						<Calendar className="h-5 w-5 mt-0.5 text-muted-foreground shrink-0" />
+						<Calendar className="h-5 w-5 mt-0.5 text-sky-500 shrink-0" />
 						<div>
 							<p className="text-sm font-medium flex items-center gap-1">
 								Fecha de generación
@@ -93,7 +93,7 @@ export function InfoCard({
 					</div>
 
 					<div className="flex items-start gap-3">
-						<FileText className="h-5 w-5 mt-0.5 text-muted-foreground shrink-0" />
+						<FileText className="h-5 w-5 mt-0.5 text-amber-500 shrink-0" />
 						<div>
 							<p className="text-sm font-medium">Materias</p>
 							<p className="text-sm text-muted-foreground">
@@ -113,7 +113,7 @@ export function InfoCard({
 					</div>
 
 					<div className="flex items-start gap-3">
-						<CreditCard className="h-5 w-5 mt-0.5 text-muted-foreground shrink-0" />
+						<CreditCard className="h-5 w-5 mt-0.5 text-emerald-500 shrink-0" />
 						<div>
 							<p className="text-sm font-medium">Créditos</p>
 							<p className="text-sm text-muted-foreground">
@@ -134,7 +134,7 @@ export function InfoCard({
 
 					{originalLink && (
 						<div className="flex items-start gap-3">
-							<ExternalLink className="h-5 w-5 mt-0.5 text-muted-foreground shrink-0" />
+							<ExternalLink className="h-5 w-5 mt-0.5 text-primary shrink-0" />
 							<div>
 								<p className="text-sm font-medium">Pensum Original</p>
 								<a

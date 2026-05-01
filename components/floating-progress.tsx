@@ -36,7 +36,7 @@ export function FloatingProgress({
 		>
 			<div className="flex items-center gap-2">
 				<FileText
-					className="h-4 w-4 text-muted-foreground shrink-0"
+					className="h-4 w-4 shrink-0 text-amber-500"
 					aria-hidden="true"
 				/>
 				<Progress
@@ -51,7 +51,7 @@ export function FloatingProgress({
 			</div>
 			<div className="flex items-center gap-2">
 				<CreditCard
-					className="h-4 w-4 text-muted-foreground shrink-0"
+					className="h-4 w-4 shrink-0 text-emerald-500"
 					aria-hidden="true"
 				/>
 				<Progress

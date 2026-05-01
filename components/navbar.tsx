@@ -37,7 +37,7 @@ export function Navbar() {
 	const [drawerOpen, setDrawerOpen] = useState(false)
 
 	return (
-		<header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+		<header className="sticky top-0 z-40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
 			<div className="container mx-auto px-4 h-16 grid grid-cols-[auto_1fr_auto] items-center gap-3">
 				{/* Left: mobile menu + title */}
 				<div className="flex items-center gap-2">
@@ -91,6 +91,7 @@ export function Navbar() {
 					<ThemeToggle />
 				</div>
 			</div>
+			<div className="h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
 			{/* Mobile drawer */}
 			<Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
