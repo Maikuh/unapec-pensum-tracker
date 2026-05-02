@@ -61,9 +61,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ## Icons
 
-- For brand icons such as GitHub, use `react-icons/lu` or `react-icons/si`
-- `lucide-react` for everything else
-- Do not use unicode symbols or emojis unless explicitly stated
+Always use `lucide-react` for all things icons. Do not use unicode symbols or emojis unless 
+explicitly stated.
 
 ## Conventions
 
