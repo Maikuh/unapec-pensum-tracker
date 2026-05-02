@@ -1,10 +1,9 @@
 'use client'
 
-import { Menu } from 'lucide-react'
+import { Github, Menu } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
-import { LuGithub } from 'react-icons/lu'
 import { CareerSearch } from '@/components/career-search'
 import { ImportExportButtons } from '@/components/import-export-buttons'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -82,7 +81,7 @@ export function Navbar() {
 										buttonVariants({ variant: 'ghost', size: 'icon' }),
 									)}
 								>
-									<LuGithub className="h-5 w-5" />
+									<Github className="h-5 w-5" />
 								</a>
 							</TooltipTrigger>
 							<TooltipContent>GitHub Repo</TooltipContent>
@@ -120,7 +119,7 @@ export function Navbar() {
 								'justify-start',
 							)}
 						>
-							<LuGithub className="mr-2 h-4 w-4" />
+							<Github className="mr-2 h-4 w-4" />
 							GitHub Repo
 						</a>
 						<Separator />
