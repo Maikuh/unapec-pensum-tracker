@@ -57,7 +57,7 @@ export function ElectiveTable({ group }: ElectiveTableProps) {
 								.filter(Boolean)
 							return (
 								<TableRow
-									key={opt.code}
+									key={`${opt.tier}-${opt.code}`}
 									className={tierIndex % 2 === 1 ? 'bg-muted/40' : undefined}
 								>
 									<TableCell className="font-mono text-sm">
