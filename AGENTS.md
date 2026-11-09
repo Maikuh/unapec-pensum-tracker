@@ -82,7 +82,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Icons
 
-Always use `lucide-react` for all things icons. Do not use unicode symbols or emojis unless
+Always use `lucide-react` for all things icons. Brand icons removed in Lucide v1 (e.g. GitHub) live in [`components/icons/`](components/icons/), using their original Lucide shapes rendered through Lucide's `Icon` component so they match the rest of the set. Do not use unicode symbols or emojis unless
 explicitly stated.
 
 ## Conventions

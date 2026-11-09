@@ -1,10 +1,11 @@
 'use client'
 
-import { Github, Menu } from 'lucide-react'
+import { Menu } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { CareerSearch } from '@/components/career-search'
+import { Github } from '@/components/icons/github'
 import { ImportExportButtons } from '@/components/import-export-buttons'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button, buttonVariants } from '@/components/ui/button'
