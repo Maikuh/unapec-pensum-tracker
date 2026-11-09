@@ -28,14 +28,15 @@ export function renderDescItems(items: DescItem[]): React.ReactNode[] {
 						key={`ul-${nodes.length}`}
 						className="list-disc list-inside space-y-0.5"
 					>
-						{bullets.map((b) => (
-							<li key={b}>{b}</li>
+						{bullets.map((b, i) => (
+							// biome-ignore lint/suspicious/noArrayIndexKey: static list, text can repeat
+							<li key={i}>{b}</li>
 						))}
 					</ul>,
 				)
 				bullets = []
 			}
-			nodes.push(<p key={item.text}>{item.text}</p>)
+			nodes.push(<p key={`p-${nodes.length}`}>{item.text}</p>)
 		}
 	}
 
@@ -45,8 +46,9 @@ export function renderDescItems(items: DescItem[]): React.ReactNode[] {
 				key={`ul-${nodes.length}`}
 				className="list-disc list-inside space-y-0.5"
 			>
-				{bullets.map((b) => (
-					<li key={b}>{b}</li>
+				{bullets.map((b, i) => (
+					// biome-ignore lint/suspicious/noArrayIndexKey: static list, text can repeat
+					<li key={i}>{b}</li>
 				))}
 			</ul>,
 		)

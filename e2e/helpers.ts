@@ -2,7 +2,7 @@ import type { Page } from '@playwright/test'
 
 export async function selectCareer(page: Page, pensumCode = 'NINR11') {
 	await page.goto(`/pensums/${pensumCode}`)
-	await page.getByText('Informacion', { exact: true }).waitFor()
+	await page.getByText('Información', { exact: true }).waitFor()
 }
 
 export async function selectCareerFromHome(
@@ -15,7 +15,7 @@ export async function selectCareerFromHome(
 	await page.getByTestId('career-search-input').fill(searchText)
 	await page.getByTestId('career-search-option').first().click()
 	await page.waitForURL(/\/pensums\//)
-	await page.getByText('Informacion', { exact: true }).waitFor()
+	await page.getByText('Información', { exact: true }).waitFor()
 }
 
 /**

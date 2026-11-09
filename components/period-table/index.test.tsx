@@ -190,6 +190,13 @@ describe('PeriodTable — select-all checkbox', () => {
 				'indeterminate',
 			)
 		})
+		expect(screen.getByTestId('select-all-checkbox')).toHaveAttribute(
+			'data-indeterminate',
+		)
+		expect(screen.getByTestId('select-all-checkbox')).toHaveAttribute(
+			'aria-checked',
+			'mixed',
+		)
 	})
 
 	it('shows checked state when all subjects are selected', async () => {

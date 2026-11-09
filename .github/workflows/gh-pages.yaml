@@ -23,6 +23,8 @@ jobs:
         run: bun ci
       - name: Lint
         run: bun lint
+      - name: Typecheck
+        run: bun typecheck
 
   test-unit:
     runs-on: ubuntu-latest
@@ -38,8 +40,8 @@ jobs:
             ${{ runner.os }}-bun-
       - name: Install dependencies
         run: bun ci
-      - name: Run unit tests
-        run: bun test:run
+      - name: Run unit tests with coverage
+        run: bun test:coverage
 
   build:
     runs-on: ubuntu-latest

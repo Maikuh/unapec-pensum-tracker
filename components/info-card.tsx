@@ -2,13 +2,15 @@
 
 import {
 	Calendar,
+	CircleCheckBig,
 	CreditCard,
 	ExternalLink,
 	FileText,
+	History,
 	Info,
 	Network,
 } from 'lucide-react'
-import posthog from 'posthog-js'
+import { ResetProgressButton } from '@/components/reset-progress-button'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
@@ -18,6 +20,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { posthog } from '@/lib/analytics'
 import { pensumPages } from '@/lib/data/pensum-pages'
 
 interface InfoCardProps {
@@ -28,6 +31,11 @@ interface InfoCardProps {
 	totalCredits: number
 	date: string
 	onDiagramClick: () => void
+	/** Subjects whose prerequisites are met and that aren't selected yet */
+	availableCount?: number
+	onAvailableClick?: () => void
+	onReset?: () => void
+	legacy?: boolean
 }
 
 export function InfoCard({
@@ -38,6 +46,10 @@ export function InfoCard({
 	totalCredits,
 	date,
 	onDiagramClick,
+	availableCount,
+	onAvailableClick,
+	onReset,
+	legacy = false,
 }: InfoCardProps) {
 	const formattedDate = new Date(date).toLocaleDateString('es-MX', {
 		weekday: 'long',
@@ -54,7 +66,7 @@ export function InfoCard({
 		<div className="flex justify-center mb-8">
 			<Card className="w-full max-w-lg">
 				<CardHeader>
-					<CardTitle>Informacion</CardTitle>
+					<CardTitle>Información</CardTitle>
 					<div data-slot="card-action">
 						<Button variant="outline" size="sm" onClick={onDiagramClick}>
 							<Network className="h-4 w-4 mr-2" />
@@ -63,6 +75,19 @@ export function InfoCard({
 					</div>
 				</CardHeader>
 				<CardContent className="space-y-4">
+					{legacy && (
+						<div
+							className="flex items-start gap-3 rounded-md border border-amber-500/40 bg-amber-500/10 p-3"
+							data-testid="legacy-notice"
+						>
+							<History className="h-5 w-5 mt-0.5 text-amber-500 shrink-0" />
+							<p className="text-sm">
+								Este pensum ya no aparece en la página de UNAPEC (probablemente
+								fue reemplazado por una versión más reciente). Se mantiene para
+								quienes ya lo están cursando.
+							</p>
+						</div>
+					)}
 					<div className="flex items-start gap-3">
 						<Calendar className="h-5 w-5 mt-0.5 text-sky-500 shrink-0" />
 						<div>
@@ -132,6 +157,24 @@ export function InfoCard({
 						</div>
 					</div>
 
+					{availableCount !== undefined && (
+						<div className="flex items-start gap-3">
+							<CircleCheckBig className="h-5 w-5 mt-0.5 text-violet-500 shrink-0" />
+							<div className="flex-1">
+								<p className="text-sm font-medium">Disponibles para cursar</p>
+								<p className="text-sm text-muted-foreground">
+									<span data-testid="available-count">{availableCount}</span>{' '}
+									materia{availableCount === 1 ? '' : 's'} con los
+									prerrequisitos cumplidos
+								</p>
+							</div>
+							{onAvailableClick && availableCount > 0 && (
+								<Button variant="outline" size="sm" onClick={onAvailableClick}>
+									Ver lista
+								</Button>
+							)}
+						</div>
+					)}
 					{originalLink && (
 						<div className="flex items-start gap-3">
 							<ExternalLink className="h-5 w-5 mt-0.5 text-primary shrink-0" />
@@ -151,6 +194,14 @@ export function InfoCard({
 									Link al Pensum
 								</a>
 							</div>
+						</div>
+					)}
+					{onReset && (
+						<div className="flex justify-end border-t pt-3">
+							<ResetProgressButton
+								disabled={subjectsCount === 0}
+								onConfirm={onReset}
+							/>
 						</div>
 					)}
 				</CardContent>

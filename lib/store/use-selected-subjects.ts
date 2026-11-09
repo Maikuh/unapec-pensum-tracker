@@ -27,8 +27,26 @@ interface SelectedSubjectsState {
 		totalCredits: number,
 		graph: PrerequisiteGraph,
 	) => void
+	/**
+	 * Replaces saved subjects for a pensum with their current definitions
+	 * (name/credits/prerequisites may have changed since they were saved) and
+	 * drops codes that are no longer part of the pensum. No-op when up to date.
+	 */
+	syncPensum: (pensumCode: string, pensumSubjects: Subject[]) => void
+	resetPensum: (pensumCode: string) => void
+	/** Merges imported data: pensums in the file replace the stored ones. */
 	importFromFile: (data: SelectedSubjects) => void
 	exportToFile: () => void
+}
+
+function isSameSubject(a: Subject, b: Subject): boolean {
+	return (
+		a.code === b.code &&
+		a.name === b.name &&
+		a.credits === b.credits &&
+		a.prerequisites.length === b.prerequisites.length &&
+		a.prerequisites.every((p, i) => p === b.prerequisites[i])
+	)
 }
 
 export const useSelectedSubjectsStore = create<SelectedSubjectsState>()(
@@ -121,8 +139,33 @@ export const useSelectedSubjectsStore = create<SelectedSubjectsState>()(
 				})
 			},
 
+			syncPensum: (pensumCode, pensumSubjects) => {
+				const { selectedSubjects } = get()
+				const saved = selectedSubjects[pensumCode]
+				if (!saved) return
+				const savedCodes = new Set(saved.map((s) => s.code))
+				const synced = pensumSubjects.filter((s) => savedCodes.has(s.code))
+				const savedByCode = new Map(saved.map((s) => [s.code, s]))
+				const upToDate =
+					synced.length === saved.length &&
+					synced.every((s) => {
+						const prev = savedByCode.get(s.code)
+						return prev !== undefined && isSameSubject(prev, s)
+					})
+				if (upToDate) return
+				set({
+					selectedSubjects: { ...selectedSubjects, [pensumCode]: synced },
+				})
+			},
+
+			resetPensum: (pensumCode) => {
+				const { selectedSubjects } = get()
+				set({ selectedSubjects: { ...selectedSubjects, [pensumCode]: [] } })
+			},
+
 			importFromFile: (data) => {
-				set({ selectedSubjects: data })
+				const { selectedSubjects } = get()
+				set({ selectedSubjects: { ...selectedSubjects, ...data } })
 			},
 
 			exportToFile: () => {

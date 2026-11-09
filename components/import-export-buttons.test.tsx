@@ -99,4 +99,57 @@ describe('ImportExportButtons — import', () => {
 			)
 		})
 	})
+
+	it('accepts .json files reported with an empty MIME type (Windows/Android)', async () => {
+		const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {})
+		renderWithTooltip(<ImportExportButtons />)
+		const input = document.querySelector('input[type=file]') as HTMLInputElement
+		const user = userEvent.setup({ applyAccept: false })
+		await user.upload(
+			input,
+			new File([JSON.stringify(VALID_DATA)], 'uptracker.JSON', { type: '' }),
+		)
+		await waitFor(() => {
+			expect(useSelectedSubjectsStore.getState().selectedSubjects).toEqual(
+				VALID_DATA,
+			)
+		})
+		expect(alertSpy).not.toHaveBeenCalled()
+	})
+
+	it('keeps careers that are not in the imported file', async () => {
+		useSelectedSubjectsStore.setState({
+			selectedSubjects: { OTHER1: [] },
+		})
+		renderWithTooltip(<ImportExportButtons />)
+		const input = document.querySelector('input[type=file]') as HTMLInputElement
+		await userEvent.upload(
+			input,
+			new File([JSON.stringify(VALID_DATA)], 'data.json', {
+				type: 'application/json',
+			}),
+		)
+		await waitFor(() => {
+			expect(useSelectedSubjectsStore.getState().selectedSubjects).toEqual({
+				OTHER1: [],
+				...VALID_DATA,
+			})
+		})
+	})
+
+	it('opens the file picker from the import button', async () => {
+		renderWithTooltip(<ImportExportButtons />)
+		const input = document.querySelector('input[type=file]') as HTMLInputElement
+		const clickSpy = vi.spyOn(input, 'click')
+		await userEvent.click(screen.getByLabelText('Importar datos de archivo'))
+		expect(clickSpy).toHaveBeenCalledOnce()
+	})
+
+	it('exports data when the export button is clicked', async () => {
+		const exportToFile = vi.fn()
+		useSelectedSubjectsStore.setState({ exportToFile })
+		renderWithTooltip(<ImportExportButtons />)
+		await userEvent.click(screen.getByLabelText('Exportar datos a archivo'))
+		expect(exportToFile).toHaveBeenCalledOnce()
+	})
 })

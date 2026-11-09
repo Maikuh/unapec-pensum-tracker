@@ -4,28 +4,28 @@ The wizard has completed a deep integration of PostHog analytics into UNAPEC Pen
 
 ## Changes made
 
-| File | Change |
-|------|--------|
-| `instrumentation-client.ts` | **Created** — PostHog client-side initialization |
-| `.env.local` | **Updated** — Added `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` and `NEXT_PUBLIC_POSTHOG_HOST` |
-| `package.json` | **Updated** — Added `posthog-js` dependency |
+| File                        | Change                                                                                 |
+| --------------------------- | -------------------------------------------------------------------------------------- |
+| `instrumentation-client.ts` | **Created** — PostHog client-side initialization                                       |
+| `.env.local`                | **Updated** — Added `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` and `NEXT_PUBLIC_POSTHOG_HOST` |
+| `package.json`              | **Updated** — Added `posthog-js` dependency                                            |
 
 > **Action required:** Run `bun install` to install `posthog-js` (the sandbox prevented automatic installation).
 
 ## Events instrumented
 
-| Event | Description | File |
-|-------|-------------|------|
-| `career_selected` | User selects a career from the search dropdown | `components/career-search.tsx` |
-| `pensum_viewed` | User views a pensum page — top of engagement funnel | `components/pensum-content.tsx` |
-| `diagram_opened` | User opens the prerequisite dependency diagram | `components/pensum-content.tsx` |
-| `subject_toggled` | User selects or deselects an individual subject | `components/period-table/index.tsx` |
-| `period_bulk_selected` | User bulk selects/deselects all subjects in a period | `components/period-table/index.tsx` |
-| `prerequisite_alert_shown` | User is blocked from selecting a subject (missing prereqs) | `components/period-table/index.tsx` |
-| `data_exported` | User exports their selected subjects to a JSON file | `components/import-export-buttons.tsx` |
-| `data_imported` | User successfully imports subjects from a JSON file | `components/import-export-buttons.tsx` |
-| `data_import_failed` | User's import failed (invalid format or JSON) | `components/import-export-buttons.tsx` |
-| `original_pensum_link_clicked` | User clicks the external link to the original UNAPEC pensum | `components/info-card.tsx` |
+| Event                          | Description                                                 | File                                   |
+| ------------------------------ | ----------------------------------------------------------- | -------------------------------------- |
+| `career_selected`              | User selects a career from the search dropdown              | `components/career-search.tsx`         |
+| `pensum_viewed`                | User views a pensum page — top of engagement funnel         | `components/pensum-content.tsx`        |
+| `diagram_opened`               | User opens the prerequisite dependency diagram              | `components/pensum-content.tsx`        |
+| `subject_toggled`              | User selects or deselects an individual subject             | `components/period-table/index.tsx`    |
+| `period_bulk_selected`         | User bulk selects/deselects all subjects in a period        | `components/period-table/index.tsx`    |
+| `prerequisite_alert_shown`     | User is blocked from selecting a subject (missing prereqs)  | `components/period-table/index.tsx`    |
+| `data_exported`                | User exports their selected subjects to a JSON file         | `components/import-export-buttons.tsx` |
+| `data_imported`                | User successfully imports subjects from a JSON file         | `components/import-export-buttons.tsx` |
+| `data_import_failed`           | User's import failed (invalid format or JSON)               | `components/import-export-buttons.tsx` |
+| `original_pensum_link_clicked` | User clicks the external link to the original UNAPEC pensum | `components/info-card.tsx`             |
 
 ## Next steps
 

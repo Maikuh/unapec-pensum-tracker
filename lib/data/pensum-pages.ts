@@ -41,22 +41,52 @@ export const pensumPages: Record<string, string> = {
 		'https://unapec.edu.do/academia/programas-de-grado/ingenieria-de-software/',
 	LEA11:
 		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-educacion-artistica/',
+	LEA12:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-educacion-artistica/',
 	LES11:
 		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-lengua-espanola-y-literatura-orientada-a-la-educacion-secundaria/',
 	LFE11:
 		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-educaci%C3%B3n-lenguas-extranjeras-franc%C3%A9s/',
 	LIE11:
 		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-educaci%C3%B3n-lenguas-extranjeras-ingl%C3%A9s/',
+	LMF12:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-educacion-secundaria-matematica-y-fisica/',
 	LMS11:
 		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-matematica-orientada-a-la-educacion-secundaria/',
 	MERR11:
 		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-mercadotecnia/',
 	NINR11:
 		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-negocios-internacionales/',
+	PCE12:
+		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-periodismo-contempor%C3%A1neo/',
 	PSO11:
 		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-psicologia-organizacional/',
 	PUB11:
 		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-publicidad/',
+	TAB12:
+		'https://unapec.edu.do/academia/programas-de-grado/t%C3%A9cnico-superior-en-gesti%C3%B3n-de-servicios-de-alimentos-y-bebidas/',
+	TAD12:
+		'https://unapec.edu.do/academia/programas-de-grado/t%C3%A9cnico-superior-analista-desarrollador-de-software/',
+	TCE12:
+		'https://unapec.edu.do/academia/programas-de-grado/t%C3%A9cnico-superior-en-contabilidad-empresarial/',
+	TCR12:
+		'https://unapec.edu.do/academia/programas-de-grado/t%C3%A9cnico-superior-en-criminal%C3%ADstica/',
+	TDE12:
+		'https://unapec.edu.do/academia/programas-de-grado/t%C3%A9cnico-superior-en-dise%C3%B1o-y-producci%C3%B3n-editorial/',
+	TGE12:
+		'https://unapec.edu.do/academia/programas-de-grado/t%C3%A9cnico-superior-en-gestion-de-eventos/',
+	TGL12:
+		'https://unapec.edu.do/academia/programas-de-grado/t%C3%A9cnico-superior-en-gesti%C3%B3n-legal/',
+	TSD12:
+		'https://unapec.edu.do/academia/programas-de-grado/t%C3%A9cnico-superior-en-dibujo-arquitect%C3%B3nico-digital/',
+	TSE12:
+		'https://unapec.edu.do/academia/programas-de-grado/t%C3%A9cnico-superior-ejecutivo-en-comercio-internacional/',
 	TSF11:
 		'https://unapec.edu.do/academia/programas-de-grado/tecnico-superior-en-finanzas/',
+	TSL12:
+		'https://unapec.edu.do/academia/programas-de-grado/t%C3%A9cnico-superior-en-log%C3%ADstica-360-y-gesti%C3%B3n-de-materiales/',
+	TSM12:
+		'https://unapec.edu.do/academia/programas-de-grado/t%C3%A9cnico-superior-ejecutivo-de-marketing/',
+	TST12:
+		'https://unapec.edu.do/academia/programas-de-grado/t%C3%A9cnico-superior-tur%C3%ADstico-y-hotelero/',
 }

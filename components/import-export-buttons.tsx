@@ -1,7 +1,6 @@
 'use client'
 
 import { Download, Upload } from 'lucide-react'
-import posthog from 'posthog-js'
 import { type ChangeEvent, useRef } from 'react'
 import { buttonVariants } from '@/components/ui/button'
 import {
@@ -9,6 +8,7 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { posthog } from '@/lib/analytics'
 import { isValidSelectedSubjects } from '@/lib/helpers/is-valid-selected-subjects'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
 
@@ -20,7 +20,11 @@ export function ImportExportButtons() {
 		const file = e.target.files?.[0]
 		if (!file) return
 
-		if (file.type !== 'application/json') {
+		// Some platforms (Windows, Android) report an empty MIME type for .json
+		const isJson =
+			file.type === 'application/json' ||
+			file.name.toLowerCase().endsWith('.json')
+		if (!isJson) {
 			alert('Por favor seleccione un archivo JSON válido')
 			return
 		}
@@ -85,7 +89,7 @@ export function ImportExportButtons() {
 			<input
 				ref={fileInputRef}
 				type="file"
-				accept="application/json"
+				accept="application/json,.json"
 				className="hidden"
 				onChange={handleImport}
 			/>

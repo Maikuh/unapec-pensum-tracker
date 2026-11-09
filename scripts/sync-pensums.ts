@@ -1,365 +1,130 @@
 /**
  * sync-pensums.ts
  *
- * Regenerates lib/data/pensums.json from UNAPEC sources:
- *  1. Fetches structured subject data from the Azure API for each hardcoded pensumCode.
- *  2. Fetches each program's static HTML and uses cheerio to parse the
- *     "Certificaciones" and "Asignaturas Electivas" tables.
+ * Regenerates lib/data/pensums.json and lib/data/pensum-pages.ts from UNAPEC:
+ *  1. Discovers every program from the "Programas de grado" index page and reads
+ *     each program's pensum code from its page (`const codigoPesum = "..."`).
+ *  2. Fetches structured subject data from the Azure API for each pensum code.
+ *  3. Parses the "Certificaciones" and "Asignaturas Electivas" tables from the
+ *     program page HTML.
  *
- * All programs are fetched in parallel.
+ * Merge rules with the previous snapshot (lib/data/pensums.json):
+ *  - Subject names from the previous snapshot win over the API's, which are
+ *    now truncated to 30 chars and often abbreviated/misspelled. Pass
+ *    `--refresh-names` to take the API names as-is.
+ *  - Pensums no longer listed by UNAPEC are kept unchanged and flagged
+ *    `legacy: true`, so students tracking them keep their progress.
+ *  - A pensum's `date` only changes when its content changes.
  *
- * Run: bun scripts/sync-pensums.ts
+ * Run: bun scripts/sync-pensums.ts [--refresh-names]
  */
 
-import * as cheerio from 'cheerio'
-import type { AnyNode } from 'domhandler'
-import type {
-	ElectiveGroup,
-	ElectiveOption,
-	ElectiveSection,
-	Pensum,
-	Period,
-	Subject,
-} from '../types'
+import type { Pensum } from '../types'
+import { SUBJECT_NAME_OVERRIDES } from './data/subject-name-overrides'
+import {
+	type ApiRow,
+	buildNameIndex,
+	buildPeriods,
+	createNameResolver,
+	extractPensumCode,
+	extractProgramLinks,
+	isLikelyTruncated,
+	isSamePensumContent,
+	PROGRAMS_INDEX_URL,
+	scrapeElectives,
+	scrapeProgramName,
+} from './lib/pensum-parsers'
 
 const API_BASE = 'https://apiestudiante.azurewebsites.net/pensum'
+const ROOT = `${import.meta.dir}/..`
+const PENSUMS_PATH = `${ROOT}/lib/data/pensums.json`
+const PENSUM_PAGES_PATH = `${ROOT}/lib/data/pensum-pages.ts`
+const REFRESH_NAMES = process.argv.includes('--refresh-names')
 
-// Hardcoded mapping: pensumCode → program page URL.
-// Codes are stable; only update if UNAPEC adds a new program or retires one.
-const PROGRAMS: Record<string, string> = {
-	ADMR11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-administracion-de-empresas/',
-	ATHR11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-administracion-turistica-y-hotelera/',
-	CDG11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-comunicacion-digital/',
-	CIN11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-cinematografia/',
-	CONR11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-contabilidad/',
-	CPM11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-comunicacion-y-periodismo-multiplataforma/',
-	DER11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-derecho/',
-	DIG11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-diseno-grafico/',
-	DIN11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-diseno-de-interiores/',
-	ECO11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-econom%C3%ADa-y-ciencia-de-datos/',
-	EST11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-estadistica/',
-	FINR11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-finanzas/',
-	GAS11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-gastronom%C3%ADa-y-arte-culinario/',
-	GOL11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-gesti%C3%B3n-de-operaciones-y-log%C3%ADstica/',
-	IEL11:
-		'https://unapec.edu.do/academia/programas-de-grado/ingenieria-electronica/',
-	IND11:
-		'https://unapec.edu.do/academia/programas-de-grado/ingenieria-industrial/',
-	INE11:
-		'https://unapec.edu.do/academia/programas-de-grado/ingenieria-electrica/',
-	ISC11:
-		'https://unapec.edu.do/academia/programas-de-grado/ingenieria-de-sistemas-de-computacion/',
-	ISO11:
-		'https://unapec.edu.do/academia/programas-de-grado/ingenieria-de-software/',
-	LEA11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-educacion-artistica/',
-	LES11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-lengua-espanola-y-literatura-orientada-a-la-educacion-secundaria/',
-	LFE11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-educaci%C3%B3n-lenguas-extranjeras-franc%C3%A9s/',
-	LIE11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-educaci%C3%B3n-lenguas-extranjeras-ingl%C3%A9s/',
-	LMS11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-matematica-orientada-a-la-educacion-secundaria/',
-	MERR11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-mercadotecnia/',
-	NINR11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-negocios-internacionales/',
-	PSO11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-psicologia-organizacional/',
-	PUB11:
-		'https://unapec.edu.do/academia/programas-de-grado/licenciatura-en-publicidad/',
-	TSF11:
-		'https://unapec.edu.do/academia/programas-de-grado/tecnico-superior-en-finanzas/',
+async function fetchText(url: string): Promise<string> {
+	const res = await fetch(url)
+	if (!res.ok) throw new Error(`HTTP ${res.status} for ${url}`)
+	return res.text()
 }
 
-// ─── API types ────────────────────────────────────────────────────────────────
-
-interface ApiRow {
-	cuatrimestre: string
-	codigo_asignatura: string
-	asignatura: string
-	creditos: string
-	prerequisito: string
-	asignatura_secuencia: string
+async function loadPreviousSnapshot(): Promise<{
+	pensums: Pensum[]
+	pages: Record<string, string>
+}> {
+	const file = Bun.file(PENSUMS_PATH)
+	const pensums: Pensum[] = (await file.exists()) ? await file.json() : []
+	let pages: Record<string, string> = {}
+	try {
+		pages = (await import(PENSUM_PAGES_PATH)).pensumPages
+	} catch {
+		// First run — no previous pages map
+	}
+	return { pensums, pages }
 }
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
-function parsePeriod(cuatrimestre: string): number {
-	const match = cuatrimestre.match(/\d+$/)
-	return match ? Number.parseInt(match[0], 10) : 0
+interface DiscoveredProgram {
+	pensumCode: string
+	pageUrl: string
+	html: string
 }
 
-function parsePrereqs(prerequisito: string): string[] {
-	if (!prerequisito.trim()) return []
-	return prerequisito
-		.split(/[,/]+/)
-		.flatMap((s) => s.split(' - '))
-		.map((s) => s.trim())
-		.filter((s) => s.length > 0)
-		.map((s) => {
-			if (s.includes('%')) {
-				const match = s.match(/(\d+)%/)
-				return match ? `${match[1]}%` : s
+async function discoverPrograms(): Promise<{
+	programs: DiscoveredProgram[]
+	skipped: string[]
+}> {
+	const links = extractProgramLinks(await fetchText(PROGRAMS_INDEX_URL))
+	if (links.length === 0) {
+		throw new Error(`No program links found on ${PROGRAMS_INDEX_URL}`)
+	}
+
+	const skipped: string[] = []
+	const byCode = new Map<string, DiscoveredProgram>()
+	await Promise.all(
+		links.map(async (pageUrl) => {
+			const html = await fetchText(pageUrl)
+			const pensumCode = extractPensumCode(html)
+			if (!pensumCode) {
+				skipped.push(pageUrl)
+				return
 			}
-			return s.toUpperCase()
-		})
+			byCode.set(pensumCode, { pensumCode, pageUrl, html })
+		}),
+	)
+
+	return { programs: [...byCode.values()], skipped }
 }
-
-function buildPeriods(rows: ApiRow[]): {
-	periods: Period[]
-	totalCredits: number
-} {
-	const periodMap = new Map<number, Subject[]>()
-
-	for (const row of rows) {
-		const period = parsePeriod(row.cuatrimestre)
-		if (period === 0) continue
-
-		const subject: Subject = {
-			code: row.codigo_asignatura.trim(),
-			name: row.asignatura.trim(),
-			credits: Number(row.creditos),
-			prerequisites: parsePrereqs(row.prerequisito),
-		}
-
-		const subjects = periodMap.get(period) ?? []
-		if (!subjects.some((s) => s.code === subject.code)) {
-			subjects.push(subject)
-		}
-		periodMap.set(period, subjects)
-	}
-
-	const periods: Period[] = Array.from(periodMap.entries())
-		.sort(([a], [b]) => a - b)
-		.map(([number, subjects]) => ({ number, subjects }))
-
-	const totalCredits = periods
-		.flatMap((p) => p.subjects)
-		.reduce((sum, s) => sum + s.credits, 0)
-
-	return { periods, totalCredits }
-}
-
-function romanToInt(roman: string): number {
-	const map: Record<string, number> = { I: 1, V: 5, X: 10, L: 50, C: 100 }
-	let total = 0
-	let prev = 0
-	for (const ch of roman.toUpperCase()) {
-		const val = map[ch] ?? 0
-		total += val > prev ? val - 2 * prev : val
-		prev = val
-	}
-	return total
-}
-
-function parseCaption(text: string): { name: string; periods: number[] } {
-	const cleaned = text.replace(/\s+/g, ' ').trim()
-	const quoted = cleaned.match(/["\u201c]([^"\u201d]+)["\u201d]/)
-	let name: string
-	if (quoted) {
-		name = quoted[1].trim()
-	} else {
-		name = cleaned.split(/\s*[(,]\s*cuatrimestre|\s*\(/i)[0].trim()
-	}
-	const periods: number[] = []
-	const periodsBlock = cleaned.match(/cuatrimestres?\s*([IVXLC,\s\-y]+)/i)
-	if (periodsBlock) {
-		const tokens = periodsBlock[1].match(/[IVXLC]+/gi) ?? []
-		for (const t of tokens) {
-			const n = romanToInt(t)
-			if (n > 0) periods.push(n)
-		}
-	}
-	return { name, periods }
-}
-
-function parseElectivesTable(
-	$: cheerio.CheerioAPI,
-	table: AnyNode,
-): ElectiveOption[] {
-	const results: ElectiveOption[] = []
-	let lastTier = ''
-
-	$(table)
-		.find('tbody tr, tr')
-		.each((_i, tr) => {
-			const cells = $(tr).find('td')
-			if (cells.length < 4) return // header-only row
-
-			let tier: string
-			let code: string
-			let name: string
-			let credits: number
-			let prerequisite: string
-
-			if (cells.length >= 5) {
-				// Full row: Electiva | Código | Asignatura | Crédito | Pre-requisito
-				tier = $(cells[0]).text().trim()
-				code = $(cells[1]).text().trim()
-				name = $(cells[2]).text().trim()
-				credits = Number.parseInt($(cells[3]).text().trim(), 10) || 0
-				prerequisite = $(cells[4]).text().trim()
-				if (tier) lastTier = tier
-			} else {
-				// Continuation row — tier cell uses rowspan
-				tier = lastTier
-				code = $(cells[0]).text().trim()
-				name = $(cells[1]).text().trim()
-				credits = Number.parseInt($(cells[2]).text().trim(), 10) || 0
-				prerequisite = $(cells[3]).text().trim()
-			}
-
-			if (code && name) {
-				results.push({ tier, code, name, credits, prerequisite })
-			}
-		})
-
-	return results
-}
-
-function scrapeProgramName(html: string): string {
-	const $ = cheerio.load(html)
-	const h1 = $('h1').first().text().trim()
-	return h1 || ''
-}
-
-function scrapeElectives(html: string): {
-	certifications: ElectiveSection
-	electives: ElectiveSection
-} {
-	const $ = cheerio.load(html)
-
-	type DescItem = { type: 'p' | 'li'; text: string }
-	type SectionState = {
-		intro: DescItem[]
-		groups: ElectiveGroup[]
-		seenFirstTable: boolean
-		pending: DescItem[]
-	}
-
-	function makeSection(): SectionState {
-		return { intro: [], groups: [], seenFirstTable: false, pending: [] }
-	}
-
-	type SectionKey = 'certifications' | 'electives' | null
-	let sectionKey: SectionKey = null
-	const sections: Record<'certifications' | 'electives', SectionState> = {
-		certifications: makeSection(),
-		electives: makeSection(),
-	}
-
-	$('h1,h2,h3,h4,h5,h6,p,ul,table').each((_i, el) => {
-		const tag = el.type === 'tag' ? el.name.toLowerCase() : ''
-
-		if (/^h[1-6]$/.test(tag)) {
-			const text = $(el).text().trim()
-			if (/certificaciones/i.test(text)) {
-				sectionKey = 'certifications'
-			} else if (/asignaturas\s+electivas/i.test(text)) {
-				sectionKey = 'electives'
-			} else if (/^h[1-3]$/.test(tag) && sectionKey !== null) {
-				sectionKey = null
-			}
-			return
-		}
-
-		if (sectionKey === null) return
-		const sec = sections[sectionKey]
-
-		if (tag === 'p') {
-			const text = $(el).text().trim()
-			if (text) sec.pending.push({ type: 'p', text })
-			return
-		}
-
-		if (tag === 'ul') {
-			$(el)
-				.find('li')
-				.each((_, li) => {
-					const text = $(li).text().trim()
-					if (text) sec.pending.push({ type: 'li', text })
-				})
-			return
-		}
-
-		// tag === 'table'
-		const firstTh = $(el).find('thead th, tr th').first().text().trim()
-		if (!/electiva/i.test(firstTh)) return
-
-		const options = parseElectivesTable($, el)
-		if (options.length === 0) return
-
-		if (!sec.seenFirstTable) {
-			// Pending items before the first table are the section intro
-			sec.intro = sec.pending
-			sec.seenFirstTable = true
-		} else {
-			// Pending items after a previous table are that table's footnote
-			sec.groups[sec.groups.length - 1].footnote = sec.pending
-		}
-		sec.pending = []
-
-		const captionText = $(el).find('caption').text()
-		const { name, periods } = parseCaption(captionText)
-		sec.groups.push({ name, periods, footnote: [], options })
-	})
-
-	return {
-		certifications: {
-			intro: sections.certifications.intro,
-			groups: sections.certifications.groups,
-		},
-		electives: {
-			intro: sections.electives.intro,
-			groups: sections.electives.groups,
-		},
-	}
-}
-
-// ─── Per-program fetch ────────────────────────────────────────────────────────
 
 async function fetchProgram(
-	pensumCode: string,
-	pageUrl: string,
+	{ pensumCode, html }: DiscoveredProgram,
+	nameIndex: ReturnType<typeof buildNameIndex>,
+	truncatedNames: string[],
 ): Promise<Pensum> {
-	const [apiRes, htmlRes] = await Promise.all([
-		fetch(`${API_BASE}/${pensumCode}`),
-		fetch(pageUrl),
-	])
-
+	const apiRes = await fetch(`${API_BASE}/${pensumCode}`)
 	if (!apiRes.ok) throw new Error(`API ${apiRes.status} for ${pensumCode}`)
-	if (!htmlRes.ok) throw new Error(`Page ${htmlRes.status} for ${pageUrl}`)
 
 	const apiRows: ApiRow[] = await apiRes.json()
-	if (apiRows.length === 0)
+	if (apiRows.length === 0) {
 		throw new Error(`API returned no rows for ${pensumCode}`)
+	}
 
-	const html = await htmlRes.text()
-
-	const { periods, totalCredits } = buildPeriods(apiRows)
+	const resolveName = createNameResolver(
+		// --refresh-names: ignore the previous snapshot, keep manual overrides
+		REFRESH_NAMES ? buildNameIndex([]) : nameIndex,
+		pensumCode,
+		{
+			overrides: SUBJECT_NAME_OVERRIDES,
+			onFallback: (code, apiName) => {
+				if (isLikelyTruncated(apiName)) {
+					truncatedNames.push(`${pensumCode}/${code}: ${apiName}`)
+				}
+			},
+		},
+	)
+	const { periods, totalCredits } = buildPeriods(apiRows, resolveName)
 	const { certifications, electives } = scrapeElectives(html)
 
-	// Prefer the full program name from the HTML <h1>; fall back to pensumCode.
-	const carreerName = scrapeProgramName(html) || pensumCode
-
 	return {
-		carreerName,
+		carreerName: scrapeProgramName(html) || pensumCode,
 		totalCredits,
 		pensumCode,
 		periods,
@@ -369,62 +134,91 @@ async function fetchProgram(
 	}
 }
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
-
 async function main() {
-	const entries = Object.entries(PROGRAMS)
+	const previous = await loadPreviousSnapshot()
+	const previousByCode = new Map(previous.pensums.map((p) => [p.pensumCode, p]))
+	const nameIndex = buildNameIndex(previous.pensums)
 
-	console.log(`Fetching ${entries.length} programs in parallel…\n`)
+	console.log('Discovering programs…')
+	const { programs, skipped } = await discoverPrograms()
+	console.log(`Found ${programs.length} programs with a pensum code.`)
+	for (const url of skipped) console.warn(`  ! No pensum code yet: ${url}`)
+	console.log()
 
 	const pensums: Pensum[] = []
+	const pages: Record<string, string> = {}
 	const errors: { code: string; error: string }[] = []
+	const truncatedNames: string[] = []
 
 	await Promise.all(
-		entries.map(([code, url]) =>
-			fetchProgram(code, url).then(
-				(p) => {
-					console.log(
-						`  ✓ ${p.pensumCode} — ${p.periods.length} periods, ${p.certifications.groups.length} certifications, ${p.electives.groups.length} electives`,
-					)
-					pensums.push(p)
-				},
-				(err) => {
-					const msg = err instanceof Error ? err.message : String(err)
-					console.error(`  ✗ ${code} — ${msg}`)
-					errors.push({ code, error: msg })
-				},
-			),
-		),
+		programs.map(async (program) => {
+			const { pensumCode } = program
+			try {
+				const fresh = await fetchProgram(program, nameIndex, truncatedNames)
+				const prev = previousByCode.get(pensumCode)
+				const unchanged = prev && isSamePensumContent(prev, fresh)
+				pensums.push(unchanged ? prev : fresh)
+				pages[pensumCode] = program.pageUrl
+				const status = !prev ? 'new' : unchanged ? 'unchanged' : 'updated'
+				console.log(
+					`  ✓ ${pensumCode} (${status}) — ${fresh.periods.length} periods, ${fresh.certifications.groups.length} certifications, ${fresh.electives.groups.length} electives`,
+				)
+			} catch (err) {
+				const msg = err instanceof Error ? err.message : String(err)
+				console.error(`  ✗ ${pensumCode} — ${msg}`)
+				errors.push({ code: pensumCode, error: msg })
+				// Keep the previous snapshot rather than dropping the pensum
+				const prev = previousByCode.get(pensumCode)
+				if (prev) {
+					pensums.push(prev)
+					pages[pensumCode] = program.pageUrl
+				}
+			}
+		}),
 	)
 
-	pensums.sort((a, b) => a.pensumCode.localeCompare(b.pensumCode))
+	// Pensums UNAPEC no longer lists: keep them so existing progress isn't lost
+	const listed = new Set(programs.map((p) => p.pensumCode))
+	for (const prev of previous.pensums) {
+		if (listed.has(prev.pensumCode)) continue
+		console.log(`  ~ ${prev.pensumCode} (legacy) — no longer listed, kept`)
+		pensums.push({ ...prev, legacy: true })
+		const page = previous.pages[prev.pensumCode]
+		if (page) pages[prev.pensumCode] = page
+	}
 
 	if (pensums.length === 0) {
 		console.error('\nNo pensums collected — aborting write.')
 		process.exit(1)
 	}
 
+	pensums.sort((a, b) => a.pensumCode.localeCompare(b.pensumCode))
+	const pageEntries = Object.entries(pages).sort(([a], [b]) =>
+		a.localeCompare(b),
+	)
+
 	const pensumPagesTs = `// Maps pensumCode to the official UNAPEC pensum page URL
 // Auto-generated by scripts/sync-pensums.ts — do not edit by hand
 export const pensumPages: Record<string, string> = {
-${entries.map(([k, v]) => `\t${k}: '${v}',`).join('\n')}
+${pageEntries.map(([k, v]) => `\t${k}: '${v}',`).join('\n')}
 }
 `
 
-	await Bun.write(
-		`${import.meta.dir}/../lib/data/pensums.json`,
-		JSON.stringify(pensums),
-	)
-	const pensumPagesPath = `${import.meta.dir}/../lib/data/pensum-pages.ts`
-	await Bun.write(pensumPagesPath, pensumPagesTs)
-	Bun.spawnSync(['bun', 'lint:fix', pensumPagesPath], {
-		cwd: `${import.meta.dir}/..`,
-	})
+	await Bun.write(PENSUMS_PATH, JSON.stringify(pensums))
+	await Bun.write(PENSUM_PAGES_PATH, pensumPagesTs)
+	Bun.spawnSync(['bun', 'lint:fix', PENSUM_PAGES_PATH], { cwd: ROOT })
 
 	console.log(`\n✓ Wrote ${pensums.length} pensums to lib/data/pensums.json`)
 	console.log(
-		`✓ Wrote ${Object.keys(PROGRAMS).length} entries to lib/data/pensum-pages.ts`,
+		`✓ Wrote ${pageEntries.length} entries to lib/data/pensum-pages.ts`,
 	)
+
+	if (truncatedNames.length > 0) {
+		console.warn(
+			`\n! ${truncatedNames.length} new subject name(s) fill the API's 30 char limit and may be truncated.\n  Check the official pensum PDF and add full names to scripts/data/subject-name-overrides.ts:`,
+		)
+		for (const line of truncatedNames.sort()) console.warn(`    ${line}`)
+	}
 
 	if (errors.length > 0) {
 		console.error(`\n${errors.length} error(s) — see above`)

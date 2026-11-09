@@ -33,7 +33,11 @@ function renderNavbar() {
 	return render(
 		<ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
 			<TooltipProvider>
-				<Navbar />
+				<Navbar
+					pensums={[
+						{ pensumCode: 'ISO11', carreerName: 'Ingeniería de Software' },
+					]}
+				/>
 			</TooltipProvider>
 		</ThemeProvider>,
 	)
@@ -42,7 +46,7 @@ function renderNavbar() {
 beforeEach(() => {
 	vi.mocked(useRouter).mockReturnValue({
 		push: vi.fn(),
-	} as ReturnType<typeof useRouter>)
+	} as unknown as ReturnType<typeof useRouter>)
 	vi.mocked(usePathname).mockReturnValue('/')
 })
 
