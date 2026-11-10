@@ -1,5 +1,22 @@
-1:"$Sreact.fragment"
-2:I[97367,["/unapec-pensum-tracker/_next/static/chunks/16ooq34hzvh9_.js","/unapec-pensum-tracker/_next/static/chunks/0d3shmwh5_nmn.js","/unapec-pensum-tracker/_next/static/chunks/0j4ddwob9t7xk.js","/unapec-pensum-tracker/_next/static/chunks/0bpnb8t6sne5z.js","/unapec-pensum-tracker/_next/static/chunks/06fdi~fn~~fad.js"],"OutletBoundary"]
-3:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","div",null,{"className":"flex flex-col items-center justify-center min-h-[60vh] gap-4 text-center","children":[["$","h1",null,{"className":"text-4xl font-bold tracking-tight","children":[["$","span",null,{"className":"text-primary","children":"UNAPEC"}]," Pensum Tracker"]}],["$","p",null,{"className":"text-muted-foreground text-lg max-w-md","children":"Selecciona tu carrera en la barra de navegación para comenzar a registrar las asignaturas que has cursado."}]]}],null,["$","$L2",null,{"children":["$","$3",null,{"name":"Next.MetadataOutlet","children":"$@4"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"XeOkMrXQazcX8oJmIzXYK"}
-4:null
+2:"$Sreact.fragment"
+3:"/unapec-pensum-tracker/_next/static/chunks/1muva5vj3yoyq.js"
+4:"/unapec-pensum-tracker/_next/static/chunks/3apmfzyuc3-uc.js"
+5:"/unapec-pensum-tracker/_next/static/chunks/1avuv43hgw245.js"
+6:"/unapec-pensum-tracker/_next/static/chunks/3alj89cahru8-.js"
+7:I[97367,["$3","$4","$5","$6"],"OutletBoundary"]
+8:"$Sreact.suspense"
+c:"ViewportBoundary"
+d:I[97367,["$3","$4","$5","$6"],"$c"]
+e:"MetadataBoundary"
+f:I[97367,["$3","$4","$5","$6"],"$e"]
+10:I[27201,["$3","$4","$5","$6"],"IconMark"]
+b:X
+1:[["children",{"s":"__PAGE__","h":128,"d":{"r":["$","$2","c",{"children":[["$","div",null,{"className":"flex flex-col items-center justify-center min-h-[60vh] gap-4 text-center","children":[["$","h1",null,{"className":"text-4xl font-bold tracking-tight","children":[["$","span",null,{"className":"text-primary","children":"UNAPEC"}]," Pensum Tracker"]}],["$","p",null,{"className":"text-muted-foreground text-lg max-w-md","children":"Selecciona tu carrera en la barra de navegación para comenzar a registrar las asignaturas que has cursado."}]]}],null,["$","$L7",null,{"children":["$","$8",null,{"name":"Next.MetadataOutlet","children":"$@9"}]}]]}],"p":"$@a","v":null,"s":"$b"}}]]
+0:{"t":{"t":{"s":"","h":16,"c":"$Q1"},"h":{"r":["$","$2","h",{"children":[null,["$","$Ld",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}],["$","meta","2",{"name":"theme-color","content":"#09090b"}]]}],["$","$Lf",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$8",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"UNAPEC Pensum Tracker"}],["$","meta","1",{"name":"description","content":"Seguimiento de asignaturas para UNAPEC"}],["$","link","2",{"rel":"manifest","href":"/unapec-pensum-tracker/manifest.webmanifest"}],["$","meta","3",{"name":"keywords","content":"tracker,university,universidad,dominican,dominican-republic,apec,unapec,dominican-developers,pensum,currículo,carrera,asignaturas,materias,república dominicana,seguimiento académico"}],["$","link","4",{"rel":"canonical","href":"https://unapec-pensum-tracker.vercel.app"}],["$","meta","5",{"name":"google-site-verification","content":"oKo_Rkul7dgVxokF_SMRD5etuJTncr2brh8c8stLg5Q"}],["$","meta","6",{"name":"mobile-web-app-capable","content":"yes"}],["$","meta","7",{"name":"apple-mobile-web-app-title","content":"Pensum"}],["$","meta","8",{"name":"apple-mobile-web-app-status-bar-style","content":"black-translucent"}],["$","meta","9",{"property":"og:title","content":"UNAPEC Pensum Tracker"}],["$","meta","10",{"property":"og:description","content":"Seguimiento de asignaturas para UNAPEC"}],["$","meta","11",{"property":"og:url","content":"https://unapec-pensum-tracker.vercel.app"}],["$","meta","12",{"property":"og:site_name","content":"UNAPEC Pensum Tracker"}],["$","meta","13",{"property":"og:image","content":"https://unapec-pensum-tracker.vercel.app/og-image.png"}],["$","meta","14",{"property":"og:image:width","content":"1200"}],["$","meta","15",{"property":"og:image:height","content":"630"}],["$","meta","16",{"property":"og:type","content":"website"}],["$","meta","17",{"name":"twitter:card","content":"summary_large_image"}],["$","meta","18",{"name":"twitter:title","content":"UNAPEC Pensum Tracker"}],["$","meta","19",{"name":"twitter:description","content":"Seguimiento de asignaturas para UNAPEC"}],["$","meta","20",{"name":"twitter:image","content":"https://unapec-pensum-tracker.vercel.app/og-image.png"}],["$","link","21",{"rel":"icon","href":"/unapec-pensum-tracker/favicon.ico"}],["$","link","22",{"rel":"apple-touch-icon","href":"/unapec-pensum-tracker/apple-touch-icon.png"}],["$","$L10","23",{}]]}]}],null]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"p":"$@11","v":null,"s":"$b"}},"a":"$@12","u":"$@13","b":"s6LU6OUZNzkReNHorrt4e"}
+9:null
+13:true
+b:300
+b:C
+12:0
+11:"$undefined"
+a:"$undefined"

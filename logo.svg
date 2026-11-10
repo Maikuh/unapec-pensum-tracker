@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 1254 1254" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+<svg width="100%" height="100%" viewBox="0 0 1254 1254" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><title>UNAPEC Pensum Tracker</title>
     <g id="Background" transform="matrix(1.224609,0,0,1.224609,0,0)">
         <g transform="matrix(1.521303,0,0,1.521303,-267.10136,-236.561171)">
             <path d="M511.496,827.916C499.031,827.697 392.319,830.433 291.641,744.334C289.743,742.71 209.425,680.879 184.987,575.384C139.531,379.157 266.403,222.631 402.399,176.212C500.65,142.676 579.771,155.401 646.7,184.047C795.876,247.893 905.436,441.14 817.005,634.272C786.042,701.896 728.15,755.437 683.265,781.085C621.108,816.603 570.698,827.277 511.496,827.916Z" style="fill:rgb(30,26,77);"/>
