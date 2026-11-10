@@ -9,7 +9,7 @@ bun dev            # Start dev server
 bun build          # Static export build (outputs to /out)
 bun lint           # Biome check
 bun lint:fix       # Biome check with auto-fix
-bun typecheck      # tsc --noEmit (also covers test files; `next build` fails on test type errors)
+bun typecheck      # next typegen + tsc --noEmit (works without a prior build; also covers test files)
 bun format         # Biome format with auto-fix
 bun test           # Vitest (watch mode)
 bun test:run       # Vitest (single run)
