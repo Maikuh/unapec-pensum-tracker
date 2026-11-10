@@ -66,4 +66,15 @@ describe('prerequisitesMet', () => {
 		const selected = [makeSubject('MAT001')]
 		expect(prerequisitesMet(subject, selected, 0, 100)).toBe(false)
 	})
+
+	it('does not round up: 49.6% does not satisfy a 50% requirement', () => {
+		const subject = makeSubject('ADV001', ['50%'])
+		expect(prerequisitesMet(subject, [], 124, 250)).toBe(false) // 49.6%
+		expect(prerequisitesMet(subject, [], 125, 250)).toBe(true) // 50%
+	})
+
+	it('returns false for a percentage prerequisite when totalCredits is 0', () => {
+		const subject = makeSubject('ADV001', ['50%'])
+		expect(prerequisitesMet(subject, [], 0, 0)).toBe(false)
+	})
 })

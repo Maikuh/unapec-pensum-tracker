@@ -50,7 +50,9 @@ describe('selectSubject', () => {
 		const subject = makeSubject('A')
 		const graph = buildPrerequisiteGraph([subject])
 		useSelectedSubjectsStore.setState({ selectedSubjects: {} })
-		useSelectedSubjectsStore.getState().selectSubject(PENSUM, subject, graph)
+		useSelectedSubjectsStore
+			.getState()
+			.selectSubject(PENSUM, subject, graph, 100)
 		expect(
 			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM],
 		).toContainEqual(subject)
@@ -59,7 +61,9 @@ describe('selectSubject', () => {
 	it('adds a subject when not yet selected', () => {
 		const subject = makeSubject('A')
 		const graph = buildPrerequisiteGraph([subject])
-		useSelectedSubjectsStore.getState().selectSubject(PENSUM, subject, graph)
+		useSelectedSubjectsStore
+			.getState()
+			.selectSubject(PENSUM, subject, graph, 100)
 		expect(
 			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM],
 		).toContainEqual(subject)
@@ -71,7 +75,9 @@ describe('selectSubject', () => {
 		useSelectedSubjectsStore.setState({
 			selectedSubjects: { [PENSUM]: [subject] },
 		})
-		useSelectedSubjectsStore.getState().selectSubject(PENSUM, subject, graph)
+		useSelectedSubjectsStore
+			.getState()
+			.selectSubject(PENSUM, subject, graph, 100)
 		expect(
 			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM],
 		).toHaveLength(0)
@@ -86,7 +92,7 @@ describe('selectSubject', () => {
 			selectedSubjects: { [PENSUM]: [a, b, c] },
 		})
 
-		useSelectedSubjectsStore.getState().selectSubject(PENSUM, a, graph)
+		useSelectedSubjectsStore.getState().selectSubject(PENSUM, a, graph, 100)
 
 		const selected =
 			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM]
@@ -185,15 +191,75 @@ describe('bulkSelect', () => {
 })
 
 describe('importFromFile', () => {
-	it('replaces entire selectedSubjects state', () => {
+	it('merges imported pensums, replacing only the ones in the file', () => {
+		useSelectedSubjectsStore.setState({
+			selectedSubjects: {
+				ADM11: [makeSubject('OLD')],
+				KEEP1: [makeSubject('K')],
+			},
+		})
 		const newData: SelectedSubjects = {
 			ADM11: [makeSubject('X')],
 			ISO10: [makeSubject('Y')],
 		}
 		useSelectedSubjectsStore.getState().importFromFile(newData)
-		expect(useSelectedSubjectsStore.getState().selectedSubjects).toEqual(
-			newData,
+		expect(useSelectedSubjectsStore.getState().selectedSubjects).toEqual({
+			ADM11: [makeSubject('X')],
+			ISO10: [makeSubject('Y')],
+			KEEP1: [makeSubject('K')],
+		})
+	})
+})
+
+describe('syncPensum', () => {
+	it('replaces stale subjects with current definitions and drops unknown codes', () => {
+		const current = [makeSubject('A', [], 4), makeSubject('B', ['A'], 3)]
+		useSelectedSubjectsStore.setState({
+			selectedSubjects: {
+				[PENSUM]: [
+					{ ...makeSubject('B'), name: 'OLD' },
+					makeSubject('GONE'),
+					makeSubject('A', [], 2),
+				],
+			},
+		})
+		useSelectedSubjectsStore.getState().syncPensum(PENSUM, current)
+		expect(
+			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM],
+		).toEqual(current)
+	})
+
+	it('does not update state when already in sync', () => {
+		const current = [makeSubject('A')]
+		const saved = [makeSubject('A')]
+		useSelectedSubjectsStore.setState({ selectedSubjects: { [PENSUM]: saved } })
+		useSelectedSubjectsStore.getState().syncPensum(PENSUM, current)
+		expect(useSelectedSubjectsStore.getState().selectedSubjects[PENSUM]).toBe(
+			saved,
 		)
+	})
+
+	it('ignores pensums without saved data', () => {
+		useSelectedSubjectsStore.getState().syncPensum(PENSUM, [makeSubject('A')])
+		expect(
+			useSelectedSubjectsStore.getState().selectedSubjects[PENSUM],
+		).toBeUndefined()
+	})
+})
+
+describe('resetPensum', () => {
+	it('clears only the given pensum', () => {
+		useSelectedSubjectsStore.setState({
+			selectedSubjects: {
+				[PENSUM]: [makeSubject('A')],
+				OTHER: [makeSubject('B')],
+			},
+		})
+		useSelectedSubjectsStore.getState().resetPensum(PENSUM)
+		expect(useSelectedSubjectsStore.getState().selectedSubjects).toEqual({
+			[PENSUM]: [],
+			OTHER: [makeSubject('B')],
+		})
 	})
 })
 

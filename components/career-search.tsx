@@ -2,8 +2,8 @@
 
 import { ChevronsUpDown } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
-import posthog from 'posthog-js'
 import { useEffect, useState } from 'react'
+import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
 import {
 	Command,
@@ -18,25 +18,20 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover'
+import { posthog } from '@/lib/analytics'
+import type { PensumSummary } from '@/lib/data/pensum-summaries'
 import { cn } from '@/lib/utils'
-import type { Pensum } from '@/types'
 
 interface CareerSearchProps {
-	pensums: Pick<Pensum, 'pensumCode' | 'carreerName'>[]
+	pensums: PensumSummary[]
 	className?: string
 }
 
 export function CareerSearch({ pensums, className }: CareerSearchProps) {
 	const [open, setOpen] = useState(false)
-	const [value, setValue] = useState('')
 	const router = useRouter()
 	const pathname = usePathname()
-
-	// Sync selected value with current URL
-	useEffect(() => {
-		const match = pathname.match(/^\/pensums\/([^/]+)$/)
-		setValue(match ? match[1] : '')
-	}, [pathname])
+	const value = pathname.match(/^\/pensums\/([^/]+)\/?$/)?.[1] ?? ''
 
 	useEffect(() => {
 		function handleKeyDown(e: KeyboardEvent) {
@@ -55,7 +50,6 @@ export function CareerSearch({ pensums, className }: CareerSearchProps) {
 			pensum_code: pensumCode,
 			career_name: pensum?.carreerName,
 		})
-		setValue(pensumCode)
 		setOpen(false)
 		router.push(`/pensums/${pensumCode}`)
 	}
@@ -104,7 +98,14 @@ export function CareerSearch({ pensums, className }: CareerSearchProps) {
 									data-checked={value === pensum.pensumCode}
 									data-testid="career-search-option"
 								>
-									{pensum.pensumCode} - {pensum.carreerName}
+									<span className="flex-1">
+										{pensum.pensumCode} - {pensum.carreerName}
+									</span>
+									{pensum.legacy && (
+										<Badge variant="outline" className="shrink-0">
+											Anterior
+										</Badge>
+									)}
 								</CommandItem>
 							))}
 						</CommandGroup>

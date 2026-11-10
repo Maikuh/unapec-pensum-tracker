@@ -7,6 +7,7 @@ import { ServiceWorkerRegister } from '@/components/service-worker-register'
 import { StoreInitializer } from '@/components/store-initializer'
 import { ThemeProvider } from '@/components/theme-provider'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { pensumSummaries } from '@/lib/data/pensum-summaries'
 import './globals.css'
 import { cn } from '@/lib/utils'
 
@@ -98,7 +99,7 @@ export default function RootLayout({
 					<TooltipProvider>
 						<StoreInitializer />
 						<ServiceWorkerRegister />
-						<Navbar />
+						<Navbar pensums={pensumSummaries} />
 						<main className="flex-1 container mx-auto px-4 py-8">
 							{children}
 						</main>

@@ -17,15 +17,21 @@ The project can be accessed at https://unapec-pensum-tracker.vercel.app/
 -   Deselecting a subject also deselects all the subjects which had the first one as a prerequisite. This means, subject chains (like ENG001, ENG002 and so on) will all be deselected
 -   User can select/deselect a whole period (cuatrimestre). If in said period there are subjects which the user cannot select, they will be ignored, and the same rules from the previous point also apply
 -   Last chosen career and selected subjects persist across refreshes and closing tabs
--   User can import and export a file with the data
+-   User can import and export a file with the data (importing merges with the careers already tracked)
 -   Go to top of the page via a floating button
 -   View what subjects are opened by selected subject
 -   View a diagram of the whole pensum and connections, highlighting selected ones
 -   View certifications and electives
--   PWA functionality (works offline, can be installed)
+-   See which subjects you can take next (prerequisites met) in a single list
+-   Reset the progress of a career without affecting the others
+-   Pensums UNAPEC no longer lists stay available (marked as "Anterior") so your progress isn't lost
+-   Prerequisites that aren't part of the pensum are shown but don't block selection
+-   PWA functionality (works offline for every visited pensum, can be installed)
 
 ## Contributing
+
 See [CONTRIBUTING](CONTRIBUTING)
 
 ## Copyright
+
 See [LICENSE](LICENSE)

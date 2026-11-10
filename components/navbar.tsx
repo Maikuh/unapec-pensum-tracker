@@ -1,10 +1,11 @@
 'use client'
 
-import { Github, Menu } from 'lucide-react'
+import { Menu } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { CareerSearch } from '@/components/career-search'
+import { Github } from '@/components/icons/github'
 import { ImportExportButtons } from '@/components/import-export-buttons'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -20,19 +21,15 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from '@/components/ui/tooltip'
-import pensumsData from '@/lib/data/pensums.json'
+import type { PensumSummary } from '@/lib/data/pensum-summaries'
 import { cn } from '@/lib/utils'
 import logo from '@/public/logo.svg'
-import type { Pensum } from '@/types'
 
-const pensums = (pensumsData as Pensum[]).map(
-	({ pensumCode, carreerName }) => ({
-		pensumCode,
-		carreerName,
-	}),
-)
+interface NavbarProps {
+	pensums: PensumSummary[]
+}
 
-export function Navbar() {
+export function Navbar({ pensums }: NavbarProps) {
 	const [drawerOpen, setDrawerOpen] = useState(false)
 
 	return (
@@ -71,18 +68,18 @@ export function Navbar() {
 					<div className="hidden md:flex items-center gap-1">
 						<ImportExportButtons />
 						<Tooltip>
-							<TooltipTrigger>
-								<a
-									href="https://github.com/maikuh/unapec-pensum-tracker"
-									target="_blank"
-									rel="noopener noreferrer"
-									aria-label="GitHub Repo"
-									className={cn(
-										buttonVariants({ variant: 'ghost', size: 'icon' }),
-									)}
-								>
-									<Github className="h-5 w-5" />
-								</a>
+							<TooltipTrigger
+								render={
+									<a
+										href="https://github.com/maikuh/unapec-pensum-tracker"
+										target="_blank"
+										rel="noopener noreferrer"
+										aria-label="GitHub Repo"
+									/>
+								}
+								className={buttonVariants({ variant: 'ghost', size: 'icon' })}
+							>
+								<Github className="h-5 w-5" />
 							</TooltipTrigger>
 							<TooltipContent>GitHub Repo</TooltipContent>
 						</Tooltip>

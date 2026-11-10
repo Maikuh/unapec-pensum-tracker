@@ -7,16 +7,20 @@ import { cn } from '@/lib/utils'
 
 interface PrerequisiteBadgesProps {
 	prerequisites: string[]
+	/** Prerequisites outside the pensum: shown for reference, never enforced */
+	externalPrerequisites?: string[]
 	isSelected?: boolean
 	getTooltipContent?: (prereq: string) => string
 }
 
 export function PrerequisiteBadges({
 	prerequisites,
+	externalPrerequisites = [],
 	isSelected = false,
 	getTooltipContent,
 }: PrerequisiteBadgesProps) {
-	if (prerequisites.length === 0) return null
+	if (prerequisites.length === 0 && externalPrerequisites.length === 0)
+		return null
 
 	return (
 		<div className="flex flex-wrap justify-end gap-1">
@@ -51,6 +55,20 @@ export function PrerequisiteBadges({
 					</Tooltip>
 				),
 			)}
+			{externalPrerequisites.map((pr) => (
+				<Tooltip key={`external-${pr}`}>
+					<TooltipTrigger
+						data-testid="external-prerequisite"
+						className="inline-flex items-center rounded-full border border-dashed border-muted-foreground/50 px-2 py-0.5 text-xs font-medium text-muted-foreground cursor-help"
+					>
+						{pr}
+					</TooltipTrigger>
+					<TooltipContent>
+						No forma parte de este pensum, por lo que no se exige para
+						seleccionar la materia.
+					</TooltipContent>
+				</Tooltip>
+			))}
 		</div>
 	)
 }

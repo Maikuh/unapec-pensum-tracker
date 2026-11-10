@@ -52,14 +52,31 @@ describe('removePercentPrereqViolators', () => {
 	})
 
 	it('is a fixpoint: runs until no more violations', () => {
-		// B needs 40%, C needs 60%
-		// If we start with A(30) + B(10) + C(5) = 45 / 100 = 45%
-		// C (needs 60%) is removed first: 40 / 100 = 40% — B (needs 40%) survives
-		const a = make('A', 30)
+		// B needs 40%, C needs 60% (a subject's own credits don't count)
+		// A(40) + B(10) + C(5) = 55: C sees 50% < 60% and is removed.
+		// Then B sees 40% >= 40% and survives.
+		const a = make('A', 40)
 		const b = make('B', 10, ['40%'])
 		const c = make('C', 5, ['60%'])
 		const graph = buildPrerequisiteGraph([a, b, c])
 		const result = removePercentPrereqViolators([a, b, c], 100, graph)
 		expect(result).toEqual([a, b])
+	})
+
+	it('removes a subject that only met the threshold by rounding', () => {
+		// 124 / 250 = 49.6%: below 50% even though it rounds to 50
+		const a = make('A', 114)
+		const b = make('B', 10, ['50%'])
+		const graph = buildPrerequisiteGraph([a, b])
+		expect(removePercentPrereqViolators([a, b], 250, graph)).toEqual([a])
+	})
+
+	it("does not count a subject's own credits towards its requirement", () => {
+		// A1 + A2 = 50% → B was selectable. Dropping A2 leaves 40% without B;
+		// B's own 10 credits must not keep it at 50%.
+		const a1 = make('A1', 40)
+		const b = make('B', 10, ['50%'])
+		const graph = buildPrerequisiteGraph([a1, b])
+		expect(removePercentPrereqViolators([a1, b], 100, graph)).toEqual([a1])
 	})
 })

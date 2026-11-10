@@ -105,7 +105,8 @@ describe('PensumContent — diagram', () => {
 })
 
 describe('PensumContent — store integration', () => {
-	it('initializes an empty selection for the pensum on mount', async () => {
+	it('initializes an empty selection for the pensum once the store is hydrated', async () => {
+		await useSelectedSubjectsStore.persist.rehydrate()
 		render(<PensumContent pensum={MOCK_PENSUM} />)
 		await waitFor(() => {
 			expect(
@@ -127,5 +128,142 @@ describe('PensumContent — store integration', () => {
 				useSelectedSubjectsStore.getState().selectedSubjects[PENSUM_CODE],
 			).toEqual(existing)
 		})
+	})
+})
+
+describe('PensumContent — saved data sync', () => {
+	it('refreshes stale saved subjects and drops codes no longer in the pensum', async () => {
+		localStorage.setItem(
+			'selectedSubjects',
+			JSON.stringify({
+				state: {
+					selectedSubjects: {
+						[PENSUM_CODE]: [
+							{
+								code: 'MAT010',
+								name: 'OLD NAME',
+								credits: 1,
+								prerequisites: [],
+							},
+							{
+								code: 'GONE01',
+								name: 'REMOVED',
+								credits: 9,
+								prerequisites: [],
+							},
+						],
+					},
+				},
+				version: 0,
+			}),
+		)
+		await useSelectedSubjectsStore.persist.rehydrate()
+		render(<PensumContent pensum={MOCK_PENSUM} />)
+		await waitFor(() => {
+			expect(
+				useSelectedSubjectsStore.getState().selectedSubjects[PENSUM_CODE],
+			).toEqual([
+				{ code: 'MAT010', name: 'PRE-CALCULO', credits: 4, prerequisites: [] },
+			])
+		})
+		expect(screen.getByTestId('credits-count')).toHaveTextContent('4')
+	})
+})
+
+describe('PensumContent — available subjects', () => {
+	it('counts subjects whose prerequisites are met and lists them', async () => {
+		useSelectedSubjectsStore.setState({
+			selectedSubjects: {
+				[PENSUM_CODE]: [
+					{
+						code: 'MAT010',
+						name: 'PRE-CALCULO',
+						credits: 4,
+						prerequisites: [],
+					},
+				],
+			},
+		})
+		render(<PensumContent pensum={MOCK_PENSUM} />)
+		// ESP101, HIS010 (no prereqs) + MAT121 (MAT010 done)
+		expect(screen.getByTestId('available-count')).toHaveTextContent('3')
+		await userEvent.click(screen.getByRole('button', { name: /ver lista/i }))
+		const items = await screen.findAllByTestId('available-subject')
+		expect(items.map((li) => li.textContent)).toEqual([
+			expect.stringContaining('ESP101'),
+			expect.stringContaining('HIS010'),
+			expect.stringContaining('MAT121'),
+		])
+	})
+})
+
+describe('PensumContent — reset progress', () => {
+	it('clears the selection for this pensum only after confirming', async () => {
+		useSelectedSubjectsStore.setState({
+			selectedSubjects: {
+				[PENSUM_CODE]: [
+					{
+						code: 'MAT010',
+						name: 'PRE-CALCULO',
+						credits: 4,
+						prerequisites: [],
+					},
+				],
+				OTHER1: [{ code: 'X', name: 'X', credits: 3, prerequisites: [] }],
+			},
+		})
+		render(<PensumContent pensum={MOCK_PENSUM} />)
+		await userEvent.click(
+			screen.getByRole('button', { name: /reiniciar progreso/i }),
+		)
+		await userEvent.click(
+			await screen.findByRole('button', { name: /^reiniciar$/i }),
+		)
+		const { selectedSubjects } = useSelectedSubjectsStore.getState()
+		expect(selectedSubjects[PENSUM_CODE]).toEqual([])
+		expect(selectedSubjects.OTHER1).toHaveLength(1)
+	})
+})
+
+describe('PensumContent — external prerequisites', () => {
+	it('does not block subjects whose prerequisite is outside the pensum', async () => {
+		const pensum: Pensum = {
+			...MOCK_PENSUM,
+			periods: [
+				{
+					number: 1,
+					subjects: [
+						{
+							code: 'ENG010',
+							name: 'INGLES AVANZADO',
+							credits: 3,
+							prerequisites: ['ENG008'],
+						},
+					],
+				},
+			],
+		}
+		render(<PensumContent pensum={pensum} />)
+		expect(screen.getByTestId('external-prerequisite')).toHaveTextContent(
+			'ENG008',
+		)
+		await userEvent.click(screen.getByText('INGLES AVANZADO'))
+		expect(
+			useSelectedSubjectsStore
+				.getState()
+				.selectedSubjects[PENSUM_CODE]?.map((s) => s.code),
+		).toEqual(['ENG010'])
+	})
+})
+
+describe('PensumContent — legacy pensum', () => {
+	it('shows a notice for pensums UNAPEC no longer lists', () => {
+		render(<PensumContent pensum={{ ...MOCK_PENSUM, legacy: true }} />)
+		expect(screen.getByTestId('legacy-notice')).toBeVisible()
+	})
+
+	it('hides the notice for current pensums', () => {
+		render(<PensumContent pensum={MOCK_PENSUM} />)
+		expect(screen.queryByTestId('legacy-notice')).not.toBeInTheDocument()
 	})
 })

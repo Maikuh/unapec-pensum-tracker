@@ -57,7 +57,7 @@ describe('ProgressLabel / ProgressValue', () => {
 	it('ProgressValue renders its children', () => {
 		render(
 			<Progress value={30} aria-label="x">
-				<ProgressValue>30%</ProgressValue>
+				<ProgressValue>{(formatted) => `${formatted}`}</ProgressValue>
 			</Progress>,
 		)
 		expect(screen.getByText('30%')).toBeVisible()

@@ -95,3 +95,31 @@ describe('CareerSearch — interaction', () => {
 		})
 	})
 })
+
+describe('CareerSearch — legacy pensums and URLs', () => {
+	it('tags pensums UNAPEC no longer lists as "Anterior"', async () => {
+		render(
+			<CareerSearch
+				pensums={[
+					...MOCK_PENSUMS,
+					{ pensumCode: 'OLD11', carreerName: 'Carrera Vieja', legacy: true },
+				]}
+			/>,
+		)
+		await userEvent.click(screen.getByTestId('career-search-trigger'))
+		const options = await screen.findAllByTestId('career-search-option')
+		const legacy = options.find((o) => o.textContent?.includes('OLD11'))
+		expect(legacy).toHaveTextContent('Anterior')
+		expect(
+			options.filter((o) => o.textContent?.includes('Anterior')),
+		).toHaveLength(1)
+	})
+
+	it('recognizes the pensum in a URL with a trailing slash', () => {
+		vi.mocked(usePathname).mockReturnValue('/pensums/INGE01/')
+		render(<CareerSearch pensums={MOCK_PENSUMS} />)
+		expect(screen.getByTestId('career-search-trigger')).toHaveTextContent(
+			'INGE01 - Ingeniería de Software',
+		)
+	})
+})

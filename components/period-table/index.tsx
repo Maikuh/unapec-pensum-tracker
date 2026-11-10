@@ -1,7 +1,7 @@
 'use client'
 
-import posthog from 'posthog-js'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { posthog } from '@/lib/analytics'
 
 const PERIOD_COLORS = [
 	{
@@ -10,7 +10,7 @@ const PERIOD_COLORS = [
 		selectedBg:
 			'bg-blue-100/80 hover:bg-blue-200/60 dark:bg-blue-900/35 dark:hover:bg-blue-900/50',
 		checkboxColor:
-			'data-checked:bg-blue-600 data-checked:border-blue-600 dark:data-checked:bg-blue-500 dark:data-checked:border-blue-500 data-[state=indeterminate]:bg-blue-600 data-[state=indeterminate]:border-blue-600 data-[state=indeterminate]:text-primary-foreground dark:data-[state=indeterminate]:bg-blue-500 dark:data-[state=indeterminate]:border-blue-500',
+			'data-checked:bg-blue-600 data-checked:border-blue-600 dark:data-checked:bg-blue-500 dark:data-checked:border-blue-500 data-indeterminate:bg-blue-600 data-indeterminate:border-blue-600 data-indeterminate:text-primary-foreground dark:data-indeterminate:bg-blue-500 dark:data-indeterminate:border-blue-500',
 	},
 	{
 		text: 'text-indigo-700 dark:text-indigo-400',
@@ -18,7 +18,7 @@ const PERIOD_COLORS = [
 		selectedBg:
 			'bg-indigo-100/80 hover:bg-indigo-200/60 dark:bg-indigo-900/35 dark:hover:bg-indigo-900/50',
 		checkboxColor:
-			'data-checked:bg-indigo-600 data-checked:border-indigo-600 dark:data-checked:bg-indigo-500 dark:data-checked:border-indigo-500 data-[state=indeterminate]:bg-indigo-600 data-[state=indeterminate]:border-indigo-600 data-[state=indeterminate]:text-primary-foreground dark:data-[state=indeterminate]:bg-indigo-500 dark:data-[state=indeterminate]:border-indigo-500',
+			'data-checked:bg-indigo-600 data-checked:border-indigo-600 dark:data-checked:bg-indigo-500 dark:data-checked:border-indigo-500 data-indeterminate:bg-indigo-600 data-indeterminate:border-indigo-600 data-indeterminate:text-primary-foreground dark:data-indeterminate:bg-indigo-500 dark:data-indeterminate:border-indigo-500',
 	},
 	{
 		text: 'text-violet-700 dark:text-violet-400',
@@ -26,7 +26,7 @@ const PERIOD_COLORS = [
 		selectedBg:
 			'bg-violet-100/80 hover:bg-violet-200/60 dark:bg-violet-900/35 dark:hover:bg-violet-900/50',
 		checkboxColor:
-			'data-checked:bg-violet-600 data-checked:border-violet-600 dark:data-checked:bg-violet-500 dark:data-checked:border-violet-500 data-[state=indeterminate]:bg-violet-600 data-[state=indeterminate]:border-violet-600 data-[state=indeterminate]:text-primary-foreground dark:data-[state=indeterminate]:bg-violet-500 dark:data-[state=indeterminate]:border-violet-500',
+			'data-checked:bg-violet-600 data-checked:border-violet-600 dark:data-checked:bg-violet-500 dark:data-checked:border-violet-500 data-indeterminate:bg-violet-600 data-indeterminate:border-violet-600 data-indeterminate:text-primary-foreground dark:data-indeterminate:bg-violet-500 dark:data-indeterminate:border-violet-500',
 	},
 	{
 		text: 'text-sky-700 dark:text-sky-400',
@@ -34,7 +34,7 @@ const PERIOD_COLORS = [
 		selectedBg:
 			'bg-sky-100/80 hover:bg-sky-200/60 dark:bg-sky-900/35 dark:hover:bg-sky-900/50',
 		checkboxColor:
-			'data-checked:bg-sky-600 data-checked:border-sky-600 dark:data-checked:bg-sky-500 dark:data-checked:border-sky-500 data-[state=indeterminate]:bg-sky-600 data-[state=indeterminate]:border-sky-600 data-[state=indeterminate]:text-primary-foreground dark:data-[state=indeterminate]:bg-sky-500 dark:data-[state=indeterminate]:border-sky-500',
+			'data-checked:bg-sky-600 data-checked:border-sky-600 dark:data-checked:bg-sky-500 dark:data-checked:border-sky-500 data-indeterminate:bg-sky-600 data-indeterminate:border-sky-600 data-indeterminate:text-primary-foreground dark:data-indeterminate:bg-sky-500 dark:data-indeterminate:border-sky-500',
 	},
 	{
 		text: 'text-teal-700 dark:text-teal-400',
@@ -42,7 +42,7 @@ const PERIOD_COLORS = [
 		selectedBg:
 			'bg-teal-100/80 hover:bg-teal-200/60 dark:bg-teal-900/35 dark:hover:bg-teal-900/50',
 		checkboxColor:
-			'data-checked:bg-teal-600 data-checked:border-teal-600 dark:data-checked:bg-teal-500 dark:data-checked:border-teal-500 data-[state=indeterminate]:bg-teal-600 data-[state=indeterminate]:border-teal-600 data-[state=indeterminate]:text-primary-foreground dark:data-[state=indeterminate]:bg-teal-500 dark:data-[state=indeterminate]:border-teal-500',
+			'data-checked:bg-teal-600 data-checked:border-teal-600 dark:data-checked:bg-teal-500 dark:data-checked:border-teal-500 data-indeterminate:bg-teal-600 data-indeterminate:border-teal-600 data-indeterminate:text-primary-foreground dark:data-indeterminate:bg-teal-500 dark:data-indeterminate:border-teal-500',
 	},
 	{
 		text: 'text-emerald-700 dark:text-emerald-400',
@@ -50,7 +50,7 @@ const PERIOD_COLORS = [
 		selectedBg:
 			'bg-emerald-100/80 hover:bg-emerald-200/60 dark:bg-emerald-900/35 dark:hover:bg-emerald-900/50',
 		checkboxColor:
-			'data-checked:bg-emerald-600 data-checked:border-emerald-600 dark:data-checked:bg-emerald-500 dark:data-checked:border-emerald-500 data-[state=indeterminate]:bg-emerald-600 data-[state=indeterminate]:border-emerald-600 data-[state=indeterminate]:text-primary-foreground dark:data-[state=indeterminate]:bg-emerald-500 dark:data-[state=indeterminate]:border-emerald-500',
+			'data-checked:bg-emerald-600 data-checked:border-emerald-600 dark:data-checked:bg-emerald-500 dark:data-checked:border-emerald-500 data-indeterminate:bg-emerald-600 data-indeterminate:border-emerald-600 data-indeterminate:text-primary-foreground dark:data-indeterminate:bg-emerald-500 dark:data-indeterminate:border-emerald-500',
 	},
 	{
 		text: 'text-cyan-700 dark:text-cyan-400',
@@ -58,7 +58,7 @@ const PERIOD_COLORS = [
 		selectedBg:
 			'bg-cyan-100/80 hover:bg-cyan-200/60 dark:bg-cyan-900/35 dark:hover:bg-cyan-900/50',
 		checkboxColor:
-			'data-checked:bg-cyan-600 data-checked:border-cyan-600 dark:data-checked:bg-cyan-500 dark:data-checked:border-cyan-500 data-[state=indeterminate]:bg-cyan-600 data-[state=indeterminate]:border-cyan-600 data-[state=indeterminate]:text-primary-foreground dark:data-[state=indeterminate]:bg-cyan-500 dark:data-[state=indeterminate]:border-cyan-500',
+			'data-checked:bg-cyan-600 data-checked:border-cyan-600 dark:data-checked:bg-cyan-500 dark:data-checked:border-cyan-500 data-indeterminate:bg-cyan-600 data-indeterminate:border-cyan-600 data-indeterminate:text-primary-foreground dark:data-indeterminate:bg-cyan-500 dark:data-indeterminate:border-cyan-500',
 	},
 	{
 		text: 'text-amber-700 dark:text-amber-400',
@@ -66,7 +66,7 @@ const PERIOD_COLORS = [
 		selectedBg:
 			'bg-amber-100/80 hover:bg-amber-200/60 dark:bg-amber-900/35 dark:hover:bg-amber-900/50',
 		checkboxColor:
-			'data-checked:bg-amber-600 data-checked:border-amber-600 dark:data-checked:bg-amber-500 dark:data-checked:border-amber-500 data-[state=indeterminate]:bg-amber-600 data-[state=indeterminate]:border-amber-600 data-[state=indeterminate]:text-primary-foreground dark:data-[state=indeterminate]:bg-amber-500 dark:data-[state=indeterminate]:border-amber-500',
+			'data-checked:bg-amber-600 data-checked:border-amber-600 dark:data-checked:bg-amber-500 dark:data-checked:border-amber-500 data-indeterminate:bg-amber-600 data-indeterminate:border-amber-600 data-indeterminate:text-primary-foreground dark:data-indeterminate:bg-amber-500 dark:data-indeterminate:border-amber-500',
 	},
 	{
 		text: 'text-orange-700 dark:text-orange-400',
@@ -74,7 +74,7 @@ const PERIOD_COLORS = [
 		selectedBg:
 			'bg-orange-100/80 hover:bg-orange-200/60 dark:bg-orange-900/35 dark:hover:bg-orange-900/50',
 		checkboxColor:
-			'data-checked:bg-orange-600 data-checked:border-orange-600 dark:data-checked:bg-orange-500 dark:data-checked:border-orange-500 data-[state=indeterminate]:bg-orange-600 data-[state=indeterminate]:border-orange-600 data-[state=indeterminate]:text-primary-foreground dark:data-[state=indeterminate]:bg-orange-500 dark:data-[state=indeterminate]:border-orange-500',
+			'data-checked:bg-orange-600 data-checked:border-orange-600 dark:data-checked:bg-orange-500 dark:data-checked:border-orange-500 data-indeterminate:bg-orange-600 data-indeterminate:border-orange-600 data-indeterminate:text-primary-foreground dark:data-indeterminate:bg-orange-500 dark:data-indeterminate:border-orange-500',
 	},
 	{
 		text: 'text-rose-700 dark:text-rose-400',
@@ -82,7 +82,7 @@ const PERIOD_COLORS = [
 		selectedBg:
 			'bg-rose-100/80 hover:bg-rose-200/60 dark:bg-rose-900/35 dark:hover:bg-rose-900/50',
 		checkboxColor:
-			'data-checked:bg-rose-600 data-checked:border-rose-600 dark:data-checked:bg-rose-500 dark:data-checked:border-rose-500 data-[state=indeterminate]:bg-rose-600 data-[state=indeterminate]:border-rose-600 data-[state=indeterminate]:text-primary-foreground dark:data-[state=indeterminate]:bg-rose-500 dark:data-[state=indeterminate]:border-rose-500',
+			'data-checked:bg-rose-600 data-checked:border-rose-600 dark:data-checked:bg-rose-500 dark:data-checked:border-rose-500 data-indeterminate:bg-rose-600 data-indeterminate:border-rose-600 data-indeterminate:text-primary-foreground dark:data-indeterminate:bg-rose-500 dark:data-indeterminate:border-rose-500',
 	},
 	{
 		text: 'text-pink-700 dark:text-pink-400',
@@ -90,7 +90,7 @@ const PERIOD_COLORS = [
 		selectedBg:
 			'bg-pink-100/80 hover:bg-pink-200/60 dark:bg-pink-900/35 dark:hover:bg-pink-900/50',
 		checkboxColor:
-			'data-checked:bg-pink-600 data-checked:border-pink-600 dark:data-checked:bg-pink-500 dark:data-checked:border-pink-500 data-[state=indeterminate]:bg-pink-600 data-[state=indeterminate]:border-pink-600 data-[state=indeterminate]:text-primary-foreground dark:data-[state=indeterminate]:bg-pink-500 dark:data-[state=indeterminate]:border-pink-500',
+			'data-checked:bg-pink-600 data-checked:border-pink-600 dark:data-checked:bg-pink-500 dark:data-checked:border-pink-500 data-indeterminate:bg-pink-600 data-indeterminate:border-pink-600 data-indeterminate:text-primary-foreground dark:data-indeterminate:bg-pink-500 dark:data-indeterminate:border-pink-500',
 	},
 	{
 		text: 'text-fuchsia-700 dark:text-fuchsia-400',
@@ -98,7 +98,7 @@ const PERIOD_COLORS = [
 		selectedBg:
 			'bg-fuchsia-100/80 hover:bg-fuchsia-200/60 dark:bg-fuchsia-900/35 dark:hover:bg-fuchsia-900/50',
 		checkboxColor:
-			'data-checked:bg-fuchsia-600 data-checked:border-fuchsia-600 dark:data-checked:bg-fuchsia-500 dark:data-checked:border-fuchsia-500 data-[state=indeterminate]:bg-fuchsia-600 data-[state=indeterminate]:border-fuchsia-600 data-[state=indeterminate]:text-primary-foreground dark:data-[state=indeterminate]:bg-fuchsia-500 dark:data-[state=indeterminate]:border-fuchsia-500',
+			'data-checked:bg-fuchsia-600 data-checked:border-fuchsia-600 dark:data-checked:bg-fuchsia-500 dark:data-checked:border-fuchsia-500 data-indeterminate:bg-fuchsia-600 data-indeterminate:border-fuchsia-600 data-indeterminate:text-primary-foreground dark:data-indeterminate:bg-fuchsia-500 dark:data-indeterminate:border-fuchsia-500',
 	},
 ]
 
@@ -129,6 +129,30 @@ interface PeriodTableProps {
 	creditsCount: number
 	totalCredits: number
 	graph: PrerequisiteGraph
+	/** Prerequisites outside this pensum, by subject code (shown, not enforced) */
+	externalPrerequisites?: Map<string, string[]>
+}
+
+function getSelectAllStatus(
+	periodSubjects: Subject[],
+	selected: Subject[],
+	creditsCount: number,
+	totalCredits: number,
+): SelectAllCheckboxStatus {
+	const selectedCodes = new Set(selected.map((s) => s.code))
+	const selectedCount = periodSubjects.filter((s) =>
+		selectedCodes.has(s.code),
+	).length
+
+	if (selectedCount === periodSubjects.length) return 'checked'
+	if (selectedCount > 0) return 'indeterminate'
+	const selectable = getSubjectsThatCanBeSelected(
+		periodSubjects,
+		selected,
+		creditsCount,
+		totalCredits,
+	)
+	return selectable.length === 0 ? 'disabled' : 'unchecked'
 }
 
 export function PeriodTable({
@@ -138,57 +162,32 @@ export function PeriodTable({
 	creditsCount,
 	totalCredits,
 	graph,
+	externalPrerequisites,
 }: PeriodTableProps) {
 	const { selectedSubjects, selectSubject, bulkSelect } =
 		useSelectedSubjectsStore()
 	const currentSelected = selectedSubjects[pensumCode] ?? []
+	const selectedCodes = new Set(currentSelected.map((s) => s.code))
+	const [alertOpen, setAlertOpen] = useState(false)
 
-	const [checkboxStatus, setCheckboxStatus] =
-		useState<SelectAllCheckboxStatus>('unchecked')
-	const [alert, setAlert] = useState({
-		open: false,
-		title: '',
-		message: '',
-	})
-
-	useEffect(() => {
-		let selectedCount = 0
-		period.subjects.forEach((subject) => {
-			if (currentSelected.some((s) => s.code === subject.code)) selectedCount++
-		})
-
-		if (selectedCount > 0 && selectedCount < period.subjects.length) {
-			setCheckboxStatus('indeterminate')
-		} else if (selectedCount === period.subjects.length) {
-			setCheckboxStatus('checked')
-		} else if (
-			getSubjectsThatCanBeSelected(
-				period.subjects,
-				currentSelected,
-				creditsCount,
-				totalCredits,
-			).length === 0
-		) {
-			setCheckboxStatus('disabled')
-		} else {
-			setCheckboxStatus('unchecked')
-		}
-	}, [currentSelected, period.subjects, creditsCount, totalCredits])
+	const checkboxStatus = getSelectAllStatus(
+		period.subjects,
+		currentSelected,
+		creditsCount,
+		totalCredits,
+	)
 
 	function handleSubjectClick(subject: Subject) {
 		if (
 			prerequisitesMet(subject, currentSelected, creditsCount, totalCredits)
 		) {
-			const isCurrentlySelected = currentSelected.some(
-				(s) => s.code === subject.code,
-			)
 			posthog.capture('subject_toggled', {
 				pensum_code: pensumCode,
 				subject_code: subject.code,
 				subject_name: subject.name,
 				subject_credits: subject.credits,
 				period_number: period.number,
-				action: isCurrentlySelected ? 'deselected' : 'selected',
+				action: selectedCodes.has(subject.code) ? 'deselected' : 'selected',
 			})
 			selectSubject(pensumCode, subject, graph, totalCredits)
 		} else {
@@ -198,12 +197,7 @@ export function PeriodTable({
 				subject_name: subject.name,
 				period_number: period.number,
 			})
-			setAlert({
-				open: true,
-				title: 'No puede seleccionar esta materia',
-				message:
-					'No tienes los prerrequisitos completados para seleccionar esta materia.',
-			})
+			setAlertOpen(true)
 		}
 	}
 
@@ -234,34 +228,27 @@ export function PeriodTable({
 	return (
 		<>
 			<PrerequisiteAlert
-				open={alert.open}
-				onClose={() => setAlert({ open: false, title: '', message: '' })}
-				title={alert.title}
-				message={alert.message}
+				open={alertOpen}
+				onClose={() => setAlertOpen(false)}
+				title="No puede seleccionar esta materia"
+				message="No tienes los prerrequisitos completados para seleccionar esta materia."
 			/>
-
 			<div className="rounded-md border overflow-hidden">
 				<div className={cn('px-4 py-3 border-b', color.bg)}>
 					<h2 className={cn('font-semibold text-base', color.text)}>
 						Cuatrimestre {period.number}
 					</h2>
 				</div>
-
 				<Table className="overflow-x-visible">
 					<TableHeader>
 						<TableRow>
 							<TableHead className="w-12">
 								<Checkbox
 									checked={checkboxStatus === 'checked'}
+									indeterminate={checkboxStatus === 'indeterminate'}
 									disabled={checkboxStatus === 'disabled'}
-									ref={(el) => {
-										if (el) {
-											// Simulate indeterminate via data attribute for CSS
-											el.dataset.state = checkboxStatus
-										}
-									}}
 									onCheckedChange={handleSelectAll}
-									aria-label="select all subjects"
+									aria-label={`Seleccionar todas las materias del cuatrimestre ${period.number}`}
 									data-testid="select-all-checkbox"
 									data-state={checkboxStatus}
 									className={color.checkboxColor}
@@ -275,9 +262,7 @@ export function PeriodTable({
 					</TableHeader>
 					<TableBody>
 						{period.subjects.map((subject) => {
-							const isSelected = currentSelected.some(
-								(s) => s.code === subject.code,
-							)
+							const isSelected = selectedCodes.has(subject.code)
 							const canSelect = prerequisitesMet(
 								subject,
 								currentSelected,
@@ -324,6 +309,9 @@ export function PeriodTable({
 									<TableCell className="text-right">
 										<PrerequisiteBadges
 											prerequisites={subject.prerequisites}
+											externalPrerequisites={externalPrerequisites?.get(
+												subject.code,
+											)}
 											isSelected={isSelected}
 											getTooltipContent={(pr) =>
 												pr.includes('%')

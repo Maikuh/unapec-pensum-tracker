@@ -12,11 +12,11 @@ today! As a contributor, here are the guidelines we would like you to follow:
 ## <a id="local"></a> Running Locally
 
 To run the project locally
+
 1. [Install Bun](https://bun.com/docs/installation)
 2. `bun i` to install packages
 3. `bun dev` to run local dev server
 4. ... Profit?
-
 
 ## <a id="questions"></a> Got a Question or Problem?
 
@@ -50,7 +50,7 @@ Before you submit a new issue, or open a new discussion, please search the issue
 For facilitating bug reproduction for future fixes, please provide a minimal reproduction scenario using a repository or a [Gist](https://gist.github.com/). Having a live, reproducible scenario gives us wealth of important information without going back & forth to you with additional questions like:
 
 - Version of `unapec-pensum-tracker` used
-- Browser used at the time the bug occurred 
+- Browser used at the time the bug occurred
 - and most importantly: a use-case that fails
 
 [discussions]: https://github.com/Maikuh/unapec-pensum-tracker/discussions
@@ -71,6 +71,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 1. Create your patch, **including appropriate test cases**.
 1. Run the full `unapec-pensum-tracker` test suite and ensure that all tests pass.
 1. Commit your changes using a descriptive commit message
+
    ```shell
    git commit -a
    ```
@@ -86,7 +87,6 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 1. In GitHub, send a pull request to `unapec-pensum-tracker:main`.
 
 - If we suggest changes then:
-
   - Make the required updates.
   - Re-run the `unapec-pensum-tracker` test suites to ensure tests are still passing.
   - Rebase your branch and force push to your GitHub repository (this will update your Pull Request):

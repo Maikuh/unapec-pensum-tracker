@@ -1,8 +1,8 @@
 'use client'
 
 import { X } from 'lucide-react'
-import posthog from 'posthog-js'
 import { useEffect, useMemo, useState } from 'react'
+import { AvailableSubjectsDialog } from '@/components/available-subjects-dialog'
 import { CertificationsSection } from '@/components/certifications-section'
 import { ElectivesSection } from '@/components/electives-section'
 import { FloatingProgress } from '@/components/floating-progress'
@@ -18,8 +18,12 @@ import {
 	DialogTitle,
 } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
+import { posthog } from '@/lib/analytics'
 import { buildPrerequisiteGraph } from '@/lib/graph/prerequisite-graph'
+import { prerequisitesMet } from '@/lib/helpers/prerequisites-met'
+import { splitExternalPrerequisites } from '@/lib/helpers/split-external-prerequisites'
 import { useInViewport } from '@/lib/hooks/use-in-viewport'
+import { useHydrated } from '@/lib/store/use-hydrated'
 import { useSelectedSubjectsStore } from '@/lib/store/use-selected-subjects'
 import type { Pensum } from '@/types'
 
@@ -28,11 +32,23 @@ interface PensumContentProps {
 }
 
 export function PensumContent({ pensum }: PensumContentProps) {
-	const { selectedSubjects, initPensum } = useSelectedSubjectsStore()
+	const { selectedSubjects, initPensum, syncPensum, resetPensum } =
+		useSelectedSubjectsStore()
+	const hydrated = useHydrated()
 	const [diagramOpen, setDiagramOpen] = useState(false)
+	const [availableOpen, setAvailableOpen] = useState(false)
+
+	const { periods, externalPrerequisites } = useMemo(
+		() => splitExternalPrerequisites(pensum.periods),
+		[pensum.periods],
+	)
+	const allSubjects = useMemo(
+		() => periods.flatMap((c) => c.subjects),
+		[periods],
+	)
+	const storedSelected = selectedSubjects[pensum.pensumCode]
 
 	useEffect(() => {
-		initPensum(pensum.pensumCode)
 		posthog.capture('pensum_viewed', {
 			pensum_code: pensum.pensumCode,
 			career_name: pensum.carreerName,
@@ -47,15 +63,26 @@ export function PensumContent({ pensum }: PensumContentProps) {
 		pensum.carreerName,
 		pensum.periods,
 		pensum.totalCredits,
+	])
+
+	// Once saved progress is loaded, make sure it matches the current pensum
+	// data (names/credits/prerequisites can change between syncs). Re-runs after
+	// an import, and is a no-op when everything is already up to date.
+	useEffect(() => {
+		if (!hydrated) return
+		initPensum(pensum.pensumCode)
+		if (storedSelected) syncPensum(pensum.pensumCode, allSubjects)
+	}, [
+		hydrated,
+		pensum.pensumCode,
+		allSubjects,
+		storedSelected,
 		initPensum,
+		syncPensum,
 	])
 
 	const [infoCardRef, infoCardInView] = useInViewport<HTMLDivElement>()
-	const currentSelected = selectedSubjects[pensum.pensumCode] ?? []
-	const allSubjects = useMemo(
-		() => pensum.periods.flatMap((c) => c.subjects),
-		[pensum.periods],
-	)
+	const currentSelected = storedSelected ?? []
 	const totalSubjects = allSubjects.length
 	const creditsCount = currentSelected.reduce((sum, s) => sum + s.credits, 0)
 	const graph = useMemo(
@@ -69,11 +96,28 @@ export function PensumContent({ pensum }: PensumContentProps) {
 	const periodByCode = useMemo(
 		() =>
 			new Map(
-				pensum.periods.flatMap((p) =>
-					p.subjects.map((s) => [s.code, p.number]),
-				),
+				periods.flatMap((p) => p.subjects.map((s) => [s.code, p.number])),
 			),
-		[pensum.periods],
+		[periods],
+	)
+	const availablePeriods = periods
+		.map((period) => ({
+			...period,
+			subjects: period.subjects.filter(
+				(s) =>
+					!selectedCodes.has(s.code) &&
+					prerequisitesMet(
+						s,
+						currentSelected,
+						creditsCount,
+						pensum.totalCredits,
+					),
+			),
+		}))
+		.filter((period) => period.subjects.length > 0)
+	const availableCount = availablePeriods.reduce(
+		(sum, p) => sum + p.subjects.length,
+		0,
 	)
 
 	return (
@@ -89,6 +133,22 @@ export function PensumContent({ pensum }: PensumContentProps) {
 						creditsCount={creditsCount}
 						totalCredits={pensum.totalCredits}
 						date={pensum.date}
+						legacy={pensum.legacy}
+						availableCount={availableCount}
+						onAvailableClick={() => {
+							posthog.capture('available_subjects_opened', {
+								pensum_code: pensum.pensumCode,
+								available_count: availableCount,
+							})
+							setAvailableOpen(true)
+						}}
+						onReset={() => {
+							posthog.capture('progress_reset', {
+								pensum_code: pensum.pensumCode,
+								subjects_count: currentSelected.length,
+							})
+							resetPensum(pensum.pensumCode)
+						}}
 						onDiagramClick={() => {
 							posthog.capture('diagram_opened', {
 								pensum_code: pensum.pensumCode,
@@ -98,6 +158,12 @@ export function PensumContent({ pensum }: PensumContentProps) {
 						}}
 					/>
 				</div>
+
+				<AvailableSubjectsDialog
+					open={availableOpen}
+					onOpenChange={setAvailableOpen}
+					periods={availablePeriods}
+				/>
 
 				<Dialog open={diagramOpen} onOpenChange={setDiagramOpen}>
 					<DialogContent
@@ -134,7 +200,7 @@ export function PensumContent({ pensum }: PensumContentProps) {
 				</Dialog>
 
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-					{pensum.periods.map((period) => (
+					{periods.map((period) => (
 						<PeriodTable
 							key={period.number}
 							period={period}
@@ -143,6 +209,7 @@ export function PensumContent({ pensum }: PensumContentProps) {
 							creditsCount={creditsCount}
 							totalCredits={pensum.totalCredits}
 							graph={graph}
+							externalPrerequisites={externalPrerequisites}
 						/>
 					))}
 				</div>
